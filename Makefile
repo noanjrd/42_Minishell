@@ -6,6 +6,9 @@ RM = rm -rf
 SRCS = srcs/main.c\
 	srcs/utils.c\
 	srcs/builtin/env.c\
+	srcs/builtin/export_display.c\
+	srcs/builtin/unset.c\
+	srcs/builtin/cd.c\
 	srcs/builtin/export.c
 
 OBJS = ${SRCS:.c=.o}

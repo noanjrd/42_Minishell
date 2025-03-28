@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 11:42:03 by njard             #+#    #+#             */
-/*   Updated: 2025/03/27 11:42:54 by njard            ###   ########.fr       */
+/*   Updated: 2025/03/28 15:34:51 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ t_env	*env_init(t_env *env, char **envp)
 	head = env;
 	env->name = get_name(envp[i]);
 	env->value = get_value(envp[i]);
+	env->displayed = 0;
 	i++;
 	while (envp[i])
 	{
@@ -88,9 +89,23 @@ t_env	*env_init(t_env *env, char **envp)
 		env->next = current;
 		current->name = get_name(envp[i]);
 		current->value = get_value(envp[i]);
+		current->displayed = 0;
 		env = current;
 		i++;
 	}
 	env->next =NULL;
 	return (head);
+}
+
+void	display_env(t_env *env)
+{
+	t_env *head;
+
+	head = env;
+	while(head)
+	{
+		if (head->value)
+			printf("%s=%s\n", head->name, head->value);
+		head = head->next;
+	}
 }

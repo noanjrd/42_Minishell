@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/26 11:18:54 by njard             #+#    #+#             */
-/*   Updated: 2025/03/28 15:38:33 by njard            ###   ########.fr       */
+/*   Created: 2025/03/28 11:42:39 by njard             #+#    #+#             */
+/*   Updated: 2025/03/28 13:31:18 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-
-int main(int argc, char **argv, char **envp)
+void	ft_unset(t_env *env, char *name)
 {
-	t_env	*env;
-	t_env	*head;
+	t_env *cpy;
+	t_env *temp;
 
-	env = malloc(sizeof(t_env));
-	env = env_init(env, envp);
-	if (argv[1])
-		ft_unset(env, argv[1]);
-	int i = 0;
-	display_env(env);
-	free_env(env);
-	return(0);
+	cpy = env;
+	while (cpy)
+	{
+		if (cpy->next && ft_strcmp(name, cpy->next->name) == 0)
+		{
+			temp = cpy->next;
+			if (cpy->next->next)
+				cpy->next = cpy->next->next;
+			else
+				cpy->next = NULL;
+			free(temp->name);
+			free(temp->value);
+			free(temp);
+			return;
+		}
+		cpy = cpy->next;
+	}
+	return ;
 }
