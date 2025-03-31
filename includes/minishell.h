@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/03/28 14:58:37 by njard            ###   ########.fr       */
+/*   Updated: 2025/03/31 11:40:25 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+
 
 typedef struct	t_env
 {
@@ -36,5 +39,7 @@ void ft_export(t_env *env, char *export);
 void ft_cd(t_env *env, char *arg);
 char	*search_value(t_env *env, char *string);
 void change_value(t_env *env, char *name, char *value_to_change);
+char *ft_join(char *s1, char *s2);
+void	ft_echo(t_env *env, char *arg);
 
 #endif

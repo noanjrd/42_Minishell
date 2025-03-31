@@ -6,13 +6,13 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:32:25 by njard             #+#    #+#             */
-/*   Updated: 2025/03/28 15:24:05 by njard            ###   ########.fr       */
+/*   Updated: 2025/03/31 12:21:41 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *go_back_cd(char *path)
+static char *go_back_cd(char *path)
 {
 	char *new_path;
 	int i;
@@ -40,10 +40,10 @@ void ft_cd(t_env *env, char *arg)
 {
 	char *temp;
 	char *path;
+
 	temp = getcwd(NULL, 0);
 	change_value(env, "OLDPWD", temp);
 	free(temp);
-	// printf("%s\n", temp);
 	if (!arg || arg[0] == '\0' || !arg[0])
 	{
 		path = search_value(env, "HOME");
@@ -51,15 +51,10 @@ void ft_cd(t_env *env, char *arg)
 	if (arg && ft_strcmp(arg, "..") == 0)
 	{
 		path = go_back_cd(temp);
-		// printf("%s\n", path);
 	}
-	// printf("%s\n", path);
+	else
+		path = arg;
 	chdir(path);
 	change_value(env, "PWD", path);
-	// free(path);
-	// // free(temp);
-	// temp = getcwd(NULL, 0);
-	// free(temp);
-	// printf("%s\n", temp);
 	return ;
 }

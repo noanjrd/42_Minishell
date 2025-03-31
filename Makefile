@@ -1,6 +1,7 @@
 NAME = minishell
 CC = cc
 FLAGS =  -g3
+LIBS = -lreadline
 RM = rm -rf
 
 SRCS = srcs/main.c\
@@ -9,6 +10,7 @@ SRCS = srcs/main.c\
 	srcs/builtin/export_display.c\
 	srcs/builtin/unset.c\
 	srcs/builtin/cd.c\
+	srcs/builtin/echo.c\
 	srcs/builtin/export.c
 
 OBJS = ${SRCS:.c=.o}
@@ -16,7 +18,7 @@ OBJS = ${SRCS:.c=.o}
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) $(SRCS) -o $(NAME)
+	$(CC) $(FLAGS) $(SRCS) -o $(NAME) $(LIBS)
 	make clean
 
 %.o: %.c

@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:48 by njard             #+#    #+#             */
-/*   Updated: 2025/03/28 15:37:07 by njard            ###   ########.fr       */
+/*   Updated: 2025/03/31 12:19:50 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static char *get_value_export(char *export)
 	return (value);
 }
 
-int check_alrdy_exist(t_env *env, char *name, char *value)
+static int check_alrdy_exist(t_env *env, char *name, char *value)
 {
 	t_env	*copy;
 
@@ -82,7 +82,7 @@ int check_alrdy_exist(t_env *env, char *name, char *value)
 	return (0);
 }
 
-void	create_export(t_env *env, char *name, char *value)
+static void	create_export(t_env *env, char *name, char *value)
 {
 	t_env *temp;
 	t_env *new;
@@ -103,7 +103,7 @@ void	create_export(t_env *env, char *name, char *value)
 	return ;
 }
 
-int	check_valid_name(char *name)
+static int	check_valid_name(char *name)
 {
 	int i;
 
