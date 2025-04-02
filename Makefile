@@ -5,13 +5,16 @@ LIBS = -lreadline
 RM = rm -rf
 
 SRCS = srcs/main.c\
-	srcs/utils.c\
-	srcs/builtin/env.c\
-	srcs/builtin/export_display.c\
-	srcs/builtin/unset.c\
-	srcs/builtin/cd.c\
-	srcs/builtin/echo.c\
-	srcs/builtin/export.c
+	srcs/utils/utils.c\
+	srcs/utils/ft_from_libft.c\
+	srcs/builtins/env.c\
+	srcs/builtins/export_display.c\
+	srcs/builtins/unset.c\
+	srcs/builtins/cd.c\
+	srcs/builtins/echo.c\
+	srcs/builtins/export.c\
+	srcs/builtins/exit.c\
+	srcs/exec/exec.c
 
 OBJS = ${SRCS:.c=.o}
 

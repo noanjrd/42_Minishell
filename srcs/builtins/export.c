@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:48 by njard             #+#    #+#             */
-/*   Updated: 2025/03/31 12:19:50 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/02 13:16:17 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static char *get_name_export(char *export)
 		i++;
 	}
 	name = malloc(sizeof(char) * (i + 1));
+	if (!name)
+		return (NULL);
 	j = 0;
 	i = 0;
 	while(export[i] && export[i] != '=')
@@ -52,6 +54,8 @@ static char *get_value_export(char *export)
 	if (i == j)
 		return (NULL);
 	value = malloc(sizeof(char) * (j - i + 1));
+	if (!value)
+		return (NULL);
 	i++;
 	j = 0;
 	while(export[i])
@@ -60,7 +64,7 @@ static char *get_value_export(char *export)
 		i++;
 		j++;
 	}
-	value[j] = 0;
+	value[j] =  '\0';
 	return (value);
 }
 
@@ -87,11 +91,6 @@ static void	create_export(t_env *env, char *name, char *value)
 	t_env *temp;
 	t_env *new;
 
-	temp = env;
-	while (temp->next)
-	{
-		temp = temp->next;
-	}
 	new = malloc(sizeof(t_env));
 	if (!new)
 		return ;
@@ -99,6 +98,11 @@ static void	create_export(t_env *env, char *name, char *value)
 	new->value = value;
 	new->displayed = 0;
 	new->next = NULL;
+	temp = env;
+	while (temp->next)
+	{
+		temp = temp->next;
+	}
 	temp->next = new;
 	return ;
 }
@@ -119,7 +123,7 @@ static int	check_valid_name(char *name)
 	return (0);
 }
 
-void ft_export(t_env *env, char *export)
+void export_launch(t_env *env, char *export)
 {
 	char *name;
 	char *value;
@@ -133,7 +137,36 @@ void ft_export(t_env *env, char *export)
 		free(name);
 		return ;
 	}
-		
 	create_export(env, name, value);
 	return ;
+}
+
+void ft_export(t_env *env, char *export)
+{
+	int i;
+	char *arg;
+	
+	arg = NULL;
+	i = 6;
+	while(export[i])
+	{
+		if (export[i] != ' ' && !(export[i] >= 7 && export[i] <= 13))
+		{
+			// printf("wsh\n");
+			i = -99;
+			break;
+		}
+		i++;
+	}
+	if (i >= 0)
+	{
+		// printf("coucou\n");
+		return (display_export(env));
+	}
+	else
+	{
+		arg = cut_builtin(export);
+	}
+	export_launch(env, arg);
+	free(arg);
 }

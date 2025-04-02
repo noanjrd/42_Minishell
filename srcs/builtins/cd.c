@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:32:25 by njard             #+#    #+#             */
-/*   Updated: 2025/03/31 12:21:41 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/02 13:21:21 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void ft_cd(t_env *env, char *arg)
 	free(temp);
 	if (!arg || arg[0] == '\0' || !arg[0])
 	{
-		path = search_value(env, "HOME");
+		path = ft_search_value(env, "HOME");
 	}
 	if (arg && ft_strcmp(arg, "..") == 0)
 	{

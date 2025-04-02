@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:18:54 by njard             #+#    #+#             */
-/*   Updated: 2025/03/31 11:30:21 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/02 13:10:38 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,13 @@ int main(int argc, char **argv, char **envp)
 	env = malloc(sizeof(t_env));
 	env = env_init(env, envp);
 	if (argv[1])
-		ft_echo(env, argv[1]);
+		exec(env, argv[1]);
+	if (argv[2])
+		exec(env, argv[2]);
+	if (argv[3])
+		exec(env, argv[3]);
+	if (argv[4])
+		exec(env, argv[4]);
 	int i = 0;
 	// display_env(env);
 
@@ -42,7 +48,6 @@ int main(int argc, char **argv, char **envp)
 
     //     free(input); // readline utilise malloc
     // }
-
 	free_env(env);
 	return(0);
 }
