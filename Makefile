@@ -6,6 +6,7 @@ RM = rm -rf
 
 SRCS = srcs/main.c\
 	srcs/utils/utils.c\
+	srcs/utils/free.c\
 	srcs/utils/ft_from_libft.c\
 	srcs/builtins/env.c\
 	srcs/builtins/export_display.c\
@@ -14,7 +15,8 @@ SRCS = srcs/main.c\
 	srcs/builtins/echo.c\
 	srcs/builtins/export.c\
 	srcs/builtins/exit.c\
-	srcs/exec/exec.c
+	srcs/exec/exec.c\
+	srcs/exec/paths.c
 
 OBJS = ${SRCS:.c=.o}
 

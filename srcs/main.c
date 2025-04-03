@@ -6,30 +6,38 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:18:54 by njard             #+#    #+#             */
-/*   Updated: 2025/04/02 13:10:38 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/03 14:56:35 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	init_data(t_data *data, t_env *env)
+{
+	data->paths_system = NULL; 
+	data->env = env;
+	initalising_path(data);
+}
 
 int main(int argc, char **argv, char **envp)
 {
 	t_env	*env;
 	t_env	*head;
-	char *input;
+	t_data *data;
 
+	data = malloc(sizeof(t_data));
 	env = malloc(sizeof(t_env));
 	env = env_init(env, envp);
-	if (argv[1])
-		exec(env, argv[1]);
-	if (argv[2])
-		exec(env, argv[2]);
-	if (argv[3])
-		exec(env, argv[3]);
-	if (argv[4])
-		exec(env, argv[4]);
-	int i = 0;
+	init_data(data, env);
+	if (argc >= 2)
+		exec(data, argv[1]);
+	if (argc >= 3)
+		exec(data, argv[2]);
+	if (argc >= 4)
+		exec(data, argv[3]);
+	// if (argv[4][0])
+	// 	exec(data, argv[4]);
+	// int i = 0;
 	// display_env(env);
 
     // while (1)
@@ -48,6 +56,7 @@ int main(int argc, char **argv, char **envp)
 
     //     free(input); // readline utilise malloc
     // }
-	free_env(env);
+	free_data(data);
+	// free_env(env);
 	return(0);
 }

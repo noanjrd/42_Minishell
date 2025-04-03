@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/04/02 15:55:40 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/03 14:52:41 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ char	*cut_builtin(char *string)
 	while(string[i] == ' ' || (string[i] >= 7 && string[i] <= 13 ))
 		i++;
 	while(string[i] && string[i] != ' ')
-	{
 		i++;
-	}
 	i++;
 	while(string[i + j] && string[i + j] != ' ' && !(string[i + j] >= 7 && string[i + j] <= 13))
 		j++;
@@ -49,7 +47,6 @@ int	builtin_second(t_env *env, char *commands)
 	arg = NULL;
 	if (ft_strstr(commands, "export") == 1)
 	{
-		// printf("wsh\n");
 		ft_export(env, commands);
 		return (free(arg), 1);
 	}
@@ -90,17 +87,25 @@ int	builtin(t_env *env, char *commands)
 	return(builtin_second(env, commands));
 }
 
-void	exec(t_env *env, char *instru)
+void	exec(t_data *data, char *instru)
 {
 	int i;
 
 	i = 0;
-	if (builtin(env, instru) == 1)
+	if (builtin(data->env, instru) == 1)
 	{
+		printf("builtin\n");
 		return ;
 	}
+	// initalising_path(data);
+	if (check_path_exist(data, instru) == 1)
+	{
+		printf("other\n");
+		// printf("wsh\n");
+		return;
+	}
+	
 	// printf("%s\n",instru);
 	// printf("%d\n",ft_strstr(instru, "export"));
 	return ;
-	
 }
