@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/04/03 14:50:40 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/04 13:13:46 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct	t_env
 typedef struct t_data
 {
 	char	**paths_system;
+	char *line;
 	int	exit_code;
 	t_env	*env;
 }				t_data;
@@ -42,7 +43,7 @@ void	display_export(t_env *env);
 void	display_env(t_env *env);
 void ft_export(t_env *env, char *export);
 void ft_cd(t_env *env, char *arg);
-void	ft_exit(t_env *env);
+void	ft_exit(t_data *data);
 void	ft_echo(t_env *env, char *arg);
 
 // Utils
@@ -52,6 +53,7 @@ void change_value(t_env *env, char *name, char *value_to_change);
 int	ft_strstr(char *s1, char *s2);
 int	ft_strcmp(char *s1, char *s2);
 char *ft_join(char *s1, char *s2);
+char	*ft_copy(char *string);
 
 // Free
 
@@ -68,5 +70,6 @@ int	check_path_exist(t_data *data, char *instru);
 
 t_env	*env_init(t_env *env, char **envp);
 void	initalising_path(t_data *data);
+void	init_data(t_data *data, t_env *env);
 
 #endif

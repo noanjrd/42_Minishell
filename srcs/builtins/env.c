@@ -5,79 +5,24 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/27 11:42:03 by njard             #+#    #+#             */
-/*   Updated: 2025/03/31 12:22:08 by njard            ###   ########.fr       */
+/*   Created: 2025/04/04 10:58:07 by njard             #+#    #+#             */
+/*   Updated: 2025/04/04 11:13:34 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*get_name(char *envp)
+//This function displays the environment.
+void	display_env(t_env *env)
 {
-	int i;
-	char *name;
+	t_env *head;
 
-	i = 0;
-	while(envp[i] != '=')
-	{
-		i++;
-	}
-	name  = malloc((i + 1) * sizeof(char));
-	i = 0;
-	while(envp[i] != '=')
-	{
-		name[i] = envp[i];
-		i++;
-	}
-	name[i] = '\0';
-	return (name);
-}
-
-static char	*get_value(char *envp)
-{
-	int i;
-	int j;
-	char *value;
-
-	i = 0;
-	j = 0;
-	while(envp[i] != '=')
-		i++;
-	while(envp[j])
-		j++;
-	value  = malloc((j - i + 1) * sizeof(char));
-	i++;
-	j = 0;
-	while(envp[i])
-		value[j++] = envp[i++];
-	value[j] = '\0';
-	return (value);
-}
-
-t_env	*env_init(t_env *env, char **envp)
-{
-	t_env	*head;
-	t_env	 *current;
-	t_env *temp;
-	int i;
-
-	i = 0;
 	head = env;
-	env->name = get_name(envp[i]);
-	env->value = get_value(envp[i]);
-	env->displayed = 0;
-	i++;
-	while (envp[i])
+	while(head)
 	{
-		current = malloc(sizeof(t_env));
-		env->next = current;
-		current->name = get_name(envp[i]);
-		current->value = get_value(envp[i]);
-		current->displayed = 0;
-		env = current;
-		i++;
+		if (head->value)
+			printf("%s=%s\n", head->name, head->value);
+		head = head->next;
 	}
-	env->next =NULL;
-	return (head);
+	return ;
 }
-

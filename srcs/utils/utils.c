@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:21:11 by njard             #+#    #+#             */
-/*   Updated: 2025/04/03 14:43:11 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/04 11:51:12 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,26 @@ void	change_value(t_env *env, char *name, char *value)
 	return ;
 }
 
-//This function displays the environment.
-void	display_env(t_env *env)
+// This function copies a string given in argument into a new char* et returns it
+char	*ft_copy(char *string)
 {
-	t_env *head;
+	int i;
+	char *copied_string;
 
-	head = env;
-	while(head)
+	i = 0;
+	while(string[i])
 	{
-		if (head->value)
-			printf("%s=%s\n", head->name, head->value);
-		head = head->next;
+		i++;
 	}
-	return ;
+	copied_string = malloc((i + 1) * sizeof(char));
+	if (!copied_string)
+		return (NULL);
+	i = 0;
+	while(string[i])
+	{
+		copied_string[i] = string[i];
+		i++;
+	}
+	copied_string[i] = 0;
+	return (copied_string);
 }

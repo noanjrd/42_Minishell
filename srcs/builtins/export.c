@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:48 by njard             #+#    #+#             */
-/*   Updated: 2025/04/02 13:16:17 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/04 13:58:11 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,6 @@ void ft_export(t_env *env, char *export)
 	{
 		if (export[i] != ' ' && !(export[i] >= 7 && export[i] <= 13))
 		{
-			// printf("wsh\n");
 			i = -99;
 			break;
 		}
@@ -160,7 +159,6 @@ void ft_export(t_env *env, char *export)
 	}
 	if (i >= 0)
 	{
-		// printf("coucou\n");
 		return (display_export(env));
 	}
 	else

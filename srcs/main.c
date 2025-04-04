@@ -6,17 +6,27 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:18:54 by njard             #+#    #+#             */
-/*   Updated: 2025/04/03 14:56:35 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/04 13:58:51 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	init_data(t_data *data, t_env *env)
+#define COLOR_BLUE "\001\033[38;5;44m\002"
+#define COLOR_RED 
+
+void	ft_readline(t_data *data)
 {
-	data->paths_system = NULL; 
-	data->env = env;
-	initalising_path(data);
+	char *pwd;
+	while(1)
+	{
+		pwd = ft_join(ft_join(COLOR_BLUE,ft_search_value(data->env, "PWD")),"\001\033[38;5;68m\002$\001\033[0m\002 ");
+		data->line = readline(pwd);
+		free(pwd);
+		add_history(data->line);
+		exec(data, data->line);
+		free(data->line);
+	}
 }
 
 int main(int argc, char **argv, char **envp)
@@ -29,13 +39,15 @@ int main(int argc, char **argv, char **envp)
 	env = malloc(sizeof(t_env));
 	env = env_init(env, envp);
 	init_data(data, env);
-	if (argc >= 2)
-		exec(data, argv[1]);
-	if (argc >= 3)
-		exec(data, argv[2]);
-	if (argc >= 4)
-		exec(data, argv[3]);
-	// if (argv[4][0])
+	ft_readline(data);
+	
+	// if (argc >= 2)
+	// 	exec(data, argv[1]);
+	// if (argc >= 3)
+	// 	exec(data, argv[2]);
+	// if (argc >= 4)
+	// 	exec(data, argv[3]);
+	// if (argc >= 5)
 	// 	exec(data, argv[4]);
 	// int i = 0;
 	// display_env(env);

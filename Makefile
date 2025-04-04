@@ -5,6 +5,7 @@ LIBS = -lreadline
 RM = rm -rf
 
 SRCS = srcs/main.c\
+	srcs/utils/init.c\
 	srcs/utils/utils.c\
 	srcs/utils/free.c\
 	srcs/utils/ft_from_libft.c\

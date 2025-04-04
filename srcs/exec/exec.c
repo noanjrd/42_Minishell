@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/04/03 14:52:41 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/04 12:36:23 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ char	*cut_builtin(char *string)
 		i++;
 	while(string[i] && string[i] != ' ')
 		i++;
-	i++;
+	if (string[i] == ' ')
+		i++;
 	while(string[i + j] && string[i + j] != ' ' && !(string[i + j] >= 7 && string[i + j] <= 13))
 		j++;
 	arg = malloc((j + 1) * sizeof(char));
@@ -53,17 +54,14 @@ int	builtin_second(t_env *env, char *commands)
 	if (ft_strstr(commands, "cd") == 1)
 	{
 		arg = cut_builtin(commands);
+		// printf("| %s| \n", arg);
 		ft_cd(env, arg);
 		return (free(arg), 1);
-	}
-	if (ft_strstr(commands, "exit") == 1)
-	{
-		ft_exit(env);
 	}
 	return (0);
 }
 
-int	builtin(t_env *env, char *commands)
+int	builtin(t_data *data, t_env *env, char *commands)
 {
 	char *arg;
 	
@@ -84,6 +82,10 @@ int	builtin(t_env *env, char *commands)
 		display_env(env);
 		return (free(arg), 1);
 	}
+	if (ft_strstr(commands, "exit") == 1)
+	{
+		ft_exit(data);
+	}
 	return(builtin_second(env, commands));
 }
 
@@ -92,15 +94,15 @@ void	exec(t_data *data, char *instru)
 	int i;
 
 	i = 0;
-	if (builtin(data->env, instru) == 1)
+	if (builtin(data, data->env, instru) == 1)
 	{
-		printf("builtin\n");
+		// printf("builtin\n");
 		return ;
 	}
 	// initalising_path(data);
 	if (check_path_exist(data, instru) == 1)
 	{
-		printf("other\n");
+		// printf("other\n");
 		// printf("wsh\n");
 		return;
 	}

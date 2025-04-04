@@ -6,13 +6,13 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:57:03 by njard             #+#    #+#             */
-/*   Updated: 2025/03/28 15:33:18 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/04 13:48:05 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void display_export(t_env *env)
+static void sort_env(t_env *env)
 {
 	t_env	*current;
 	t_env	*min;
@@ -39,4 +39,18 @@ void display_export(t_env *env)
 			printf("declare -x %s\n", min->name);
 		display_export(env);
 	}
+}
+
+void	display_export(t_env *env)
+{
+	t_env *cpy;
+
+	cpy = env;
+	sort_env(env);
+	while(cpy)
+	{
+		cpy->displayed = 0;
+		cpy = cpy->next;
+	}
+	return ;
 }
