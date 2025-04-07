@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/04/04 12:36:23 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/07 14:05:59 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,13 @@ void	exec(t_data *data, char *instru)
 		// printf("wsh\n");
 		return;
 	}
-	
+	if (ft_strstr(instru, "<<"))
+	{
+		// printf("here\n");
+		here_doc(instru);
+		// printf("wsh\n");
+		return;
+	}
 	// printf("%s\n",instru);
 	// printf("%d\n",ft_strstr(instru, "export"));
 	return ;

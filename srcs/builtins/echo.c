@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:25:03 by njard             #+#    #+#             */
-/*   Updated: 2025/04/02 15:14:20 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/07 14:30:58 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,16 @@ static int	value_env(t_env *env, char *arg, int i)
 void	ft_echo(t_env *env, char *commands)
 {
 	int i;
+	int n;
 	char *arg;
 
 	arg = cut_builtin_echo(commands);
 	i = 0;
+	n = 0;
 	// printf("%s\n", arg);
+
+	if (arg[i] && arg[i] == '-' && arg[i+1] == 'n')
+		n = 1;
 	while(arg[i])
 	{
 		if (arg[i] != '$')
@@ -90,7 +95,8 @@ void	ft_echo(t_env *env, char *commands)
 			i += value_env(env, arg, i);
 		}
 	}
-	printf("\n");
+	if (n == 0)
+		printf("\n");
 	free(arg);
 	return ;
 }

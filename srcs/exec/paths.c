@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:54:46 by njard             #+#    #+#             */
-/*   Updated: 2025/04/03 14:58:02 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/07 13:14:34 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ char **cut_system_path_next(char **path, char *value)
 	while(value[i])
 	{
 		path[z][j] = value[i];
-		if (value[i] == ':' || value[i + 1] == 0)
+		if (value[i] == ':' || value[i + 1] == '\0')
 		{
 			path[z][j] = '/';
-			path[z][j + 1] = 0;
+			path[z][j + 1] = '\0';
 			j = -1;
 			z++;
 		}
@@ -50,7 +50,7 @@ static char	**cut_system_path(char *value, char **path)
 	{
 		if (value[i + 1] == ':' || value[i + 1] == 0)
 		{
-			path[z] = malloc((i - j + 100) * sizeof(char));
+			path[z] = malloc((i - j + 3) * sizeof(char)); //Regarder ici si leak un jour
 			j = i + 1;
 			z++;
 		}
@@ -79,7 +79,7 @@ void	initalising_path(t_data *data)
 	j =0;
 	while (copy->value[i])
 	{
-		if (copy->value[i] == ':' || copy->value[i + 1] == 0)
+		if (copy->value[i] == ':' || copy->value[i + 1] == '\0')
 			j++;
 		i++;
 	}

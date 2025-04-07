@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/04/04 13:13:46 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/07 14:03:48 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <fcntl.h>
+#include <sys/wait.h>
 
 
 typedef struct	t_env
@@ -31,6 +33,7 @@ typedef struct	t_env
 typedef struct t_data
 {
 	char	**paths_system;
+	int here_doc;
 	char *line;
 	int	exit_code;
 	t_env	*env;
@@ -54,6 +57,7 @@ int	ft_strstr(char *s1, char *s2);
 int	ft_strcmp(char *s1, char *s2);
 char *ft_join(char *s1, char *s2);
 char	*ft_copy(char *string);
+int	ft_strlen(char *string);
 
 // Free
 
@@ -65,6 +69,7 @@ void free_data(t_data *data);
 void	exec(t_data *data, char *instru);
 char	*cut_builtin(char *string);
 int	check_path_exist(t_data *data, char *instru);
+void	here_doc(char *instru);
 
 // Init
 

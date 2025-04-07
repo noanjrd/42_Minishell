@@ -6,11 +6,23 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:28:00 by njard             #+#    #+#             */
-/*   Updated: 2025/04/02 10:42:14 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/07 12:56:26 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	ft_strlen(char *string)
+{
+	int i;
+
+	i = 0;
+	while(string[i])
+	{
+		i++;
+	}
+	return (i);
+}
 
 int	ft_strcmp(char *s1, char *s2)
 {
