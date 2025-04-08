@@ -589,7 +589,7 @@ echo d d | wc -l
 asd
 echo $?
 heredoc
-pwd
+pwd 
 mkdir test
 cd test
 rm -rf ../test/

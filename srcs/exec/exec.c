@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/04/07 14:05:59 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/08 14:26:31 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*cut_builtin(char *string)
 	return (arg);
 }
 
-int	builtin_second(t_env *env, char *commands)
+int	builtin_second(t_data *data, t_env *env, char *commands)
 {
 	char *arg;
 
@@ -58,6 +58,12 @@ int	builtin_second(t_env *env, char *commands)
 		ft_cd(env, arg);
 		return (free(arg), 1);
 	}
+	if (ft_strstr(commands, "pwd") == 1)
+	{
+		// printf("| %s| \n", arg);
+		ft_pwd(env);
+		return (free(arg), 1);
+	}
 	return (0);
 }
 
@@ -68,7 +74,7 @@ int	builtin(t_data *data, t_env *env, char *commands)
 	arg = NULL;
 	if (ft_strstr(commands, "echo") == 1)
 	{
-		ft_echo(env, commands);
+		ft_echo(data, env, commands);
 		return (free(arg), 1);
 	}
 	if (ft_strstr(commands, "unset") == 1)
@@ -86,7 +92,7 @@ int	builtin(t_data *data, t_env *env, char *commands)
 	{
 		ft_exit(data);
 	}
-	return(builtin_second(env, commands));
+	return(builtin_second(data, env, commands));
 }
 
 void	exec(t_data *data, char *instru)

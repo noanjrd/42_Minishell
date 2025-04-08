@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:18:54 by njard             #+#    #+#             */
-/*   Updated: 2025/04/07 11:40:20 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/08 14:54:51 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ int main(int argc, char **argv, char **envp)
 	env = env_init(env, envp);
 	init_data(data, env);
 
-	// while(1)
-	// 	printf("tg ");
 	ft_readline(data);
 	
 	// if (argc >= 2)

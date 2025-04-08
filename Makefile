@@ -10,6 +10,7 @@ SRCS = srcs/main.c\
 	srcs/utils/free.c\
 	srcs/utils/ft_from_libft.c\
 	srcs/builtins/env.c\
+	srcs/builtins/pwd.c\
 	srcs/builtins/export_display.c\
 	srcs/builtins/unset.c\
 	srcs/builtins/cd.c\

@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:35:47 by njard             #+#    #+#             */
-/*   Updated: 2025/04/07 14:04:17 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/08 14:14:50 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_data(t_data *data, t_env *env)
 	data->paths_system = NULL; 
 	data->exit_code = 0;
 	data->env = env;
+	data->line = NULL;
 	data->here_doc = 0;
 	initalising_path(data);
 }

@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:25:03 by njard             #+#    #+#             */
-/*   Updated: 2025/04/07 14:30:58 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/08 14:54:00 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,19 @@ char *cut_builtin_echo(char *string)
 	return (arg);
 }
 
-static int	value_env(t_env *env, char *arg, int i)
+static int	value_env(t_data *data, t_env *env, char *arg, int i)
 {
 	int j;
 	char *name;
 	char *value;
 
 	j = 0;
+	// printf("%s\n", arg);
+	if (arg[0] == '$' && arg[1] == '?')
+	{
+		printf("%d", data->exit_code);
+		return (1);
+	}
 	while (arg[i + j] && arg[i + j] != ' ')
 		j++;
 	name = malloc((j + 1) * sizeof(char));
@@ -69,7 +75,7 @@ static int	value_env(t_env *env, char *arg, int i)
 	return (j);
 }
 
-void	ft_echo(t_env *env, char *commands)
+void	ft_echo(t_data *data, t_env *env, char *commands)
 {
 	int i;
 	int n;
@@ -78,8 +84,6 @@ void	ft_echo(t_env *env, char *commands)
 	arg = cut_builtin_echo(commands);
 	i = 0;
 	n = 0;
-	// printf("%s\n", arg);
-
 	if (arg[i] && arg[i] == '-' && arg[i+1] == 'n')
 		n = 1;
 	while(arg[i])
@@ -92,11 +96,23 @@ void	ft_echo(t_env *env, char *commands)
 		if (arg[i] == '$')
 		{
 			i++;
-			i += value_env(env, arg, i);
+			i += value_env(data, env, arg, i);
 		}
 	}
 	if (n == 0)
 		printf("\n");
 	free(arg);
-	return ;
 }
+
+// void	ft_echo(t_data *data, t_env *env, char *commands)
+// {
+// 	char *arg;
+
+// 	arg = cut_builtin_echo(commands);
+// 	// printf("%s\n",arg);
+// 	if (arg[0] == '$' && arg[1] == '?')
+// 		printf("%d\n", data->exit_code);
+// 	ft_echo_next(env, commands);
+// 	free(arg);
+// 	return ;
+// }

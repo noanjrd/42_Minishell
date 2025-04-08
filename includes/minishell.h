@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/04/07 14:03:48 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/08 14:26:48 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	display_env(t_env *env);
 void ft_export(t_env *env, char *export);
 void ft_cd(t_env *env, char *arg);
 void	ft_exit(t_data *data);
-void	ft_echo(t_env *env, char *arg);
+void	ft_echo(t_data *data, t_env *env, char *commands);
+void	ft_pwd(t_env *env);
 
 // Utils
 
