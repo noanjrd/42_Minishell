@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/04/08 14:26:48 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/09 16:27:24 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,33 @@ typedef struct t_data
 	int	exit_code;
 	t_env	*env;
 }				t_data;
+
+typedef enum
+{
+	REDIRECT_IN,
+	HERE_DOC,
+	REDIRECT_OUT,
+	REDIRECT_APPEND,
+	PIPE,
+	VARIABLE,
+	WORD,
+	STRING,
+}		t_token_type;
+
+typedef struct s_token
+{
+	t_token_type	type;
+	char			*value;
+	struct s_token	*next;
+}			t_token;
+
+typedef struct s_cmd
+{
+	char	**argv;
+	char	*infile;
+	char	*outfile;
+	struct s_cmd *next;
+}				t_cmd;
 
 // Builtins
 
