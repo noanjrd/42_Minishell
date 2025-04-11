@@ -3,27 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:18:54 by njard             #+#    #+#             */
-/*   Updated: 2025/04/08 14:54:51 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/11 19:37:13 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-#define COLOR_BLUE "\001\033[38;5;44m\002"
-#define COLOR_RED 
+#define COLOR_PINK "\001\033[38;5;205m\002"
+#define COLOR_RED
 
 void	ft_readline(t_data *data)
 {
 	char *pwd;
 	while(1)
 	{
-		pwd = ft_join(ft_join(COLOR_BLUE,ft_search_value(data->env, "PWD")),"\001\033[38;5;68m\002$\001\033[0m\002 ");
+		pwd = ft_join(ft_join(COLOR_PINK,ft_search_value(data->env, "PWD")),"\001\033[38;5;205m\002");
 		data->line = readline(pwd);
 		free(pwd);
 		add_history(data->line);
+		data->tokens = lexer(data->line);
 		exec(data, data->line);
 		free(data->line);
 	}
@@ -38,9 +39,8 @@ int main(int argc, char **argv, char **envp)
 	env = malloc(sizeof(t_env));
 	env = env_init(env, envp);
 	init_data(data, env);
-
 	ft_readline(data);
-	
+
 	// if (argc >= 2)
 	// 	exec(data, argv[1]);
 	// if (argc >= 3)
