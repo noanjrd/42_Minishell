@@ -5,7 +5,8 @@
         "typeinfo": "c",
         "minishell.h": "c",
         "type_traits": "c",
-        "random": "c"
+        "random": "c",
+        "numbers": "c"
     },
     "makefile.configureOnOpen": false
 }

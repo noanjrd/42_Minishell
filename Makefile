@@ -22,6 +22,7 @@ SRCS = srcs/main.c\
 	srcs/exec/paths.c\
 	srcs/parsing/lexer.c\
 	srcs/parsing/tokens_list.c\
+	srcs/parsing/token_word.c\
 
 OBJS = ${SRCS:.c=.o}
 

@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/04/11 12:10:24 by naankour         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:43:03 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int		ft_strcmp(char *s1, char *s2);
 char	*ft_join(char *s1, char *s2);
 char	*ft_copy(char *string);
 int		ft_strlen(char *string);
+size_t	ft_strlcpy( char *dst, const char *src, size_t size);
 
 // Free
 
@@ -111,5 +112,8 @@ t_token	*create_token(t_token_type type, const char *value);
 void	add_token(t_token **head, t_token *new);
 void	print_tokens(t_token *head);
 t_token	*lexer(char *line);
+int	is_space(char c);
+int	is_symbol(char c);
+t_token	*create_token_word(char *line, int *index);
 
 #endif
