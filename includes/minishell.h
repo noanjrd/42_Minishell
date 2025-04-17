@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/04/16 15:43:03 by naankour         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:43:07 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef enum
 	VARIABLE,
 	WORD,
 	STRING,
+	QUOTES,
 }		t_token_type;
 
 typedef struct s_token
@@ -115,5 +116,6 @@ t_token	*lexer(char *line);
 int	is_space(char c);
 int	is_symbol(char c);
 t_token	*create_token_word(char *line, int *index);
+t_token	*create_token_quotes(char *line, int *index);
 
 #endif

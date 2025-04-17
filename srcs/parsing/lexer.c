@@ -66,6 +66,12 @@ t_token	*lexer(char *line)
 			add_token(&head, token);
 			i++;
 		}
+		// else if (line[i] == '"')
+		// {
+		// 	token = create_token_quotes(line, &i);
+		// 	if (token)
+		// 		add_token(&head, token);
+		// }
 		else
 		{
 			token = create_token_word(line, &i);
