@@ -19,7 +19,10 @@ SRCS = srcs/main.c\
 	srcs/builtins/exit.c\
 	srcs/exec/exec.c\
 	srcs/exec/here_doc.c\
-	srcs/exec/paths.c
+	srcs/exec/paths.c\
+	srcs/parsing/lexer.c\
+	srcs/parsing/tokens_list.c\
+	srcs/parsing/token_word.c\
 
 OBJS = ${SRCS:.c=.o}
 
