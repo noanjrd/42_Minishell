@@ -35,18 +35,19 @@ int	is_quotes(char c)
 int	check_quotes(char *line)
 {
 	int		i;
-	int	single_quotes;
-	int	double_quotes;
+	int		quote;
 
+	i = 0;
+	quote = 0;
 	while(line[i])
 	{
-		if (line[i] == 34)
-			double_quotes++;
-		else if (line[i] == 39)
-			single_quotes++;
+		if (!quote && (line[i] == 34 || line[i] == 39))
+			quote = line[i];
+		else if (quote && line[i] == quote)
+			quote = 0;
 		i++;
 	}
-	if ((double_quotes % 2 != 0) || (single_quotes % 2 != 0))
+	if (quote)
 		return (0);
 	return (1);
 }
@@ -57,76 +58,49 @@ t_token	*create_token_word(char *line, int *index)
 	int	len;
 	int	start;
 	char	*word;
+	char	quote;
 
-	if (check_quotes(line) == 0)
-	{
-		printf("eroooooooooooor\n");
-		return(NULL);
-	}
 	i = *index;
-	if (line[i] == 34)
+	if (line[i] == 34 || line[i] == 39)
 	{
+		quote = line[i];
 		start = i;
 		i++;
-		while (line[i] && (line[i] != 34))
+		while (line[i] && (line[i] != quote))
 			i++;
-		if (line[i] == 34)
+		if (line[i] == quote)
 			i++;
 		else
 		{
-			printf("double quotes are not closed");
-			return (NULL);
-		}
-		len = i - start;
-		if (len == 0)
-			return(NULL);
-		word = malloc(len + 1);
-		if (!word)
-			return (NULL);
-		ft_strlcpy(word, &line[start], len + 1);
-		*index = i;
-	return(create_token(DOUBLE_QUOTES, word));
-	}
-	if (line[i] == 39)
-	{
-		start = i;
-		i++;
-		while (line[i] && (line[i] != 39))
-			i++;
-		if (line[i] == 39)
-			i++;
-		else
-		{
-			printf("simple quotes are not closed");
+			printf("quotes are not closed\n");
 			exit(1);
 		}
-		len = i - start;
-		if (len == 0)
+		len = i - start - 2;
+		if (len <= 0)
 			return(NULL);
 		word = malloc(len + 1);
 		if (!word)
 			return (NULL);
-		ft_strlcpy(word, &line[start], len + 1);
+		ft_strlcpy(word, &line[start + 1], len + 1);
 		*index = i;
-	return(create_token(SIMPLE_QUOTES, word));
+		if (quote == 34)
+			return(create_token(DOUBLE_QUOTES, word));
+		else
+			return(create_token(SIMPLE_QUOTES, word));
 	}
-	else
-	{
-		while (line[i] && (is_space(line[i])))
-			i++;
-		len = 0;
-		start = i;
+	while (line[i] && (is_space(line[i])))
+		i++;
+	start = i;
 		while (line[i] && (!is_space(line[i]) && !is_symbol(line[i])))
 			i++;
-		len = i - start;
-		if (len == 0)
-			return (NULL);
-		word = malloc(len + 1);
-		if (!word)
-			return (NULL);
-		ft_strlcpy(word, &line[start], len + 1);
-		*index = i;
-	}
+	len = i - start;
+	if (len == 0)
+		return (NULL);
+	word = malloc(len + 1);
+	if (!word)
+		return (NULL);
+	ft_strlcpy(word, &line[start], len + 1);
+	*index = i;
 	return(create_token(WORD, word));
 }
 
