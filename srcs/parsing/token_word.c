@@ -61,7 +61,7 @@ t_token	*create_token_word(char *line, int *index)
 	if (check_quotes(line) == 0)
 	{
 		printf("eroooooooooooor\n");
-		exit(1);
+		return(NULL);
 	}
 	i = *index;
 	if (line[i] == 34)
@@ -75,7 +75,7 @@ t_token	*create_token_word(char *line, int *index)
 		else
 		{
 			printf("double quotes are not closed");
-			exit(1);
+			return (NULL);
 		}
 		len = i - start;
 		if (len == 0)
