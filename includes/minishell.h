@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/04/16 17:43:07 by naankour         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:21:45 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ typedef struct s_cmd
 typedef struct t_data
 {
 	char	**paths_system;
+	int		fdin;
+	int		fdout;
 	int		here_doc;
 	char	*line;
 	int		exit_code;
@@ -72,10 +74,10 @@ typedef struct t_data
 void	ft_unset(t_env *env, char *name);
 void	display_export(t_env *env);
 void	display_env(t_env *env);
-void	ft_export(t_env *env, char *export);
-void	ft_cd(t_env *env, char *arg);
+void ft_export(t_env *env, t_token *token);
+void ft_cd(t_env *env, t_token *token);
 void	ft_exit(t_data *data);
-void	ft_echo(t_data *data, t_env *env, char *commands);
+void	ft_echo(t_data *data, t_env *env, t_token *token);
 void	ft_pwd(t_env *env);
 
 // Utils
@@ -96,10 +98,10 @@ void	free_data(t_data *data);
 
 // Execution
 
-void	exec(t_data *data, char *instru);
+void	exec(t_data *data);
 char	*cut_builtin(char *string);
 int		check_path_exist(t_data *data, char *instru);
-void	here_doc(char *instru);
+void	here_doc(char *instru, t_data *data);
 
 // Init
 
