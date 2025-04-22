@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:48 by njard             #+#    #+#             */
-/*   Updated: 2025/04/04 13:58:11 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/21 13:26:58 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,30 +141,38 @@ void export_launch(t_env *env, char *export)
 	return ;
 }
 
-void ft_export(t_env *env, char *export)
+void ft_export(t_env *env, t_token *token)
 {
-	int i;
-	char *arg;
+	// int i;
+	// char *arg;
 	
-	arg = NULL;
-	i = 6;
-	while(export[i])
-	{
-		if (export[i] != ' ' && !(export[i] >= 7 && export[i] <= 13))
-		{
-			i = -99;
-			break;
-		}
-		i++;
-	}
-	if (i >= 0)
+	// arg = NULL;
+	t_token *token_copy = token;
+	// i = 6;
+	// while(export[i])
+	// {
+	// 	if (export[i] != ' ' && !(export[i] >= 7 && export[i] <= 13))
+	// 	{
+	// 		i = -99;
+	// 		break;
+	// 	}
+	// 	i++;
+	// }
+	if (!token_copy->next || token_copy->next->type != WORD)
 	{
 		return (display_export(env));
 	}
-	else
+	token_copy = token_copy->next;
+	// else
+	// {
+	// 	arg = cut_builtin(export);
+	// }
+	while (token_copy && token_copy->type == WORD)
 	{
-		arg = cut_builtin(export);
+		printf("%s\n", token_copy->value);
+		export_launch(env, token_copy->value);
+		token_copy = token_copy->next;
 	}
-	export_launch(env, arg);
-	free(arg);
+	// export_launch(env, arg);
+	// free(arg);
 }

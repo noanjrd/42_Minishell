@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:57:03 by njard             #+#    #+#             */
-/*   Updated: 2025/04/07 10:17:51 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/21 13:29:19 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void sort_env(t_env *env)
 	{
 		min->displayed = 1;
 		if (min->value)
-			printf("declare -x %s=%s\n", min->name, min->value);
+			printf("declare -x %s=\"%s\"\n", min->name, min->value);
 		else
 			printf("declare -x %s\n", min->name);
 		display_export(env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:18:54 by njard             #+#    #+#             */
-/*   Updated: 2025/04/17 15:31:53 by naankour         ###   ########.fr       */
+/*   Updated: 2025/04/22 11:31:18 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ void	ft_readline(t_data *data)
 	char *pwd;
 	while(1)
 	{
-		pwd = ft_join(ft_join(COLOR_PINK,ft_search_value(data->env, "PWD")),"\001\033[38;5;205m\002");
+		pwd = ft_join(ft_join(COLOR_PINK,ft_search_value(data->env, "PWD")),"\001\033[38;5;198m\002$\001\033[38;5;205m\002 ");
 		data->line = readline(pwd);
 		free(pwd);
 		add_history(data->line);
 		data->tokens = lexer(data->line);
-		exec(data, data->line);
+		exec(data);
 		free(data->line);
 	}
 }
@@ -39,12 +39,18 @@ int main(int argc, char **argv, char **envp)
 	env = malloc(sizeof(t_env));
 	env = env_init(env, envp);
 	init_data(data, env);
-	ft_readline(data);
+	// ft_readline(data);
 
-	// if (argc >= 2)
-	// 	exec(data, argv[1]);
-	// if (argc >= 3)
-	// 	exec(data, argv[2]);
+	if (argc >= 2)
+	{
+		data->tokens = lexer(argv[1]);
+		exec(data);
+	}
+	if (argc >= 3)
+	{
+		data->tokens = lexer(argv[2]);
+		exec(data);
+	}
 	// if (argc >= 4)
 	// 	exec(data, argv[3]);
 	// if (argc >= 5)

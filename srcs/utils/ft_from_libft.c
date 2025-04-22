@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_from_libft.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:28:00 by njard             #+#    #+#             */
-/*   Updated: 2025/04/15 12:50:55 by naankour         ###   ########.fr       */
+/*   Updated: 2025/04/22 11:09:22 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,29 @@ size_t	ft_strlcpy( char *dst, const char *src, size_t size)
 		i++;
 	}
 	return (i);
+}
+
+int	ft_atoi(const char *nptr)
+{
+	int	i;
+	int	nb;
+	int	signe;
+
+	i = 0;
+	nb = 0;
+	signe = 1;
+	while (nptr[i] == 32 || (nptr[i] >= 9 && nptr[i] <= 13))
+		i++;
+	if (nptr[i] == '-' || nptr[i] == '+')
+	{
+		if (nptr[i] == '-')
+			signe = -1;
+		i++;
+	}
+	while ((nptr[i] >= '0' && nptr[i] <= '9') && nptr[i] != '\0')
+	{
+		nb = nb * 10 + (nptr[i] - '0');
+		i++;
+	}
+	return (nb * signe);
 }

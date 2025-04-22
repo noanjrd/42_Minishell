@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:25:03 by njard             #+#    #+#             */
-/*   Updated: 2025/04/08 14:54:00 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/21 14:21:00 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,33 +75,62 @@ static int	value_env(t_data *data, t_env *env, char *arg, int i)
 	return (j);
 }
 
-void	ft_echo(t_data *data, t_env *env, char *commands)
+// void	ft_echo(t_data *data, t_env *env, t_token *token)
+// {
+// 	int i;
+// 	int n;
+// 	char *arg;
+
+// 	arg = token->value;
+// 	i = 0;
+// 	n = 0;
+// 	if (arg[i] && arg[i] == '-' && arg[i+1] == 'n')
+// 		n = 1;
+// 	while(arg[i])
+// 	{
+// 		if (arg[i] != '$')
+// 		{
+// 			printf("%c", arg[i]);
+// 			i++;
+// 		}
+// 		if (arg[i] == '$')
+// 		{
+// 			i++;
+// 			i += value_env(data, env, arg, i);
+// 		}
+// 	}
+// 	if (n == 0)
+// 		printf("\n");
+// 	free(arg);
+// }
+
+void	ft_echo(t_data *data, t_env *env, t_token *token)
 {
 	int i;
 	int n;
 	char *arg;
 
-	arg = cut_builtin_echo(commands);
-	i = 0;
 	n = 0;
-	if (arg[i] && arg[i] == '-' && arg[i+1] == 'n')
-		n = 1;
-	while(arg[i])
+	t_token *copy_token = token;
+	copy_token = copy_token->next;
+	while (copy_token && copy_token->type ==  WORD)
 	{
-		if (arg[i] != '$')
-		{
-			printf("%c", arg[i]);
-			i++;
-		}
-		if (arg[i] == '$')
-		{
-			i++;
-			i += value_env(data, env, arg, i);
-		}
+		if (copy_token->value[0] == '-' && copy_token->value[1] == 'n')
+			n = 1;
+		else
+			break;
+		copy_token = copy_token->next;
+	}
+	while (copy_token && (copy_token->type ==  WORD || copy_token->type ==  QUOTES))
+	{
+		printf("%s", copy_token->value);
+		if (copy_token->next && (copy_token->next->type ==  WORD || copy_token->next->type ==  QUOTES))
+			printf(" ");
+		copy_token = copy_token->next;
 	}
 	if (n == 0)
 		printf("\n");
-	free(arg);
+	return ;
 }
 
 // void	ft_echo(t_data *data, t_env *env, char *commands)

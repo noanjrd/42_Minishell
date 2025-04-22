@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
 /*   Updated: 2025/04/21 12:48:39 by naankour         ###   ########.fr       */
@@ -61,6 +61,8 @@ typedef struct s_cmd
 typedef struct t_data
 {
 	char	**paths_system;
+	int		fdin;
+	int		fdout;
 	int		here_doc;
 	char	*line;
 	int		exit_code;
@@ -70,13 +72,13 @@ typedef struct t_data
 
 // Builtins
 
-void	ft_unset(t_env *env, char *name);
+void	ft_unset(t_env *env, t_token *token);
 void	display_export(t_env *env);
 void	display_env(t_env *env);
-void	ft_export(t_env *env, char *export);
-void	ft_cd(t_env *env, char *arg);
-void	ft_exit(t_data *data);
-void	ft_echo(t_data *data, t_env *env, char *commands);
+void ft_export(t_env *env, t_token *token);
+void ft_cd(t_env *env, t_token *token);
+void	ft_exit(t_data *data, t_token *token);
+void	ft_echo(t_data *data, t_env *env, t_token *token);
 void	ft_pwd(t_env *env);
 
 // Utils
@@ -89,6 +91,7 @@ char	*ft_join(char *s1, char *s2);
 char	*ft_copy(char *string);
 int		ft_strlen(char *string);
 size_t	ft_strlcpy( char *dst, const char *src, size_t size);
+int	ft_atoi(const char *nptr);
 
 // Free
 
@@ -97,10 +100,10 @@ void	free_data(t_data *data);
 
 // Execution
 
-void	exec(t_data *data, char *instru);
+void	exec(t_data *data);
 char	*cut_builtin(char *string);
 int		check_path_exist(t_data *data, char *instru);
-void	here_doc(char *instru);
+void	here_doc(char *instru, t_data *data);
 
 // Init
 
