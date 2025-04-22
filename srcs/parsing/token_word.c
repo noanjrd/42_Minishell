@@ -35,20 +35,24 @@ int	is_quotes(char c)
 int	check_quotes(char *line)
 {
 	int		i;
-	int		quote;
+	char	quote;
 
 	i = 0;
 	quote = 0;
-	while(line[i])
+	while (line[i])
 	{
-		if (!quote && (line[i] == 34 || line[i] == 39))
+		if (line[i] == 34 || line[i] == 39)
+		{
 			quote = line[i];
-		else if (quote && line[i] == quote)
-			quote = 0;
-		i++;
+			i++;
+			while (line[i] && line[i] != quote)
+			i++;
+		if (!line[i])
+			return (0);
+		}
+		else
+			i++;
 	}
-	if (quote)
-		return (0);
 	return (1);
 }
 
@@ -102,6 +106,7 @@ t_token	*create_token_word(char *line, int *index)
 	ft_strlcpy(word, &line[start], len + 1);
 	*index = i;
 	return(create_token(WORD, word));
+
 }
 
 // t_token	*create_token_quotes(char *line, int *index)
