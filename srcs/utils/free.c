@@ -6,11 +6,27 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:39:25 by njard             #+#    #+#             */
-/*   Updated: 2025/04/21 15:23:43 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/22 11:41:06 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void free_token(t_token *token)
+{
+	t_token *temp;
+
+	temp = token;
+	while(temp)
+	{
+		temp = token->next;
+		free(token->value);
+		// free(token->type);
+		free(token);
+		token = temp;
+	}
+	return ;
+}
 
 // This function frees the memory allocated for data.
 void free_data(t_data *data)
@@ -29,6 +45,7 @@ void free_data(t_data *data)
 	}
 	free(data->line);
 	free_env(data->env);
+	free_token(data->tokens);
 	clear_history();
 	free(data);
 	return ;

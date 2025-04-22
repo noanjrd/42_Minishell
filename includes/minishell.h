@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/04/21 15:21:45 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/22 11:09:39 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ typedef struct t_data
 
 // Builtins
 
-void	ft_unset(t_env *env, char *name);
+void	ft_unset(t_env *env, t_token *token);
 void	display_export(t_env *env);
 void	display_env(t_env *env);
 void ft_export(t_env *env, t_token *token);
 void ft_cd(t_env *env, t_token *token);
-void	ft_exit(t_data *data);
+void	ft_exit(t_data *data, t_token *token);
 void	ft_echo(t_data *data, t_env *env, t_token *token);
 void	ft_pwd(t_env *env);
 
@@ -90,6 +90,7 @@ char	*ft_join(char *s1, char *s2);
 char	*ft_copy(char *string);
 int		ft_strlen(char *string);
 size_t	ft_strlcpy( char *dst, const char *src, size_t size);
+int	ft_atoi(const char *nptr);
 
 // Free
 

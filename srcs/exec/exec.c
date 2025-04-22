@@ -6,40 +6,40 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/04/21 15:22:20 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/22 10:48:18 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*cut_builtin(char *string)
-{
-	int i;
-	int j;
-	char *arg;
+// char	*cut_builtin(char *string)
+// {
+// 	int i;
+// 	int j;
+// 	char *arg;
 
-	i = 0;
-	j = 0;
-	while(string[i] == ' ' || (string[i] >= 7 && string[i] <= 13 ))
-		i++;
-	while(string[i] && string[i] != ' ')
-		i++;
-	if (string[i] == ' ')
-		i++;
-	while(string[i + j] && string[i + j] != ' ' && !(string[i + j] >= 7 && string[i + j] <= 13))
-		j++;
-	arg = malloc((j + 1) * sizeof(char));
-	if (!arg)
-		return (NULL);
-	j = 0;
-	while(string[j + i] && string[i + j] != ' ' && !(string[i + j] >= 7 && string[i + j] <= 13 ))
-	{
-		arg[j] = string[i + j];
-		j++;
-	}
-	arg[j] = 0;
-	return (arg);
-}
+// 	i = 0;
+// 	j = 0;
+// 	while(string[i] == ' ' || (string[i] >= 7 && string[i] <= 13 ))
+// 		i++;
+// 	while(string[i] && string[i] != ' ')
+// 		i++;
+// 	if (string[i] == ' ')
+// 		i++;
+// 	while(string[i + j] && string[i + j] != ' ' && !(string[i + j] >= 7 && string[i + j] <= 13))
+// 		j++;
+// 	arg = malloc((j + 1) * sizeof(char));
+// 	if (!arg)
+// 		return (NULL);
+// 	j = 0;
+// 	while(string[j + i] && string[i + j] != ' ' && !(string[i + j] >= 7 && string[i + j] <= 13 ))
+// 	{
+// 		arg[j] = string[i + j];
+// 		j++;
+// 	}
+// 	arg[j] = 0;
+// 	return (arg);
+// }
 
 int	builtin_second(t_data *data, t_token *token, char *commands)
 {
@@ -53,14 +53,11 @@ int	builtin_second(t_data *data, t_token *token, char *commands)
 	}
 	if (ft_strcmp(commands, "cd") == 0)
 	{
-		// arg = cut_builtin(commands);
-		// printf("| %s| \n", arg);
 		ft_cd(data->env, token->next);
 		return (free(arg), 1);
 	}
 	if (ft_strcmp(commands, "pwd") == 0)
 	{
-		// printf("| %s| \n", arg);
 		ft_pwd(data->env);
 		return (free(arg), 1);
 	}
@@ -80,8 +77,7 @@ int	builtin(t_data *data, t_token *token, char *commands)
 	}
 	if (ft_strcmp(commands, "unset") == 0)
 	{
-		// arg = cut_builtin(commands);
-		ft_unset(data->env, arg);
+		ft_unset(data->env, token);
 		return (free(arg), 1);
 	}
 	if (ft_strcmp(commands, "env") == 0)
@@ -91,7 +87,7 @@ int	builtin(t_data *data, t_token *token, char *commands)
 	}
 	if (ft_strcmp(commands, "exit") == 0)
 	{
-		ft_exit(data);
+		ft_exit(data, token);
 	}
 	return(builtin_second(data, token, commands));
 }
