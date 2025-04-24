@@ -12,76 +12,132 @@
 
 #include "../../includes/minishell.h"
 
-t_token	*lexer(char *line)
+t_token *lexer(char *line)
 {
-	int			i;
-	t_token	*head;
-	t_token	*token;
+	int i = 0;
+	t_token *head = NULL;
+	t_token *token = NULL;
 
-	head = NULL;
-	i = 0;
 	while (line[i])
 	{
 		while (line[i] == ' ')
 			i++;
-		if (line[i] == '<')
+		if (line[i] == '\0')
+			break;
+		if (line[i] == '<' || line[i] == '>' || line[i] == '|' || line[i] == '$')
 		{
-			if (line [i + 1] == '<')
+			if (line[i] == '<' && line[i+1] == '<')
 			{
 				token = create_token(HERE_DOC, "<<");
-				add_token(&head, token);
-				i+=2;
+				i += 2;
 			}
-			else
-			{
-				token = create_token(REDIRECT_IN, "<");
-				add_token(&head, token);
-				i++;
-			}
-		}
-		else if (line[i] == '>')
-		{
-			if (line [i + 1] == '>')
+			else if (line[i] == '>' && line[i+1] == '>')
 			{
 				token = create_token(REDIRECT_APPEND, ">>");
-				add_token(&head, token);
-				i+=2;
+				i += 2;
 			}
-			else
+			else if (line[i] == '<')
+			{
+				token = create_token(REDIRECT_IN, "<");
+				i++;
+			}
+			else if (line[i] == '>')
 			{
 				token = create_token(REDIRECT_OUT, ">");
-				add_token(&head, token);
+				i++;
+			}
+			else if (line[i] == '|')
+			{
+				token = create_token(PIPE, "|");
+				i++;
+			}
+			else if (line[i] == '$')
+			{
+				token = create_token(VARIABLE, "$");
 				i++;
 			}
 		}
-		else if (line[i] == '|')
-		{
-			token = create_token(PIPE, "|");
-			add_token(&head,token);
-			i++;
-		}
-		else if (line[i] == '$')
-		{
-			token = create_token(VARIABLE, "$");
-			add_token(&head, token);
-			i++;
-		}
-		// else if (line[i] == '"')
-		// {
-		// 	token = create_token_quotes(line, &i);
-		// 	if (token)
-		// 		add_token(&head, token);
-		// }
 		else
-		{
 			token = create_token_word(line, &i);
-			if (token)
-				add_token(&head, token);
+		if (!token)
+		{
+			// printf("Lexer error near '%.10s'\n", line + i);
+			return NULL;
 		}
+		add_token(&head, token);
 	}
 	print_tokens(head);
-	return (head);
+	return head;
 }
+// t_token	*lexer(char *line)
+// {
+// 	int			i;
+// 	t_token	*head;
+// 	t_token	*token;
+
+// 	head = NULL;
+// 	i = 0;
+// 	while (line[i])
+// 	{
+// 		while (line[i] == ' ')
+// 			i++;
+// 		if (line[i] == '<')
+// 		{
+// 			if (line [i + 1] == '<')
+// 			{
+// 				create_token_here_doc(&head);
+// 				i+=2;
+// 			}
+// 			else
+// 			{
+// 				token = create_token(REDIRECT_IN, "<");
+// 				add_token(&head, token);
+// 				i++;
+// 			}
+// 		}
+// 		else if (line[i] == '>')
+// 		{
+// 			if (line [i + 1] == '>')
+// 			{
+// 				token = create_token(REDIRECT_APPEND, ">>");
+// 				add_token(&head, token);
+// 				i+=2;
+// 			}
+// 			else
+// 			{
+// 				token = create_token(REDIRECT_OUT, ">");
+// 				add_token(&head, token);
+// 				i++;
+// 			}
+// 		}
+// 		else if (line[i] == '|')
+// 		{
+// 			token = create_token(PIPE, "|");
+// 			add_token(&head,token);
+// 			i++;
+// 		}
+// 		else if (line[i] == '$')
+// 		{
+// 			token = create_token(VARIABLE, "$");
+// 			add_token(&head, token);
+// 			i++;
+// 		}
+// 		// else if (line[i] == '"')
+// 		// {
+// 		// 	token = create_token_quotes(line, &i);
+// 		// 	if (token)
+// 		// 		add_token(&head, token);
+// 		// }
+// 		else
+// 		{
+// 			token = create_token_word(line, &i);
+// 			if (token)
+// 				add_token(&head, token);
+// 		}
+// 	}
+// 	print_tokens(head);
+// 	return (head);
+// }
 
 
 
