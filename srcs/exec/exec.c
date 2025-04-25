@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/04/22 10:48:18 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/25 11:31:05 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,24 @@ void	exec(t_data *data)
 	i = 0;
 	t_token *cpy_token;
 
+	cpy_token = data->tokens;
+	while (cpy_token)
+	{
+		if (cpy_token->type == HERE_DOC)
+		{
+			here_doc(cpy_token->next->value, data);
+		}
+		cpy_token = cpy_token->next;
+	}
+	cpy_token = data->tokens;
+	while (cpy_token)
+	{
+		if (cpy_token->type == REDIRECT_IN)
+		{
+			here_doc(cpy_token->next->value, data);
+		}
+		cpy_token = cpy_token->next;
+	}
 	cpy_token = data->tokens;
 	while (cpy_token)
 	{
