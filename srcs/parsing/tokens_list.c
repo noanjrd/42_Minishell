@@ -17,10 +17,15 @@ t_token	*create_token(t_token_type type, const char *value)
 	t_token	*token;
 
 	token = malloc(sizeof(t_token));
-	// if (!token)
-	// 	return;
+	if (!token)
+		return (NULL);
 	token->type = type;
 	token->value = strdup(value);
+	if (!token->value)
+	{
+		free(token);
+		return (NULL);
+	}
 	token->next = NULL;
 	return(token);
 }
@@ -41,7 +46,19 @@ void	add_token(t_token **head, t_token *new)
 		current->next = new;
 	}
 }
+void	free_token_list(t_token	*head)
+{
+	t_token		*current;
 
+	while (head != NULL)
+	{
+		current = head;
+		head = head->next;
+		if (current->value)
+			free(current->value);
+		free(current);
+	}
+}
 void	print_tokens(t_token *head)
 {
 	t_token	*current;

@@ -34,6 +34,7 @@ t_token *create_token_word(char *line, int *index)
 	char	quote;
 	int		in_quotes;
 	int		token_type;
+	t_token	*token;
 
 	i = *index;
 	while (line[i] && is_space(line[i]))
@@ -48,15 +49,15 @@ t_token *create_token_word(char *line, int *index)
 		return (NULL);
 	while (line[i])
 	{
-		if ((line[i] == '\'' || line[i] == '"'))
+		if ((line[i] == 39 || line[i] == 34))
 		{
 			if (in_quotes == 0)
 			{
 				in_quotes = 1;
 				quote = line[i];
-				if (quote == '"')
+				if (quote == 34)
 					token_type = DOUBLE_QUOTES;
-				else if (quote == '\'')
+				else if (quote == 39)
 					token_type = SINGLE_QUOTES;
 				i++;
 			}
@@ -81,7 +82,9 @@ t_token *create_token_word(char *line, int *index)
 	}
 	word[len] = '\0';
 	*index = i;
-	return (create_token(token_type, word));
+	token = create_token(token_type, word);
+	free(word);
+	return (token);
 }
 
 // int	is_quotes(char c)

@@ -26,12 +26,12 @@ t_token *lexer(char *line)
 			break;
 		if (line[i] == '<' || line[i] == '>' || line[i] == '|' || line[i] == '$')
 		{
-			if (line[i] == '<' && line[i+1] == '<')
+			if (line[i] == '<' && line[i + 1] == '<')
 			{
 				token = create_token(HERE_DOC, "<<");
 				i += 2;
 			}
-			else if (line[i] == '>' && line[i+1] == '>')
+			else if (line[i] == '>' && line[i + 1] == '>')
 			{
 				token = create_token(REDIRECT_APPEND, ">>");
 				i += 2;
@@ -62,12 +62,14 @@ t_token *lexer(char *line)
 		if (!token)
 		{
 			// printf("Lexer error near '%.10s'\n", line + i);
+			free_token_list(head);
 			return NULL;
 		}
 		add_token(&head, token);
 	}
 	print_tokens(head);
 	return head;
+	// free_token_list(head);
 }
 // t_token	*lexer(char *line)
 // {

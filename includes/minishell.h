@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/04/24 15:14:29 by naankour         ###   ########.fr       */
+/*   Updated: 2025/04/25 12:03:46 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void	init_data(t_data *data, t_env *env);
 t_token	*create_token(t_token_type type, const char *value);
 void	add_token(t_token **head, t_token *new);
 void	print_tokens(t_token *head);
+void	free_token_list(t_token	*head);
 t_token	*lexer(char *line);
 int	is_space(char c);
 int	is_symbol(char c);

@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:25:03 by njard             #+#    #+#             */
-/*   Updated: 2025/04/24 18:45:45 by naankour         ###   ########.fr       */
+/*   Updated: 2025/04/25 11:36:01 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,10 @@ void	ft_echo(t_data *data, t_env *env, t_token *token)
 			break;
 		copy_token = copy_token->next;
 	}
-	while (copy_token && (copy_token->type ==  WORD || copy_token->type == SIMPLE_QUOTES || copy_token->type == DOUBLE_QUOTES))
+	while (copy_token && (copy_token->type ==  WORD || copy_token->type == SINGLE_QUOTES || copy_token->type == DOUBLE_QUOTES))
 	{
 		printf("%s", copy_token->value);
-		if (copy_token->next && (copy_token->next->type ==  WORD || copy_token->type == SIMPLE_QUOTES || copy_token->type == DOUBLE_QUOTES))
+		if (copy_token->next && (copy_token->next->type ==  WORD || copy_token->type == SINGLE_QUOTES || copy_token->type == DOUBLE_QUOTES))
 			printf(" ");
 		copy_token = copy_token->next;
 	}

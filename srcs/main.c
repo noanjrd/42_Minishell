@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:18:54 by njard             #+#    #+#             */
-/*   Updated: 2025/04/25 10:31:25 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/25 13:28:21 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int main(int argc, char **argv, char **envp)
 	env = malloc(sizeof(t_env));
 	env = env_init(env, envp);
 	init_data(data, env);
-	ft_readline(data);
+	// ft_readline(data);
 
 	if (argc >= 2)
 	{
