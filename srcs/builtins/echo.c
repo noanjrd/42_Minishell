@@ -121,10 +121,10 @@ void	ft_echo(t_data *data, t_env *env, t_token *token)
 			break;
 		copy_token = copy_token->next;
 	}
-	while (copy_token && (copy_token->type ==  WORD || copy_token->type == SINGLE_QUOTES || copy_token->type == DOUBLE_QUOTES))
+	while (copy_token && (copy_token->type ==  WORD || copy_token->type == SIMPLE_QUOTES || copy_token->type == DOUBLE_QUOTES))
 	{
 		printf("%s", copy_token->value);
-		if (copy_token->next && (copy_token->next->type ==  WORD || copy_token->type == SINGLE_QUOTES || copy_token->next->type == DOUBLE_QUOTES))
+		if (copy_token->next && (copy_token->next->type ==  WORD || copy_token->type == SIMPLE_QUOTES || copy_token->type == DOUBLE_QUOTES))
 			printf(" ");
 		copy_token = copy_token->next;
 	}
