@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/04/21 12:48:39 by naankour         ###   ########.fr       */
+/*   Updated: 2025/04/24 15:14:29 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef enum
 	VARIABLE,
 	WORD,
 	STRING,
-	SIMPLE_QUOTES,
+	SINGLE_QUOTES,
 	DOUBLE_QUOTES,
 }		t_token_type;
 
