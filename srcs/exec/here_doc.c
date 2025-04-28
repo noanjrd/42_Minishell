@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:23:27 by njard             #+#    #+#             */
-/*   Updated: 2025/04/21 11:12:25 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/28 11:12:18 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,28 @@ void	here_doc_start(char *stop, t_data *data)
 		write(fd, "\n", 1);
 		free(line);
 	}
-	data->fdin = fd;
+	data->fd_here_doc = fd;
+	data->here_doc = 1;
 	return ;
 }
 
-void	here_doc(char *instru, t_data *data)
+void	here_doc(t_token *token, t_data *data)
 {
-	// char *stop;
-
-	// stop = get_stop(instru);
-	// printf("%s\n", stop);
-	here_doc_start(instru, data);
+	if (token->next && !(token->next->type == WORD
+		|| token->next->type == SINGLE_QUOTES
+		|| token->next->type == DOUBLE_QUOTES))
+	{
+		printf("syntax error near unexpected token `%s'\n", token->next->value);
+		data->exit_code = 2;
+		return;
+	}
+	if (!token->next)
+	{
+		printf("syntax error near unexpected token `newline'\n");
+		data->exit_code = 2;
+		return ;
+	}
+	here_doc_start(token->next->value, data);
 	// free(stop);
 	return ;
 }

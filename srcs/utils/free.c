@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:39:25 by njard             #+#    #+#             */
-/*   Updated: 2025/04/22 11:41:06 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/28 11:14:37 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ void free_data(t_data *data)
 	free(data->line);
 	free_env(data->env);
 	free_token(data->tokens);
+	if (data->here_doc == 1)
+	{
+		close(data->fd_here_doc);
+		unlink("temp");
+	}
 	clear_history();
 	free(data);
 	return ;

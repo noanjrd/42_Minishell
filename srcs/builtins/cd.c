@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:32:25 by njard             #+#    #+#             */
-/*   Updated: 2025/04/21 15:31:56 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/25 14:03:07 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,14 @@ char *cd_root(void)
 	return (path);
 }
 
-void ft_cd(t_env *env, t_token *token)
+void	cd_error(t_data *data, t_token *token)
+{
+	printf("cd: too many arguments\n");
+	data->exit_code = 1;
+	return ;
+}
+
+void ft_cd(t_data *data, t_env *env, t_token *token)
 {
 	char *temp;
 	char *path;
@@ -140,8 +147,7 @@ void ft_cd(t_env *env, t_token *token)
 	cpy_token = token;
 	if (cpy_token->next && cpy_token->next->type == WORD)
 	{
-		printf("error a modif plus tard pour coresspondre aux flags");
-		return ;
+		return(cd_error(data, token));
 	}
 	temp = getcwd(NULL, 0);
 	if (!cpy_token || cpy_token->type != WORD || ft_strcmp(cpy_token->value, "~") == 0)
@@ -163,5 +169,6 @@ void ft_cd(t_env *env, t_token *token)
 	change_value(env, "OLDPWD", temp);
 	chdir(path);
 	change_value(env, "PWD", path);
+	data->exit_code = 0;
 	return ;
 }

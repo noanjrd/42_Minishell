@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/04/24 15:14:29 by naankour         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:21:42 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,21 +53,27 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	char	**argv;
+	char	*value;
 	char	*infile;
 	char	*outfile;
+	int fdin;
+	int fdout;
 	struct s_cmd *next;
 }				t_cmd;
 
 typedef struct t_data
 {
 	char	**paths_system;
-	int		fdin;
+	int		fd_here_doc;
+	int		*fdin;
+	int	fdin_index;
 	int		fdout;
 	int		here_doc;
 	char	*line;
 	int		exit_code;
 	t_env	*env;
 	t_token	*tokens;
+	t_cmd	*commands;
 }				t_data;
 
 // Builtins
@@ -76,7 +82,7 @@ void	ft_unset(t_env *env, t_token *token);
 void	display_export(t_env *env);
 void	display_env(t_env *env);
 void ft_export(t_env *env, t_token *token);
-void ft_cd(t_env *env, t_token *token);
+void ft_cd(t_data *data, t_env *env, t_token *token);
 void	ft_exit(t_data *data, t_token *token);
 void	ft_echo(t_data *data, t_env *env, t_token *token);
 void	ft_pwd(t_env *env);
@@ -103,7 +109,7 @@ void	free_data(t_data *data);
 void	exec(t_data *data);
 char	*cut_builtin(char *string);
 int		check_path_exist(t_data *data, char *instru);
-void	here_doc(char *instru, t_data *data);
+void	here_doc(t_token *token, t_data *data);
 
 // Init
 

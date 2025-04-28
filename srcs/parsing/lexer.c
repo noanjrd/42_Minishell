@@ -51,6 +51,11 @@ t_token *lexer(char *line)
 				token = create_token(PIPE, "|");
 				i++;
 			}
+			else if (line[i] == '$' && line[i + 1] == '?')
+			{
+				token = create_token(WORD, "$?");
+				i = i + 2;
+			}
 			else if (line[i] == '$')
 			{
 				token = create_token(VARIABLE, "$");
