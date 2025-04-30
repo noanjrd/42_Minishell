@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/04/28 11:21:42 by njard            ###   ########.fr       */
+/*   Updated: 2025/04/30 13:49:41 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef enum
 	STRING,
 	SINGLE_QUOTES,
 	DOUBLE_QUOTES,
+	IN_OUT_FILENAME
 }		t_token_type;
 
 typedef struct s_token
@@ -58,7 +59,11 @@ typedef struct s_cmd
 	char	*outfile;
 	int fdin;
 	int fdout;
+	int here_doc;
+	int check_open;
 	struct s_cmd *next;
+	t_token_type type;
+
 }				t_cmd;
 
 typedef struct t_data
@@ -86,6 +91,7 @@ void ft_cd(t_data *data, t_env *env, t_token *token);
 void	ft_exit(t_data *data, t_token *token);
 void	ft_echo(t_data *data, t_env *env, t_token *token);
 void	ft_pwd(t_env *env);
+t_token *update_echo_struct(t_token *token);
 
 // Utils
 
@@ -110,6 +116,7 @@ void	exec(t_data *data);
 char	*cut_builtin(char *string);
 int		check_path_exist(t_data *data, char *instru);
 void	here_doc(t_token *token, t_data *data);
+void	open_fdout(t_data *data, t_token *token, t_cmd *cmd);
 
 // Init
 
