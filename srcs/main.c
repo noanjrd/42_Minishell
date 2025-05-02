@@ -44,6 +44,7 @@ void make_commands(t_data *data)
 	t_cmd *current = NULL;
 	int check = 0;
 	int out= 0;
+	int i = 0;
 
 	while (cpy_token)
 	{
@@ -67,6 +68,7 @@ void make_commands(t_data *data)
 			new_cmd->fdin = -99;
 			new_cmd->check_open = 0;
 			new_cmd->here_doc = 0;
+			new_cmd->index = i;
 			new_cmd->value = ft_copy(cpy_token->value);
 			new_cmd->infile = NULL;
 			new_cmd->type = WORD;
@@ -108,6 +110,7 @@ void make_commands(t_data *data)
 		{
 			check = 2;
 		}
+		i++;
 		cpy_token = cpy_token->next;
 	}
 	data->commands = head;

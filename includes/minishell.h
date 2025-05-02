@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/02 10:50:25 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/02 15:32:34 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-	char	**argv;
 	char	*value;
 	char	*infile;
 	char	*outfile;
+	int	index;
 	int fdin;
 	int fdout;
 	int here_doc;

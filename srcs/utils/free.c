@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:39:25 by njard             #+#    #+#             */
-/*   Updated: 2025/04/28 11:14:37 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/02 15:34:24 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,24 @@ void free_token(t_token *token)
 	return ;
 }
 
+void free_cmd(t_cmd *cmd)
+{
+	t_cmd *temp;
+
+	temp = cmd;
+	while(temp)
+	{
+		temp = cmd->next;
+		free(cmd->value);
+		free(cmd->infile);
+		free(cmd->outfile);
+		free(cmd);
+		// free(cmd->type);
+		cmd = temp;
+	}
+	return ;
+}
+
 // This function frees the memory allocated for data.
 void free_data(t_data *data)
 {
@@ -44,8 +62,10 @@ void free_data(t_data *data)
 		free(data->paths_system);
 	}
 	free(data->line);
+	free(data->fdin);
 	free_env(data->env);
 	free_token(data->tokens);
+	free_cmd(data->commands);
 	if (data->here_doc == 1)
 	{
 		close(data->fd_here_doc);
