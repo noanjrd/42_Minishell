@@ -12,9 +12,12 @@
 
 #include "../../includes/minishell.h"
 
+
+
 t_token *lexer(char *line)
 {
 	int i = 0;
+	
 	t_token *head = NULL;
 	t_token *token = NULL;
 

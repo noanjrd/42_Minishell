@@ -22,6 +22,8 @@ t_token	*create_token(t_token_type type, const char *value)
 	token->type = type;
 	token->value = strdup(value);
 	token->next = NULL;
+	token->index = index_t;
+	index_t += 1;
 	return(token);
 }
 
@@ -49,7 +51,7 @@ void	print_tokens(t_token *head)
 	current = head;
 	while (current)
 	{
-		printf("type = %d, value = %s\n", current->type, current->value);
+		printf("type = %d, value = %s, index=%d\n", current->type, current->value, current->index);
 		current = current->next;
 	}
 }

@@ -115,7 +115,6 @@ void make_commands(t_data *data)
 	return ;
 }
 
-
 static void printf_cmd(t_cmd *cmd)
 {
 	t_cmd *current = cmd;

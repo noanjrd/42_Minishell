@@ -12,6 +12,8 @@
 
 #include "../../includes/minishell.h"
 
+int index_t = 0;
+
 int	is_space(char c)
 {
 	if (c == ' ')

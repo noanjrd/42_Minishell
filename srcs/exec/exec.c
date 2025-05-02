@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/04/30 14:17:30 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/02 11:43:44 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,56 +101,48 @@ void printf_cmd(t_cmd *cmd)
 	return ;
 }
 
+void	relink_fdin_token(t_token *token, t_token *cpy_token)
+{
+	t_token	*temp;
+	t_token	*start;
+
+	start = token;
+	free(token->value);
+	token->value = ft_copy(cpy_token->value);
+	token = token->next;
+	while (token && token->index != cpy_token->index)
+	{
+		temp = token->next;
+		free(token->value);
+		free(token);
+		token = temp;
+	}
+	token = start;
+	return ;
+}
+
 void	open_fdin(t_data *data, t_token *token, t_cmd *cmd)
 {
-	// t_token *cpy;
+	t_token *cpy_token;
+	t_cmd	*cpy_cmd;
 	int fdin;
-	// int check;
+	cpy_token = token;
+	cpy_cmd = cmd;
+	int check = 0;
 
-	if (IN_OUT_FILENAME)
-	if (cmd->infile)
+	printf("|%s|\n", cpy_token->value);
+	while (cpy_token->next->next && cpy_cmd->next->next && (cpy_cmd->next->next->type == IN_OUT_FILENAME || cpy_token->next->next->type == HERE_DOC || cpy_token->next->next->type == REDIRECT_IN))
 	{
-		cmd->fdin = open(cmd->infile, O_WRONLY | O_CREAT, 0644);
-		if (cmd->fdin < 0)
+		check = 1;
+		if (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND || cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
 		{
-			data->exit_code = 1;
-			cmd->check_open = -1;
+			cpy_cmd = cpy_cmd->next;
 		}
+		cpy_token = cpy_token->next->next;
 	}
-	cmd->next->fdin = fdin;
-	
-	// check = 0;
-	// cpy = token;
-	// // cpy = cpy->next;
-	// printf("%s", cpy->value);
-	// while (cpy)
-	// {
-	// 	if (!cpy->next->next && !(cpy->next->next->type == REDIRECT_IN || cpy->next->next->type == HERE_DOC) )
-	// 	{
-	// 		printf("mdr\n");
-	// 		fdin = open(cpy->next->value,O_WRONLY | O_CREAT , 0644);
-	// 		cmd->infile = cpy->next->value;
-	// 		cmd->fdin = fdin;
-	// 		return ;
-	// 	}
-	// 	if (cpy->next->next && (cpy->next->next->type == REDIRECT_IN || cpy->next->next->type == HERE_DOC))
-	// 	{
-	// 		cpy = cpy->next->next;
-	// 	}
-	// 	else 
-	// 		break;
-	// }
-	// fdin = open(cpy->next->value,O_WRONLY | O_CREAT , 0644 );
-	// cmd->outfile = cpy->next->value;
-	// cmd->fdout = fdin;
-	// printf("lol\n");
-	// ft_relink_linked_list(token,cmd, cpy->next->value);
-	// ft_modify_command_fdout(data, token->value,  fdout, cpy->next->value);
-	// data->fdin[data->fdin_index] = open(token->value, O_WRONLY | O_CREAT , 0644);
-	// if (data->fdin[data->fdin_index] < 0)
-	// {
-	// 	printf("error");
-	// }
+	printf("%s\n", cpy_token->value);
+	if (check == 1)
+		relink_fdin_token(token, cpy_token);
 	return ;
 }
 
@@ -190,8 +182,9 @@ void	exec(t_data *data)
 	cpy_cmd = data->commands;
 	while (cpy_token)
 	{
-		if (cpy_token->type == WORD)
+		if (cpy_token->next && (cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC) )
 		{
+			printf("lol\n");
 			open_fdin(data, cpy_token, cpy_cmd);
 		}
 	// 	if (cpy_token->next && cpy_token->next->next && (cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC))
@@ -200,12 +193,11 @@ void	exec(t_data *data)
 	// 		if (cpy_cmd && cpy_cmd->next)
 	// 			cpy_cmd = cpy_cmd->next;
 	// 	}
-	if (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND || cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
-	{
-		cpy_cmd = cpy_cmd->next;
-	}
-		if (cpy_token)
-			cpy_token = cpy_token->next;
+		if (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND || cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
+		{
+			cpy_cmd = cpy_cmd->next;
+		}
+		cpy_token = cpy_token->next;
 	}
 	cpy_cmd = data->commands;
 	cpy_token = data->tokens;

@@ -6,12 +6,14 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/04/30 13:49:41 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/02 10:50:25 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+extern int index_t;
 
 #include <unistd.h>
 #include <stdio.h>
@@ -48,6 +50,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
+	int index;
 	struct s_token	*next;
 }			t_token;
 
