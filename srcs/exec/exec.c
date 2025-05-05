@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/02 15:47:22 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/05 15:06:22 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,139 +63,148 @@ t_token	*builtin(t_data *data, t_token *token, char *commands)
 	return(builtin_second(data, token, commands));
 }
 
-// void	open_fd(t_data *data, t_token *token)
-// {
-// 	data->fdin[data->fdin_index] = open(token->value, O_WRONLY | O_CREAT , 0644);
-// 	if (data->fdin[data->fdin_index] < 0)
-// 	{
-// 		printf("error");
-// 	}
-// 	return ;
-// }
-
-// void	ft_modify_command_fdout(t_data *data,char *value,  int fdout, char *outfile)
-// {
-// 	t_cmd	*cpy;
-
-// 	cpy = data->commands;
-
-// 	while(data->commands)
-// 	{
-// 		if (comm)
-// 	}
-// }
-
 void printf_cmd(t_cmd *cmd)
 {
 	t_cmd *current = cmd;
 	while (current)
 	{
-		printf("value = %s, infile = %s, outfile = %s, fdin = %d, fdout = %d, here_doc = %d\n",
+		printf("value = %s, infile = %s, outfile = %s, fdin = %d, fdout = %d, here_doc = %d, red_append = %d\n",
 			current->value,
 			current->infile ? current->infile : "NULL",
 			current->outfile ? current->outfile : "NULL",
 			current->fdin,
 			current->fdout,
-		current->here_doc);
+		current->here_doc,
+		current->red_append);
 		current = current->next;
 	}
 	return ;
 }
 
-t_token *relink_fdin_token(t_token *token, t_token *cpy_token)
+char **ft_join_tab(char **tab, char *value, char *value_app)
 {
-	t_token	*temp;
-	t_token	*start;
-	t_token *current;
+	int i;
+	int j;
+	int z;
+	char **new_tab;
 
-	start = token;
-	free(token->value);
-	token->value = ft_copy(cpy_token->value);
-	token->type = cpy_token->type;
-	if (!token->value)
-		return NULL;
-	current = token->next;
-	token->next = NULL;
-	while (current && current->index != cpy_token->index)
+	i = 0;
+	j = 0;
+	if (!tab)
 	{
-		temp = current->next;
-		if (current->value)
-			free(current->value);
-		free(current);
-		current = temp;
+		// printf("value = %s, value_app = %s\n", value, value_app);
+		new_tab = malloc(3 * sizeof(char *));
+		// printf("stttt\n");
+		while (value[i])
+		{
+			i++;
+		}
+		new_tab[j] = malloc((i + 1) * sizeof(char));
+		while (value[i])
+		{
+			new_tab[j][i] = value[i];
+			i++;
+		}
+		new_tab[j][i] = 0;
+		i = 0;
+		j++;
+		while (value_app[i])
+		{
+			i++;
+		}
+		new_tab[j] = malloc((i + 1) * sizeof(char));
+		while (value_app[i])
+		{
+			new_tab[j][i] = value_app[i];
+			i++;
+		}
+		new_tab[j][i] = 0;
+		new_tab[2] = NULL;
+		return (new_tab);
 	}
-	if (current && current->index == cpy_token->index)
-	{
-		free(current->value);
-		temp = current->next;
-		free(current);
-		token->next = temp;
-	}
-	return start;
+	// faire la suite quand il y a plusieurs tirés 'ls -la -l'
+	return (new_tab);
 }
 
-t_cmd *relink_fdin_cmd(t_cmd *cmd, t_cmd *cpy_cmd)
+char *ft_join_free(char *s1, char *s2)
+{
+	int i;
+	int j;
+	char *new_string;
+
+	i = 0;
+	j = 0;
+	while(s1[i])
+		i++;
+	while(s2[j])
+		j++;
+	new_string = malloc((i + j + 2) * sizeof(char));
+	if (!new_string)
+		return(NULL);
+	i = 0;
+	j = 0;
+	while(s1[i])
+	{
+		new_string[i] = s1[i];
+		i++;
+	}
+	new_string[i] = ' ';
+	i++;
+	while (s2[j])
+		new_string[i++] = s2[j++];
+	new_string[i] = 0;
+	free(s1);
+	// free(s2);
+	return(new_string);
+}
+
+void	put_tab(t_cmd *cmd, t_cmd *cpy_cmd)
 {
 	t_cmd	*temp;
-	t_cmd	*start;
-	t_cmd *current;
 
-	start = cmd;
-	free(cmd->value);
-	free(cmd->infile);
-	free(cmd->outfile);
-	cmd->value = ft_copy(cpy_cmd->value);
-	cmd->infile = ft_copy(cpy_cmd->infile);
-	cmd->outfile = ft_copy(cpy_cmd->outfile);
-	current = cmd->next;
-	cmd->next = NULL;
-	while (current && current->index != cpy_cmd->index)
-	{
-		temp = current->next;
-		free(current->value);
-		free(current->infile);
-		free(current->outfile);
-		free(current);
-		current = temp;
-	}
-	if (current && current->index == cpy_cmd->index)
-	{
-		free(current->value);
-		free(current->infile);
-		free(current->outfile);
-		temp = current->next;
-		free(current);
-		cmd->next = temp;
-	}
-	
-	return start;
+	// cmd->red_append = cpy_cmd->red_append;
+	cmd->tab = ft_join_tab(cmd->tab, cmd->value, cpy_cmd->value);
+	cmd->value = ft_join_free(cmd->value, cpy_cmd->value);
+	temp = cpy_cmd->next;
+	free(cpy_cmd->infile);
+	free(cpy_cmd->value);
+	free(cpy_cmd->tab);
+	free(cpy_cmd->outfile);
+	free(cpy_cmd);
+	cmd->next = temp;
+	return ;
 }
 
-void	open_fdin(t_data *data, t_token *token, t_cmd *cmd)
+void	relink_commands(t_token *token, t_cmd *cmd)
 {
-	t_token *cpy_token;
-	t_cmd	*cpy_cmd;
-	int fdin;
-	cpy_token = token;
-	cpy_cmd = cmd;
-	int check = 0;
+	// t_cmd *cpy_cmd;
+	int i; 
 
-	printf("|%s|\n", cpy_token->value);
-	while (cpy_token->next->next && cpy_cmd->next->next && (cpy_cmd->next->type == IN_OUT_FILENAME || cpy_token->next->next->type == HERE_DOC || cpy_token->next->next->type == REDIRECT_IN))
+	i = 0;
+	// cpy_cmd = cmd->next;
+	while (token)
 	{
-		check = 1;
-		if (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND || cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
+		if (cmd->next)
+			printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->next->value);
+		else
+			printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->value);
+		if (token->next &&  cmd->type != IN_OUT_FILENAME)
 		{
-			cpy_cmd = cpy_cmd->next;
+			printf("lol\n");
+			put_tab(cmd, cmd->next);
+			token = token->next;
+			if (cmd->next && token->next && (token->next->type == REDIRECT_OUT || token->next->type == PIPE) )
+				cmd = cmd->next;
 		}
-		cpy_token = cpy_token->next->next;
-	}
-	printf("%s\n", cpy_token->value);
-	if (check == 1)
-	{
-		printf("relink\n");
-		token =  relink_fdin_token(token, cpy_token);
-		cmd = relink_fdin_cmd(cmd, cpy_cmd);
+		printf("next\n");
+		if (token && cmd->next && ft_strcmp(token->value, cmd->value) == 0)
+		{
+			cmd = cmd->next;
+			printf("nddd %s\n", cmd->value);
+			// token = token->next;
+		}
+		i++;
+		token = token->next;
 	}
 	return ;
 }
@@ -208,6 +217,10 @@ void	exec(t_data *data)
 	t_token *cpy_token;
 	t_cmd *cpy_cmd;
 
+	cpy_cmd = data->commands;
+	cpy_token = data->tokens;
+	// printf_cmd(cpy_cmd);
+	relink_commands(cpy_token, cpy_cmd);
 	cpy_token = data->tokens;
 	cpy_cmd = data->commands;
 	while (cpy_token)
@@ -226,7 +239,7 @@ void	exec(t_data *data)
 		{
 			open_fdout(data, cpy_token, cpy_cmd);
 		}
-		if (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND || cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
+		if (ft_strcmp(cpy_token->value, cpy_cmd->value) == 0)
 		{
 			cpy_cmd = cpy_cmd->next;
 		}
@@ -242,9 +255,12 @@ void	exec(t_data *data)
 		}
 		if (cpy_cmd->infile && cpy_cmd->fdin == -99)
 		{
-			cpy_cmd->fdin = open(cpy_cmd->infile, O_WRONLY | O_CREAT , 0644);
-		}
-		if (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND || cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
+			if (cpy_cmd->here_doc == 0)
+				cpy_cmd->fdin = open(cpy_cmd->infile, O_WRONLY | O_CREAT , 0644);
+			if (cpy_cmd->here_doc == 0)
+				cpy_cmd->fdin = data->fd_here_doc;
+			}
+		if (ft_strcmp(cpy_token->value, cpy_cmd->value) == 0)
 		{
 			cpy_cmd = cpy_cmd->next;
 		}
@@ -254,6 +270,7 @@ void	exec(t_data *data)
 	cpy_token = data->tokens;
 	printf_cmd(cpy_cmd);
 	print_tokens(cpy_token);
+	
 	while (cpy_token)
 	{
 		if (cpy_token->type == WORD)

@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/02 15:32:34 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/05 12:18:02 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef enum
 	PIPE,
 	VARIABLE,
 	WORD,
-	STRING,
 	SINGLE_QUOTES,
 	DOUBLE_QUOTES,
 	IN_OUT_FILENAME
@@ -57,11 +56,13 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	char	*value;
+	char	**tab;
 	char	*infile;
 	char	*outfile;
 	int	index;
 	int fdin;
 	int fdout;
+	int red_append;
 	int here_doc;
 	int check_open;
 	struct s_cmd *next;
@@ -120,6 +121,7 @@ char	*cut_builtin(char *string);
 int		check_path_exist(t_data *data, char *instru);
 void	here_doc(t_token *token, t_data *data);
 void	open_fdout(t_data *data, t_token *token, t_cmd *cmd);
+void	open_fdin(t_data *data, t_token *token, t_cmd *cmd);
 
 // Init
 

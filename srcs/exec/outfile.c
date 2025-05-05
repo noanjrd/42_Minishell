@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:14:21 by njard             #+#    #+#             */
-/*   Updated: 2025/04/30 14:02:03 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/05 11:09:31 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ void	ft_relink_linked_list(t_token *token, t_cmd *cmd, char *value2, int i)
 		token = temp; 
 	}
 	start->next = token;
-	if (token->next->next)
+	// printf("%s\n", token->value);
+	if (token->next->next && (token->next->next->type == REDIRECT_APPEND || token->next->next->type == REDIRECT_OUT))
 	{
+		// printf("lol\n");
 		ft_relink_linked_list(start, cmd, value2, 1);
 	}
 	return ;
@@ -73,6 +75,7 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 	t_token *cpy;
 	int fdout;
 	int check;
+	int	append;
 
 	check = 0;
 
@@ -96,18 +99,25 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 		}
 		if (cpy->next->next && (cpy->next->next->type == REDIRECT_OUT || cpy->next->next->type == REDIRECT_APPEND))
 		{
+			if (cpy->next->next->type == REDIRECT_OUT)
+				append = 0;
+			if (cpy->next->next->type == REDIRECT_APPEND)
+				append = 1;
 			cpy = cpy->next->next;
 			check = 1;
 		}
 		else 
 			break;
 	}
+	if (append == 1)
+		cmd->red_append = 1;
 	fdout = open(cpy->next->value,O_WRONLY | O_CREAT , 0644 );
 	cmd->outfile = cpy->next->value;
 	cmd->fdout = fdout;
 	// printf("lol\n");
-	ft_relink_linked_list(token,cmd, cpy->next->value,0);
+	// printf("%s\n", token->value);
 	// printf("%s\n", cpy->next->value);
+	ft_relink_linked_list(token,cmd, cpy->next->value,0);
 	ft_relink_linked_cmd(cmd, cpy->next->value, 0);
 	// ft_modify_command_fdout(data, token->value,  fdout, cpy->next->value);
 	// data->fdin[data->fdin_index] = open(token->value, O_WRONLY | O_CREAT , 0644);

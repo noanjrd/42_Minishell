@@ -26,7 +26,8 @@ void	rest_ofthesteps(t_token *token, t_cmd *cmd)
 	{
 		if (cpy_token->type == HERE_DOC)
 		{
-			cpy_cmd->next->here_doc = 1;
+			if (cpy_cmd->next)
+				cpy_cmd->next->here_doc = 1;
 		}
 		if (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND || cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
 		{
@@ -68,10 +69,12 @@ void make_commands(t_data *data)
 			new_cmd->fdin = -99;
 			new_cmd->check_open = 0;
 			new_cmd->here_doc = 0;
+			new_cmd->red_append = 0;
 			new_cmd->index = i;
 			new_cmd->value = ft_copy(cpy_token->value);
 			new_cmd->infile = NULL;
 			new_cmd->type = WORD;
+			new_cmd->tab = NULL;
 			if (fdin && check == 3 && !(cpy_token->type == HERE_DOC || cpy_token->type == REDIRECT_IN))
 			{
 				new_cmd->infile = ft_copy(fdin);
