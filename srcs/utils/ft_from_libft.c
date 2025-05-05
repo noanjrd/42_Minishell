@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_from_libft.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:28:00 by njard             #+#    #+#             */
-/*   Updated: 2025/04/22 11:09:22 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/05 15:25:59 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+int	ft_isalnum(int c)
+{
+	if (((c >= 'A' && c <= 'Z')
+			|| (c >= 'a' && c <= 'z'))
+		|| (c >= '0' && c <= '9'))
+		return (1);
+	return (0);
+}
 int	ft_strlen(char *string)
 {
 	int i;

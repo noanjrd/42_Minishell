@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/02 15:47:22 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/05 16:00:10 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_token	*builtin_second(t_data *data, t_token *token, char *commands)
 t_token	*builtin(t_data *data, t_token *token, char *commands)
 {
 	char *arg;
-	
+
 	arg = NULL;
 
 	if (ft_strcmp(commands, "echo") == 0)
@@ -167,7 +167,7 @@ t_cmd *relink_fdin_cmd(t_cmd *cmd, t_cmd *cpy_cmd)
 		free(current);
 		cmd->next = temp;
 	}
-	
+
 	return start;
 }
 
@@ -252,8 +252,8 @@ void	exec(t_data *data)
 	}
 	cpy_cmd = data->commands;
 	cpy_token = data->tokens;
-	printf_cmd(cpy_cmd);
-	print_tokens(cpy_token);
+	// printf_cmd(cpy_cmd);
+	// print_tokens(cpy_token);
 	while (cpy_token)
 	{
 		if (cpy_token->type == WORD)

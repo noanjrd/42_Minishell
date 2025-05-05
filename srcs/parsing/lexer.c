@@ -12,12 +12,10 @@
 
 #include "../../includes/minishell.h"
 
-
-
 t_token *lexer(char *line)
 {
 	int i = 0;
-	
+
 	t_token *head = NULL;
 	t_token *token = NULL;
 
@@ -27,7 +25,7 @@ t_token *lexer(char *line)
 			i++;
 		if (line[i] == '\0')
 			break;
-		if (line[i] == '<' || line[i] == '>' || line[i] == '|' || line[i] == '$')
+		if (line[i] == '<' || line[i] == '>' || line[i] == '|')
 		{
 			if (line[i] == '<' && line[i+1] == '<')
 			{
@@ -59,11 +57,11 @@ t_token *lexer(char *line)
 				token = create_token(WORD, "$?");
 				i = i + 2;
 			}
-			else if (line[i] == '$')
-			{
-				token = create_token(VARIABLE, "$");
-				i++;
-			}
+			// else if (line[i] == '$')
+			// {
+			// 	token = create_token(VARIABLE, "$");
+			// 	i++;
+			// }
 		}
 		else
 			token = create_token_word(line, &i);

@@ -77,7 +77,7 @@ void make_commands(t_data *data)
 				new_cmd->infile = ft_copy(fdin);
 				if (current)
 					current->type = IN_OUT_FILENAME;
-				fdin = NULL; 
+				fdin = NULL;
 				check = 0;
 			}
 			if (check == 3 && cpy_token->type == HERE_DOC || cpy_token->type == REDIRECT_IN)
@@ -146,8 +146,10 @@ void	ft_readline(t_data *data)
 		free(pwd);
 		add_history(data->line);
 		data->tokens = lexer(data->line);
+		if (ft_check_syntax_errors(data->tokens))
+			continue;
 		make_commands(data);
-		printf_cmd(data->commands);
+		// printf_cmd(data->commands);
 		exec(data);
 		free(data->line);
 	}
@@ -162,34 +164,34 @@ int main(int argc, char **argv, char **envp)
 	env = malloc(sizeof(t_env));
 	env = env_init(env, envp);
 	init_data(data, env);
-	// ft_readline(data);
+	ft_readline(data);
 
 	if (argc >= 2)
 	{
 		data->tokens = lexer(argv[1]);
 		make_commands(data);
-		printf_cmd(data->commands);
+		// printf_cmd(data->commands);
 		exec(data);
 	}
 	if (argc >= 3)
 	{
 		data->tokens = lexer(argv[2]);
 		make_commands(data);
-		printf_cmd(data->commands);
+		// printf_cmd(data->commands);
 		exec(data);
 	}
 	if (argc >= 4)
 	{
 		data->tokens = lexer(argv[3]);
 		make_commands(data);
-		printf_cmd(data->commands);
+		// printf_cmd(data->commands);
 		exec(data);
 	}
 	if (argc >= 5)
 	{
 		data->tokens = lexer(argv[4]);
 		make_commands(data);
-		printf_cmd(data->commands);
+		// printf_cmd(data->commands);
 		exec(data);
 	}
 	free_data(data);

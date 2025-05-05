@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/02 15:32:34 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/05 15:40:12 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ extern int index_t;
 
 typedef struct	t_env
 {
-	char	*name;
-	char	*value;
-	int		displayed;
-	struct t_env *next;
-}				t_env;
+	char			*name;
+	char			*value;
+	int				displayed;
+	struct t_env	*next;
+}					t_env;
 
 typedef enum
 {
@@ -40,7 +40,6 @@ typedef enum
 	PIPE,
 	VARIABLE,
 	WORD,
-	STRING,
 	SINGLE_QUOTES,
 	DOUBLE_QUOTES,
 	IN_OUT_FILENAME
@@ -50,22 +49,22 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
-	int index;
+	int				index;
 	struct s_token	*next;
-}			t_token;
+}					t_token;
 
 typedef struct s_cmd
 {
-	char	*value;
-	char	*infile;
-	char	*outfile;
-	int	index;
-	int fdin;
-	int fdout;
-	int here_doc;
-	int check_open;
-	struct s_cmd *next;
-	t_token_type type;
+	char			*value;
+	char			*infile;
+	char			*outfile;
+	int				index;
+	int				fdin;
+	int				fdout;
+	int				here_doc;
+	int				check_open;
+	struct s_cmd	*next;
+	t_token_type	type;
 
 }				t_cmd;
 
@@ -74,7 +73,7 @@ typedef struct t_data
 	char	**paths_system;
 	int		fd_here_doc;
 	int		*fdin;
-	int	fdin_index;
+	int		fdin_index;
 	int		fdout;
 	int		here_doc;
 	char	*line;
@@ -89,12 +88,12 @@ typedef struct t_data
 void	ft_unset(t_env *env, t_token *token);
 void	display_export(t_env *env);
 void	display_env(t_env *env);
-void ft_export(t_env *env, t_token *token);
-void ft_cd(t_data *data, t_env *env, t_token *token);
+void	ft_export(t_env *env, t_token *token);
+void	ft_cd(t_data *data, t_env *env, t_token *token);
 void	ft_exit(t_data *data, t_token *token);
 void	ft_echo(t_data *data, t_env *env, t_token *token);
 void	ft_pwd(t_env *env);
-t_token *update_echo_struct(t_token *token);
+t_token	*update_echo_struct(t_token *token);
 
 // Utils
 
@@ -106,7 +105,8 @@ char	*ft_join(char *s1, char *s2);
 char	*ft_copy(char *string);
 int		ft_strlen(char *string);
 size_t	ft_strlcpy( char *dst, const char *src, size_t size);
-int	ft_atoi(const char *nptr);
+int		ft_atoi(const char *nptr);
+int		ft_isalnum(int c);
 
 // Free
 
@@ -133,10 +133,10 @@ t_token	*create_token(t_token_type type, const char *value);
 void	add_token(t_token **head, t_token *new);
 void	print_tokens(t_token *head);
 t_token	*lexer(char *line);
-int	is_space(char c);
-int	is_symbol(char c);
+int		is_space(char c);
+int		is_symbol(char c);
+int		ft_check_syntax_errors(t_token *token);
 t_token	*create_token_word(char *line, int *index);
-t_token	*create_token_quotes(char *line, int *index);
-int	check_unmatched_quotes(char *line);
+t_token	*create_token_variable(char *line, int *index);
 
 #endif
