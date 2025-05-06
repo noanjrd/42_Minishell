@@ -20,55 +20,117 @@
 
 // maintenant je dois récuperer la totalité du token le copier et afficher la value a la place de la variable
 // a la fin remplacer current->value par le contenu du nouveau buffer
+// int	ft_isalnum(int c)
+// {
+// 	if (((c >= 'A' && c <= 'Z')
+// 			|| (c >= 'a' && c <= 'z'))
+// 		|| (c >= '0' && c <= '9'))
+// 		return (1);
+// 	return (0);
+// }
+// int	ft_strlen(char *string)
+// {
+// 	int i;
 
-void	expander(t_token *token)
+// 	i = 0;
+// 	while(string[i])
+// 	{
+// 		i++;
+// 	}
+// 	return (i);
+// }
+
+// fonction qui calcule la taille totale d un token avec une varaible pour malloc
+
+int	get_token_lenght(char *str)
+{
+	int		len;
+	int		i;
+	char	name[128];
+	char	*value;
+
+	len = 0;
+	while (*str)
+	{
+		i = 0;
+		if (*str == '$')
+		{
+			str++;
+			while (ft_isalnum(*str) || *str == '_')
+				name[i++] = *str++;
+			name[i] = '\0';
+			value = getenv(name);
+			if (value)
+				len = len + ft_strlen(value);
+		}
+		else
+		{
+			len++;
+			str++;
+		}
+	}
+	return (len);
+}
+
+char	*get_final_token(char *str)
+{
+	char	*final_buffer;
+	int		i;
+
+	final_buffer = malloc(get_token_lenght(str) + 1);
+	if (!final_buffer)
+		return (NULL);
+		while (*str)
+		{
+			if (*str == '$')
+			{
+				str++;
+				i = 0;
+				while (ft_isalnum(*str) || *str == '_')
+					final_buffer[i++] = *str++;
+		}
+		else
+			final_buffer[i++] = str++;
+		final_buffer[i] = '\0';
+	}
+	return (final_buffer);
+}
+
+void	get_variable_value(t_token *token)
 {
 	t_token	*current;
 	char	*str;
 	char	name[128];
 	char	*value;
 	int		i;
-	char	*final_buffer;
 
 	current = token;
 	while (current)
 	{
 		if ((current->type == WORD) && ft_strchr(current->value, '$'))
 		{
-			// printf("heeerreee\n");
-			// printf("%s\n", current->value);
 			str = current->value;
-			// printf("%s\n", str);
 			i = 0;
 			while(*str)
 			{
 				if (*str == '$')
 				{
-					// printf("$ : %c\n", *str);
 					str++;
-					// printf("$ : %c\n", *str);
 					i = 0;
 					while (ft_isalnum(*str) || *str == '_')
-					{
-						// printf("%c\n", *str);
 						name[i++] = *str++;
-					}
 					name[i] = '\0';
-					// printf("name = %s\n", name);
 					value = getenv(name);
-					if (value)
-					printf("value = %s\n", value);
+					if (!value)
+						value = "";
 				}
 				else
-				{
-					// printf("heeeerrreeee3\n");
 					str++;
-				}
 			}
-
 		}
 		current = current->next;
 	}
+	return (value);
 }
 
 // naankour@c1r3p4:~/Documents/Minishellbis$ echo $1
