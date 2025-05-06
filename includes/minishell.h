@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/05 15:40:12 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:54:13 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int		ft_strlen(char *string);
 size_t	ft_strlcpy( char *dst, const char *src, size_t size);
 int		ft_atoi(const char *nptr);
 int		ft_isalnum(int c);
+char	*ft_strchr(const char *s, int c);
 
 // Free
 
@@ -137,6 +138,6 @@ int		is_space(char c);
 int		is_symbol(char c);
 int		ft_check_syntax_errors(t_token *token);
 t_token	*create_token_word(char *line, int *index);
-t_token	*create_token_variable(char *line, int *index);
+void	expander(t_token *token);
 
 #endif

@@ -12,21 +12,64 @@
 
 #include "../../includes/minishell.h"
 
-//lettres chiffres et underscore
+// je parcours les tokens, chaque fois que j'ai un token word je regarde s'il y a un $,
+// si je le trouve je skip le $ et je copie ce qui suit tant que c'est un caractere alphanumérique ou un _
+// j'ai le nom de la variable
+// avec getenv je cherche dans l'env le nom de cette variable stockée dans value
 
-// void	expander(t_token *token)
-// {
-// 	t_token	*current;
 
-// 	current = token;
-// 	while (current)
-// 	{
-// 		if ((current->type == WORD) && ft_strchr(current->value = '$'))
-// 		{
+// maintenant je dois récuperer la totalité du token le copier et afficher la value a la place de la variable
+// a la fin remplacer current->value par le contenu du nouveau buffer
 
-// 		}
-// 	}
-// }
+void	expander(t_token *token)
+{
+	t_token	*current;
+	char	*str;
+	char	name[128];
+	char	*value;
+	int		i;
+	char	*final_buffer;
+
+	current = token;
+	while (current)
+	{
+		if ((current->type == WORD) && ft_strchr(current->value, '$'))
+		{
+			// printf("heeerreee\n");
+			// printf("%s\n", current->value);
+			str = current->value;
+			// printf("%s\n", str);
+			i = 0;
+			while(*str)
+			{
+				if (*str == '$')
+				{
+					// printf("$ : %c\n", *str);
+					str++;
+					// printf("$ : %c\n", *str);
+					i = 0;
+					while (ft_isalnum(*str) || *str == '_')
+					{
+						// printf("%c\n", *str);
+						name[i++] = *str++;
+					}
+					name[i] = '\0';
+					// printf("name = %s\n", name);
+					value = getenv(name);
+					if (value)
+					printf("value = %s\n", value);
+				}
+				else
+				{
+					// printf("heeeerrreeee3\n");
+					str++;
+				}
+			}
+
+		}
+		current = current->next;
+	}
+}
 
 // naankour@c1r3p4:~/Documents/Minishellbis$ echo $1
 

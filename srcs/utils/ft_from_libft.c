@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:28:00 by njard             #+#    #+#             */
-/*   Updated: 2025/05/05 15:25:59 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:53:58 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,4 +151,23 @@ int	ft_atoi(const char *nptr)
 		i++;
 	}
 	return (nb * signe);
+}
+char	*ft_strchr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] == (char)c)
+		{
+			return ((char *)&s[i]);
+		}
+		i++;
+	}
+	if (c == '\0')
+	{
+		return ((char *)&s[i]);
+	}
+	return (NULL);
 }
