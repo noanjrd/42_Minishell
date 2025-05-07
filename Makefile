@@ -18,6 +18,7 @@ SRCS = srcs/main.c\
 	srcs/builtins/export.c\
 	srcs/builtins/exit.c\
 	srcs/exec/exec.c\
+	srcs/exec/relink_commands.c\
 	srcs/exec/infile.c\
 	srcs/exec/outfile.c\
 	srcs/exec/here_doc.c\

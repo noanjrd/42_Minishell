@@ -60,7 +60,7 @@ void make_commands(t_data *data)
 			out = 1;
 			// printf("wsh\n");
 		}
-		if (cpy_token->type == WORD)
+		if (cpy_token->type == WORD || cpy_token->type == SINGLE_QUOTES || cpy_token->type == DOUBLE_QUOTES)
 		{
 			t_cmd *new_cmd = malloc(sizeof(t_cmd));
 			if (!new_cmd)
@@ -74,6 +74,7 @@ void make_commands(t_data *data)
 			new_cmd->value = ft_copy(cpy_token->value);
 			new_cmd->infile = NULL;
 			new_cmd->type = WORD;
+			// new_cmd->tab = malloc(1);
 			new_cmd->tab = NULL;
 			if (fdin && check == 3 && !(cpy_token->type == HERE_DOC || cpy_token->type == REDIRECT_IN))
 			{
@@ -150,6 +151,7 @@ void	ft_readline(t_data *data)
 		add_history(data->line);
 		data->tokens = lexer(data->line);
 		make_commands(data);
+
 		printf_cmd(data->commands);
 		exec(data);
 		free(data->line);

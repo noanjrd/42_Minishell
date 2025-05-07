@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/05 12:18:02 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/07 12:58:03 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int		check_path_exist(t_data *data, char *instru);
 void	here_doc(t_token *token, t_data *data);
 void	open_fdout(t_data *data, t_token *token, t_cmd *cmd);
 void	open_fdin(t_data *data, t_token *token, t_cmd *cmd);
+void	relink_commands(t_token *token, t_cmd *cmd);
 
 // Init
 

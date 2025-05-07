@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:14:21 by njard             #+#    #+#             */
-/*   Updated: 2025/05/05 11:09:31 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/07 12:29:59 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ void	ft_relink_linked_cmd(t_cmd *cmd, char *value2, int i)
 	}
 	start->next = cmd;
 	if (cmd->next && cmd->next->type == IN_OUT_FILENAME)
+	{
+		printf("idk %s\n", start->value);
 		ft_relink_linked_cmd(start, value2, 1);
+	}
 	return ;
 }
 
@@ -115,8 +118,9 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 	cmd->outfile = cpy->next->value;
 	cmd->fdout = fdout;
 	// printf("lol\n");
-	// printf("%s\n", token->value);
-	// printf("%s\n", cpy->next->value);
+	printf("%s\n", token->value);
+	printf("cmd = %s", cmd->value);
+	printf("%s\n", cpy->next->value);
 	ft_relink_linked_list(token,cmd, cpy->next->value,0);
 	ft_relink_linked_cmd(cmd, cpy->next->value, 0);
 	// ft_modify_command_fdout(data, token->value,  fdout, cpy->next->value);

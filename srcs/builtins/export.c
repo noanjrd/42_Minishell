@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:48 by njard             #+#    #+#             */
-/*   Updated: 2025/04/21 13:26:58 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/07 13:00:16 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ void ft_export(t_env *env, t_token *token)
 	// }
 	while (token_copy && token_copy->type == WORD)
 	{
-		printf("%s\n", token_copy->value);
+		// printf("%s\n", token_copy->value);
 		export_launch(env, token_copy->value);
 		token_copy = token_copy->next;
 	}
