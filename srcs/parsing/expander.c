@@ -17,7 +17,6 @@
 // j'ai le nom de la variable
 // avec getenv je cherche dans l'env le nom de cette variable stockée dans value
 
-
 // maintenant je dois récuperer la totalité du token le copier et afficher la value a la place de la variable
 // a la fin remplacer current->value par le contenu du nouveau buffer
 // int	ft_isalnum(int c)
@@ -42,7 +41,32 @@
 
 // fonction qui calcule la taille totale d un token avec une varaible pour malloc
 
-int	get_token_lenght(char *str)
+
+// char	*get_final_token(char *str)
+// {
+	// 	char	*final_buffer;
+	// 	int		i;
+
+	// 	final_buffer = malloc(get_token_lenght(str) + 1);
+	// 	if (!final_buffer)
+	// 		return (NULL);
+	// 		while (*str)
+	// 		{
+		// 			if (*str == '$')
+		// 			{
+			// 				str++;
+			// 				i = 0;
+			// 				while (ft_isalnum(*str) || *str == '_')
+			// 					final_buffer[i++] = *str++;
+			// 		}
+			// 		else
+			// 			final_buffer[i++] = str++;
+			// 		final_buffer[i] = '\0';
+			// 	}
+			// 	return (final_buffer);
+			// }
+
+int	get_token_lenght(char *str, t_env *env)
 {
 	int		len;
 	int		i;
@@ -59,7 +83,9 @@ int	get_token_lenght(char *str)
 			while (ft_isalnum(*str) || *str == '_')
 				name[i++] = *str++;
 			name[i] = '\0';
-			value = getenv(name);
+			value = ft_copy(ft_search_value(env, name));
+			// if (!value)
+			// 	len = 1;
 			if (value)
 				len = len + ft_strlen(value);
 		}
@@ -72,65 +98,68 @@ int	get_token_lenght(char *str)
 	return (len);
 }
 
-char	*get_final_token(char *str)
+char	*new_token_value(char *str, t_env	*env)
 {
-	char	*final_buffer;
 	int		i;
+	char	name[128];
+	int		name_len;
+	char	*value;
+	char	*final_buffer;
+	int		j;
+	int		k;
 
-	final_buffer = malloc(get_token_lenght(str) + 1);
+	final_buffer = malloc(get_token_lenght(str, env) + 1);
 	if (!final_buffer)
 		return (NULL);
-		while (*str)
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == '$' && str[i + 1] == '?')
 		{
-			if (*str == '$')
-			{
-				str++;
-				i = 0;
-				while (ft_isalnum(*str) || *str == '_')
-					final_buffer[i++] = *str++;
+
+		}
+		if (str[i] == '$' || str[i] == 34)
+		{
+			i++;
+			name_len = 0;
+			while (ft_isalnum(str[i]) || str[i] == '_')
+				name[name_len++] = str[i++];
+			name[name_len] = '\0';
+			value = ft_copy(ft_search_value(env, name));
+			// printf("%s\n", value);
+			if (!value)
+				value = ft_copy("");
+			k = 0;
+			while (value[k])
+				final_buffer[j++] = value[k++];
 		}
 		else
-			final_buffer[i++] = str++;
-		final_buffer[i] = '\0';
+			final_buffer[j++] = str[i++];
 	}
+	final_buffer[j] = '\0';
 	return (final_buffer);
 }
 
-void	get_variable_value(t_token *token)
+void	expander(t_token *token, t_env	*env)
 {
 	t_token	*current;
-	char	*str;
-	char	name[128];
-	char	*value;
-	int		i;
+	char	*new_value;
 
 	current = token;
 	while (current)
 	{
-		if ((current->type == WORD) && ft_strchr(current->value, '$'))
+		if (((current->type == WORD) || (current->type == DOUBLE_QUOTES)) && ft_strchr(current->value, '$'))
 		{
-			str = current->value;
-			i = 0;
-			while(*str)
+			new_value = new_token_value(current->value, env);
+			if (new_value)
 			{
-				if (*str == '$')
-				{
-					str++;
-					i = 0;
-					while (ft_isalnum(*str) || *str == '_')
-						name[i++] = *str++;
-					name[i] = '\0';
-					value = getenv(name);
-					if (!value)
-						value = "";
-				}
-				else
-					str++;
+				free(current->value);
+				current->value = new_value;
 			}
 		}
-		current = current->next;
+		current=current->next;
 	}
-	return (value);
 }
 
 // naankour@c1r3p4:~/Documents/Minishellbis$ echo $1

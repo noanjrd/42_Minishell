@@ -148,7 +148,7 @@ void	ft_readline(t_data *data)
 		data->tokens = lexer(data->line);
 		if (ft_check_syntax_errors(data->tokens))
 			continue;
-		expander(data->tokens);
+		expander(data->tokens, data->env);
 		make_commands(data);
 		// printf_cmd(data->commands);
 		exec(data);

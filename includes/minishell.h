@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/06 12:54:13 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/07 12:24:50 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ int		is_space(char c);
 int		is_symbol(char c);
 int		ft_check_syntax_errors(t_token *token);
 t_token	*create_token_word(char *line, int *index);
-void	expander(t_token *token);
+void	expander(t_token *token, t_env	*env);
+void	get_variable_value(t_token *token);
 
 #endif
