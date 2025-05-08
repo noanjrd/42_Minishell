@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:25:03 by njard             #+#    #+#             */
-/*   Updated: 2025/04/30 13:16:38 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/08 16:58:28 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	ft_echo(t_data *data, t_env *env, t_token *token)
 	while (copy_token && (copy_token->type ==  WORD || copy_token->type == SINGLE_QUOTES || copy_token->type == DOUBLE_QUOTES))
 	{
 		printf("%s", copy_token->value);
-		if (copy_token->next && (copy_token->next->type ==  WORD || copy_token->type == SINGLE_QUOTES || copy_token->type == DOUBLE_QUOTES))
+		if (copy_token->next && (copy_token->next->type == WORD || copy_token->next->type == SINGLE_QUOTES || copy_token->next->type == DOUBLE_QUOTES))
 			printf(" ");
 		copy_token = copy_token->next;
 	}

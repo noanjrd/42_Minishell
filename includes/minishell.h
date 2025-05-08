@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/07 12:24:50 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:35:53 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ size_t	ft_strlcpy( char *dst, const char *src, size_t size);
 int		ft_atoi(const char *nptr);
 int		ft_isalnum(int c);
 char	*ft_strchr(const char *s, int c);
+int		ft_isdigit(int c);
 
 // Free
 

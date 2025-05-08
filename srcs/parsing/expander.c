@@ -20,51 +20,6 @@
 // maintenant je dois récuperer la totalité du token le copier et afficher la value a la place de la variable
 // a la fin remplacer current->value par le contenu du nouveau buffer
 // int	ft_isalnum(int c)
-// {
-// 	if (((c >= 'A' && c <= 'Z')
-// 			|| (c >= 'a' && c <= 'z'))
-// 		|| (c >= '0' && c <= '9'))
-// 		return (1);
-// 	return (0);
-// }
-// int	ft_strlen(char *string)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while(string[i])
-// 	{
-// 		i++;
-// 	}
-// 	return (i);
-// }
-
-// fonction qui calcule la taille totale d un token avec une varaible pour malloc
-
-
-// char	*get_final_token(char *str)
-// {
-	// 	char	*final_buffer;
-	// 	int		i;
-
-	// 	final_buffer = malloc(get_token_lenght(str) + 1);
-	// 	if (!final_buffer)
-	// 		return (NULL);
-	// 		while (*str)
-	// 		{
-		// 			if (*str == '$')
-		// 			{
-			// 				str++;
-			// 				i = 0;
-			// 				while (ft_isalnum(*str) || *str == '_')
-			// 					final_buffer[i++] = *str++;
-			// 		}
-			// 		else
-			// 			final_buffer[i++] = str++;
-			// 		final_buffer[i] = '\0';
-			// 	}
-			// 	return (final_buffer);
-			// }
 
 int	get_token_lenght(char *str, t_env *env)
 {
@@ -84,8 +39,6 @@ int	get_token_lenght(char *str, t_env *env)
 				name[i++] = *str++;
 			name[i] = '\0';
 			value = ft_copy(ft_search_value(env, name));
-			// if (!value)
-			// 	len = 1;
 			if (value)
 				len = len + ft_strlen(value);
 		}
@@ -95,6 +48,7 @@ int	get_token_lenght(char *str, t_env *env)
 			str++;
 		}
 	}
+	free (value);
 	return (len);
 }
 
@@ -115,12 +69,14 @@ char	*new_token_value(char *str, t_env	*env)
 	j = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && str[i + 1] == '?')
+		if ((str[i] == '$' && ft_isdigit(str[i + 1])))
 		{
-
+			i += 2;
+			final_buffer[j++] = str[i++];
 		}
-		if (str[i] == '$' || str[i] == 34)
+		else if ((str[i] == '$' && str[i + 1] != '$') || str[i] == 34)
 		{
+			// printf("%c\n", str[i]);
 			i++;
 			name_len = 0;
 			while (ft_isalnum(str[i]) || str[i] == '_')
@@ -137,6 +93,7 @@ char	*new_token_value(char *str, t_env	*env)
 		else
 			final_buffer[j++] = str[i++];
 	}
+	free(value);
 	final_buffer[j] = '\0';
 	return (final_buffer);
 }
@@ -158,41 +115,28 @@ void	expander(t_token *token, t_env	*env)
 				current->value = new_value;
 			}
 		}
-		current=current->next;
+		printf("Token apres expansion: %s\n", current->value);
+		current = current->next;
 	}
 }
 
-// naankour@c1r3p4:~/Documents/Minishellbis$ echo $1
+// $USER$USER oooook mais doit afficher "naankournaankour :command not found"
+// $$USER oooook mais doit afficher "$naankour :command not found"
 
+
+
+// $ tout seul doit afficher quoi ?
+// $132 oooookkkk mais pas chiffre negatif
+// echo "$$USER" ooookkkkk
+// echo "$USER"oooooookkkk
+// echo "$$USER\$USER""$USER" ooookkkk
+// echo $USER "$USER$USER" $USER "$USER -n $USERecho $USER"$USER $USER" $USER" not ok manque un espace entre deux token par exemple echo "coucou" coucou cest bon okokokokokok
+// Pre$USERPost
+//Some$NOT_SETvalue
+
+// naankour@c1r3p4:~/Documents/Minishellbis$ echo $1
 // naankour@c1r3p4:~/Documents/Minishellbis$ echo $123
 // 23
 // naankour@c1r3p4:~/Documents/Minishellbis$ echo $dfjkslkgfjsw
-
 // naankour@c1r3p4:~/Documents/Minishellbis$ echo $658
 // 58
-
-
-
-// t_token	*create_token_variable(char *line, int *index)
-// {
-// 	int		i;
-// 	char	*variable;
-// 	int		len;
-// 	int		start;
-
-// 	start = *index;
-// 	i = start + 1;
-// 	len = 0;
-// 	i = *index;
-// 	variable = malloc(ft_strlen(&line[i]) + 1);
-// 	if (!variable)
-// 		return (NULL);
-// 	i++;
-// 	printf("%c", line[i]);
-// 	while (ft_isalnum(line[i]) || line[i] == '_')
-// 		i++;
-// 		variable[len++] = line[i++];
-// 	variable[len] = '\0';
-// 	*index = i;
-// 	return(create_token(VARIABLE, variable));
-// }
