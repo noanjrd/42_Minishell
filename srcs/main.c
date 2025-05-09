@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/09 12:01:58 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/09 14:14:00 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,18 @@ void make_commands(t_data *data)
 			new_cmd->red_append = 0;
 			new_cmd->index = i;
 			new_cmd->path_found = 0;
+			new_cmd->builtin = 0;
 			new_cmd->value = ft_copy(cpy_token->value);
 			new_cmd->infile = NULL;
 			new_cmd->type = WORD;
 			// new_cmd->tab = malloc(1);
 			new_cmd->tab = NULL;
+			if (fdin && !(cpy_token->type == HERE_DOC || cpy_token->type == REDIRECT_IN))
+			{
+				if (current)
+					current->type = IN_OUT_FILENAME;
+				
+			}
 			if (fdin && check == 3 && !(cpy_token->type == HERE_DOC || cpy_token->type == REDIRECT_IN))
 			{
 				new_cmd->infile = ft_copy(fdin);
@@ -170,13 +177,13 @@ int main(int argc, char **argv, char **envp)
 	env = malloc(sizeof(t_env));
 	env = env_init(env, envp);
 	init_data(data, env);
-	ft_readline(data);
+	// ft_readline(data);
 
 	if (argc >= 2)
 	{
 		data->tokens = lexer(argv[1]);
 		make_commands(data);
-		// printf_cmd(data->commands);
+		printf_cmd(data->commands);
 		exec(data);
 	}
 	if (argc >= 3)

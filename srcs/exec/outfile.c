@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:14:21 by njard             #+#    #+#             */
-/*   Updated: 2025/05/09 11:41:04 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/09 12:38:06 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 				data->exit_code = 1;
 				cmd->check_open = -1;
 			}
+			if (cpy->type == REDIRECT_APPEND)
+				cmd->red_append = 1;
 			cmd->outfile = cpy->next->value;
 			cmd->fdout = fdout;
 			return ;
@@ -113,13 +115,16 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 			break;
 	}
 	if (append == 1)
+	{
+		printf("app\n");
 		cmd->red_append = 1;
+	}
 	fdout = open(cpy->next->value,O_WRONLY | O_CREAT , 0644 );
 	cmd->outfile = cpy->next->value;
 	cmd->fdout = fdout;
 	// printf("lol\n");
 	printf("%s\n", token->value);
-	printf("cmd = %s", cmd->value);
+	printf("cmd = %s\n", cmd->value);
 	printf("%s\n", cpy->next->value);
 	ft_relink_linked_list(token,cmd, cpy->next->value,0);
 	ft_relink_linked_cmd(cmd, cpy->next->value, 0);
