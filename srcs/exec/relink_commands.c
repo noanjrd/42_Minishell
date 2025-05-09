@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:56:37 by njard             #+#    #+#             */
-/*   Updated: 2025/05/07 15:35:47 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/09 11:23:10 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,8 @@ void	relink_commands(t_token *token, t_cmd *cmd)
 			{
 				printf("bababa\n");
 				// if (z == 0)
-				// 	cmd->tab = ft_join_tab(cmd->tab, NULL, cmd->value);
+				if (cmd->tab == NULL)
+					cmd->tab = ft_join_tab(cmd->tab, NULL, cmd->value);
 				// cmd = cmd->next;
 				// token  =token->next;
 				z = 1;
@@ -174,7 +175,7 @@ void	relink_commands(t_token *token, t_cmd *cmd)
 			// if (cmd->next && token->next && (token->next->type == REDIRECT_OUT || token->next->type == PIPE) )
 			// 	cmd = cmd->next;
 		}
-		if (z == 0)
+		else if (cmd->tab == NULL) 
 			cmd->tab = ft_join_tab(cmd->tab, NULL, cmd->value);
 		// else
 			
@@ -190,6 +191,7 @@ void	relink_commands(t_token *token, t_cmd *cmd)
 		}
 		if (token && cmd->next && ft_strcmp(token->value, cmd->value) == 0)
 		{
+			// z = 0;
 			cmd = cmd->next;
 			printf("nddd %s\n", cmd->value);
 			// token = token->next;

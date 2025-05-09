@@ -6,12 +6,11 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:18:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/05 14:42:32 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/09 10:50:32 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 t_cmd *relink_fdin_cmd(t_cmd *cmd, t_cmd *cpy_cmd)
 {
@@ -46,7 +45,7 @@ t_cmd *relink_fdin_cmd(t_cmd *cmd, t_cmd *cpy_cmd)
 		free(current);
 		cmd->next = temp;
 	}
-	
+
 	return start;
 }
 

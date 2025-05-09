@@ -71,6 +71,7 @@ void make_commands(t_data *data)
 			new_cmd->here_doc = 0;
 			new_cmd->red_append = 0;
 			new_cmd->index = i;
+			new_cmd->path_found = 0;
 			new_cmd->value = ft_copy(cpy_token->value);
 			new_cmd->infile = NULL;
 			new_cmd->type = WORD;

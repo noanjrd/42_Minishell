@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:54:46 by njard             #+#    #+#             */
-/*   Updated: 2025/04/07 13:14:34 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/09 11:50:02 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,25 +90,31 @@ void	initalising_path(t_data *data)
 	data->paths_system = path;
 }
 
-int	check_path_exist(t_data *data, char *command)
+void	check_path_exist(t_data *data, t_cmd *cmd)
 {
+	t_cmd *cpy_cmd;
 	char *entire_path;
 	int i;
 
+	cpy_cmd = cmd;
 	i = 0;
-	if (command[0] == 0)
-		return (0);
-	while (data->paths_system[i])
+	while (cpy_cmd)
 	{
-		entire_path = ft_join(data->paths_system[i], command);
-		// printf("%s\n", entire_path);
-		if (access(entire_path, F_OK) == 0)
+		i = 0;
+		while (cpy_cmd->tab && data->paths_system[i])
 		{
+			entire_path = ft_join(data->paths_system[i], cpy_cmd->tab[0]);
+			// printf("%s\n", entire_path);
+			if (access(entire_path, F_OK) == 0)
+			{
+				cpy_cmd->path_found =1;
+				cpy_cmd->path = entire_path;
+				break;
+			}
 			free(entire_path);
-			return (1);
+			i++;
 		}
-		free(entire_path);
-		i++;
+		cpy_cmd = cpy_cmd->next;
 	}
-	return 0;
+	return ;
 }

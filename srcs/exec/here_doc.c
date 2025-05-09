@@ -6,12 +6,11 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:23:27 by njard             #+#    #+#             */
-/*   Updated: 2025/04/28 11:12:18 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/09 10:49:32 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 char	*get_stop(char *instru)
 {
@@ -84,4 +83,3 @@ void	here_doc(t_token *token, t_data *data)
 	// free(stop);
 	return ;
 }
-

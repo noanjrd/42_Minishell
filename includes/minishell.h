@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/07 12:58:03 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/09 11:10:58 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,14 @@ typedef struct s_cmd
 	char	**tab;
 	char	*infile;
 	char	*outfile;
+	char *path;
 	int	index;
 	int fdin;
 	int fdout;
 	int red_append;
 	int here_doc;
 	int check_open;
+	int path_found;
 	struct s_cmd *next;
 	t_token_type type;
 
@@ -87,6 +89,7 @@ typedef struct t_data
 
 // Builtins
 
+t_token	*builtin(t_data *data, t_token *token, char *commands);
 void	ft_unset(t_env *env, t_token *token);
 void	display_export(t_env *env);
 void	display_env(t_env *env);
@@ -117,12 +120,11 @@ void	free_data(t_data *data);
 // Execution
 
 void	exec(t_data *data);
-char	*cut_builtin(char *string);
-int		check_path_exist(t_data *data, char *instru);
 void	here_doc(t_token *token, t_data *data);
 void	open_fdout(t_data *data, t_token *token, t_cmd *cmd);
 void	open_fdin(t_data *data, t_token *token, t_cmd *cmd);
 void	relink_commands(t_token *token, t_cmd *cmd);
+void	check_path_exist(t_data *data, t_cmd *cmd);
 
 // Init
 
