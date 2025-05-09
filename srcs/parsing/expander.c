@@ -69,6 +69,8 @@ char	*new_token_value(char *str, t_env	*env)
 	j = 0;
 	while (str[i])
 	{
+		if ((str[i] == '$') && (str[i + 1] == '\0'))
+			final_buffer[j++] = str[i++];
 		if ((str[i] == '$' && ft_isdigit(str[i + 1])))
 		{
 			i += 2;
@@ -89,11 +91,11 @@ char	*new_token_value(char *str, t_env	*env)
 			k = 0;
 			while (value[k])
 				final_buffer[j++] = value[k++];
+			free(value);
 		}
 		else
 			final_buffer[j++] = str[i++];
 	}
-	free(value);
 	final_buffer[j] = '\0';
 	return (final_buffer);
 }

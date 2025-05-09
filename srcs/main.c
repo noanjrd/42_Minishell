@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/09 12:01:58 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/09 15:09:40 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void	ft_readline(t_data *data)
 			continue;
 		expander(data->tokens, data->env);
 		make_commands(data);
-		printf_cmd(data->commands);
+		// printf_cmd(data->commands);
 		exec(data);
 		free(data->line);
 	}
@@ -201,6 +201,7 @@ int main(int argc, char **argv, char **envp)
 		exec(data);
 	}
 	free_data(data);
+	free_token_list(data->tokens);
 	// free_env(env);
 	return(0);
 }

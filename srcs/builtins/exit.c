@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:45:35 by njard             #+#    #+#             */
-/*   Updated: 2025/04/22 11:26:50 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/09 18:52:42 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	ft_exit(t_data *data, t_token *token)
 		}
 	}
 	code_exit = data->exit_code;
+	free_token_list(token);
 	free_data(data);
 	exit(code_exit);
 	return ;

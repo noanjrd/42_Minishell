@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/09 11:47:09 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/09 12:30:55 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	exec_builtin(t_data *data)
 
 	cpy_cmd = data->commands;
 	cpy_token = data->tokens;
-	printf_cmd(cpy_cmd);
+	// printf_cmd(cpy_cmd);
 	print_tokens(cpy_token);
 	while (cpy_token)
 	{
@@ -65,8 +65,8 @@ void	exec_builtin(t_data *data)
 			cpy_token = cpy_token->next;
 	}
 	check_path_exist(data, data->commands);
-	printf_cmd(cpy_cmd);
-	
+	// printf_cmd(cpy_cmd);
+
 }
 
 void	exec_fdin(t_data *data)
@@ -123,7 +123,7 @@ void	exec(t_data *data)
 	relink_commands(cpy_token, cpy_cmd);
 	cpy_token = data->tokens;
 	cpy_cmd = data->commands;
-	printf_cmd(cpy_cmd);
+	// printf_cmd(cpy_cmd);
 	while (cpy_token)
 	{
 		if (cpy_token->type == HERE_DOC)
