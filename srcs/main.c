@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   main.c											 :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: njard <njard@student.42.fr>				+#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2025/03/26 11:18:54 by njard			 #+#	#+#			 */
-/*   Updated: 2025/04/28 11:45:21 by njard			###   ########.fr	   */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
+/*   Updated: 2025/05/09 12:01:58 by njard            ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
@@ -26,7 +26,8 @@ void	rest_ofthesteps(t_token *token, t_cmd *cmd)
 	{
 		if (cpy_token->type == HERE_DOC)
 		{
-			cpy_cmd->next->here_doc = 1;
+			if (cpy_cmd->next)
+				cpy_cmd->next->here_doc = 1;
 		}
 		if (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND || cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
 		{
@@ -59,7 +60,7 @@ void make_commands(t_data *data)
 			out = 1;
 			// printf("wsh\n");
 		}
-		if (cpy_token->type == WORD)
+		if (cpy_token->type == WORD || cpy_token->type == SINGLE_QUOTES || cpy_token->type == DOUBLE_QUOTES)
 		{
 			t_cmd *new_cmd = malloc(sizeof(t_cmd));
 			if (!new_cmd)
@@ -68,10 +69,14 @@ void make_commands(t_data *data)
 			new_cmd->fdin = -99;
 			new_cmd->check_open = 0;
 			new_cmd->here_doc = 0;
+			new_cmd->red_append = 0;
 			new_cmd->index = i;
+			new_cmd->path_found = 0;
 			new_cmd->value = ft_copy(cpy_token->value);
 			new_cmd->infile = NULL;
 			new_cmd->type = WORD;
+			// new_cmd->tab = malloc(1);
+			new_cmd->tab = NULL;
 			if (fdin && check == 3 && !(cpy_token->type == HERE_DOC || cpy_token->type == REDIRECT_IN))
 			{
 				new_cmd->infile = ft_copy(fdin);
@@ -150,7 +155,7 @@ void	ft_readline(t_data *data)
 			continue;
 		expander(data->tokens, data->env);
 		make_commands(data);
-		// printf_cmd(data->commands);
+		printf_cmd(data->commands);
 		exec(data);
 		free(data->line);
 	}

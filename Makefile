@@ -9,6 +9,7 @@ SRCS = srcs/main.c\
 	srcs/utils/utils.c\
 	srcs/utils/free.c\
 	srcs/utils/ft_from_libft.c\
+	srcs/builtins/builtin.c\
 	srcs/builtins/env.c\
 	srcs/builtins/pwd.c\
 	srcs/builtins/export_display.c\
@@ -18,9 +19,12 @@ SRCS = srcs/main.c\
 	srcs/builtins/export.c\
 	srcs/builtins/exit.c\
 	srcs/exec/exec.c\
+	srcs/exec/relink_commands.c\
+	srcs/exec/infile.c\
 	srcs/exec/outfile.c\
 	srcs/exec/here_doc.c\
 	srcs/exec/paths.c\
+	srcs/exec/prep.c\
 	srcs/parsing/lexer.c\
 	srcs/parsing/tokens_list.c\
 	srcs/parsing/token_word.c\

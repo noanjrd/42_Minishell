@@ -6,7 +6,16 @@
         "minishell.h": "c",
         "type_traits": "c",
         "random": "c",
-        "numbers": "c"
+        "numbers": "c",
+        "charconv": "c",
+        "optional": "c",
+        "format": "c",
+        "ratio": "c",
+        "system_error": "c",
+        "array": "c",
+        "functional": "c",
+        "tuple": "c",
+        "utility": "c"
     },
     "makefile.configureOnOpen": false
 }

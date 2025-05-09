@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:14:21 by njard             #+#    #+#             */
-/*   Updated: 2025/04/30 14:02:03 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/09 11:41:04 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ void	ft_relink_linked_list(t_token *token, t_cmd *cmd, char *value2, int i)
 		token = temp; 
 	}
 	start->next = token;
-	if (token->next->next)
+	// printf("%s\n", token->value);
+	if (token->next->next && (token->next->next->type == REDIRECT_APPEND || token->next->next->type == REDIRECT_OUT))
 	{
+		// printf("lol\n");
 		ft_relink_linked_list(start, cmd, value2, 1);
 	}
 	return ;
@@ -64,7 +66,10 @@ void	ft_relink_linked_cmd(t_cmd *cmd, char *value2, int i)
 	}
 	start->next = cmd;
 	if (cmd->next && cmd->next->type == IN_OUT_FILENAME)
+	{
+		// printf("idk %s\n", start->value);
 		ft_relink_linked_cmd(start, value2, 1);
+	}
 	return ;
 }
 
@@ -73,6 +78,7 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 	t_token *cpy;
 	int fdout;
 	int check;
+	int	append;
 
 	check = 0;
 
@@ -86,34 +92,36 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 			// printf("mdr\n");
 			fdout = open(cpy->next->value,O_WRONLY | O_CREAT , 0644);
 			if (fdout < 0)
-            {
+			{
 				data->exit_code = 1;
 				cmd->check_open = -1;
-            }
+			}
 			cmd->outfile = cpy->next->value;
 			cmd->fdout = fdout;
 			return ;
 		}
 		if (cpy->next->next && (cpy->next->next->type == REDIRECT_OUT || cpy->next->next->type == REDIRECT_APPEND))
 		{
+			if (cpy->next->next->type == REDIRECT_OUT)
+				append = 0;
+			if (cpy->next->next->type == REDIRECT_APPEND)
+				append = 1;
 			cpy = cpy->next->next;
 			check = 1;
 		}
 		else 
 			break;
 	}
+	if (append == 1)
+		cmd->red_append = 1;
 	fdout = open(cpy->next->value,O_WRONLY | O_CREAT , 0644 );
 	cmd->outfile = cpy->next->value;
 	cmd->fdout = fdout;
 	// printf("lol\n");
+	printf("%s\n", token->value);
+	printf("cmd = %s", cmd->value);
+	printf("%s\n", cpy->next->value);
 	ft_relink_linked_list(token,cmd, cpy->next->value,0);
-	// printf("%s\n", cpy->next->value);
 	ft_relink_linked_cmd(cmd, cpy->next->value, 0);
-	// ft_modify_command_fdout(data, token->value,  fdout, cpy->next->value);
-	// data->fdin[data->fdin_index] = open(token->value, O_WRONLY | O_CREAT , 0644);
-	// if (data->fdin[data->fdin_index] < 0)
-	// {
-	// 	printf("error");
-	// }
 	return ;
 }
