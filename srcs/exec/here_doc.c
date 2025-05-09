@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:23:27 by njard             #+#    #+#             */
-/*   Updated: 2025/05/07 18:57:19 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:07:20 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,3 @@ void	here_doc(t_token *token, t_data *data)
 	// free(stop);
 	return ;
 }
-
