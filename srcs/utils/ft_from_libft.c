@@ -6,12 +6,20 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:28:00 by njard             #+#    #+#             */
-/*   Updated: 2025/05/05 12:37:15 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/09 12:02:10 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+int	ft_isalnum(int c)
+{
+	if (((c >= 'A' && c <= 'Z')
+			|| (c >= 'a' && c <= 'z'))
+		|| (c >= '0' && c <= '9'))
+		return (1);
+	return (0);
+}
 int	ft_strlen(char *string)
 {
 	int i;
@@ -143,4 +151,32 @@ int	ft_atoi(const char *nptr)
 		i++;
 	}
 	return (nb * signe);
+}
+char	*ft_strchr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] == (char)c)
+		{
+			return ((char *)&s[i]);
+		}
+		i++;
+	}
+	if (c == '\0')
+	{
+		return ((char *)&s[i]);
+	}
+	return (NULL);
+}
+
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+	{
+		return (1);
+	}
+	return (0);
 }
