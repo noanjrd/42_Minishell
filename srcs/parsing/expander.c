@@ -69,9 +69,11 @@ char	*new_token_value(char *str, t_env	*env)
 	j = 0;
 	while (str[i])
 	{
-		if ((str[i] == '$') && (str[i + 1] == '\0'))
+		if (str[i] == '$' && str[i + 1] == '?')
 			final_buffer[j++] = str[i++];
-		if ((str[i] == '$' && ft_isdigit(str[i + 1])))
+		else if ((str[i] == '$') && (str[i + 1] == '\0'))
+			final_buffer[j++] = str[i++];
+		else if ((str[i] == '$' && ft_isdigit(str[i + 1])))
 		{
 			i += 2;
 			final_buffer[j++] = str[i++];
@@ -117,10 +119,23 @@ void	expander(t_token *token, t_env	*env)
 				current->value = new_value;
 			}
 		}
-		printf("Token apres expansion: %s\n", current->value);
+		// printf("Token apres expansion: %s\n", current->value);
 		current = current->next;
 	}
 }
+
+
+
+
+
+
+
+
+
+// test : echo "exit_code ->$? user ->$USER home -> $HOME" erreur car affiche ->$USER et pas ->naankour autre erreur $? doit afficher exit_code
+// echo $?HELLO doit afficher exit_code suivi de HELLO
+// echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<" doit afficher le $ aussi
+// echo $?HELLO
 
 // $USER$USER oooook mais doit afficher "naankournaankour :command not found"
 // $$USER oooook mais doit afficher "$naankour :command not found"

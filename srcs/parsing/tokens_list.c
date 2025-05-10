@@ -11,15 +11,35 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+char	*ft_strdup(char *src)
+{
+	char	*dest;
+	int		i;
 
-t_token *create_token(t_token_type type, const char *value)
+	i = 0;
+	dest = (char *)malloc(sizeof (char) * (ft_strlen(src) +1));
+	if (!dest)
+	{
+		return (NULL);
+	}
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+t_token *create_token(t_token_type type, char *value)
 {
 	t_token *token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
 
 	token->type = type;
-	token->value = strdup(value);
+	token->value = ft_strdup(value);
+	// printf("token value = %s while create\n", token->value);
 	if (!token->value)
 	{
 		free(token);
@@ -65,12 +85,17 @@ void	free_token_list(t_token *head)
 {
 	t_token	*temp;
 
+	// printf("HELLO SIR\n");
 	while (head)
 	{
+		// printf("HELLO CHEF\n");
 		temp = head;
 		head = head->next;
 		if (temp->value)
+		{
+			// printf("token value = %s while free\n", temp->value);
 			free(temp->value);
+		}
 		free(temp);
 	}
 }

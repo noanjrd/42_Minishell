@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:56:37 by njard             #+#    #+#             */
-/*   Updated: 2025/05/09 13:38:50 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/10 17:53:50 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,8 @@ void	put_tab(t_cmd *cmd, t_cmd *cpy_cmd)
 	free(cpy_cmd);
 	cmd->next = temp;
 	// printf("|%s\n", cmd->value);
-	if (cmd->next)
-		printf("|%s\n", cmd->next->value);
+	// if (cmd->next)
+	// 	printf("|%s\n", cmd->next->value);
 	return ;
 }
 

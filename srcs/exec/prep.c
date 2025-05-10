@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/09 12:30:55 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/10 17:54:02 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	exec_builtin(t_data *data)
 	cpy_cmd = data->commands;
 	cpy_token = data->tokens;
 	// printf_cmd(cpy_cmd);
-	print_tokens(cpy_token);
+	// print_tokens(cpy_token);
 	while (cpy_token)
 	{
 		if (cpy_token->type == WORD || cpy_token->type == DOUBLE_QUOTES || cpy_token->type == SINGLE_QUOTES)

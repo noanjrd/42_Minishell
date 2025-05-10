@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/09 16:49:27 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/10 19:54:16 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	init_data(t_data *data, t_env *env);
 
 // PARSING
 
-t_token	*create_token(t_token_type type, const char *value);
+t_token	*create_token(t_token_type type, char *value);
 void	add_token(t_token **head, t_token *new);
 void	print_tokens(t_token *head);
 t_token	*lexer(char *line);
