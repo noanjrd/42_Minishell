@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:14:21 by njard             #+#    #+#             */
-/*   Updated: 2025/05/09 12:38:06 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/11 13:36:14 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 		if (!cpy->next->next && check == 0)
 		{
 			// printf("mdr\n");
-			fdout = open(cpy->next->value,O_WRONLY | O_CREAT , 0644);
+			fdout = open(cpy->next->value, O_WRONLY | O_CREAT | O_TRUNC , 0644);
 			if (fdout < 0)
 			{
 				data->exit_code = 1;

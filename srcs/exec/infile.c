@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:18:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/09 14:07:00 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/11 10:44:37 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,25 +90,25 @@ void	open_fdin(t_data *data, t_token *token, t_cmd *cmd)
 	cpy_cmd = cmd;
 	int check = 0;
 
-	printf("|%s|\n", cpy_token->value);
-	printf("|%s|\n", cpy_token->next->value);
+	// printf("|%s|\n", cpy_token->value);
+	// printf("|%s|\n", cpy_token->next->value);
 	while (cpy_token->next->next && cpy_cmd->next->next && (cpy_cmd->next->type == IN_OUT_FILENAME || cpy_token->next->next->type == HERE_DOC || cpy_token->next->next->type == REDIRECT_IN))
 	{
 		check = 1;
-		printf("{%s\n", cpy_cmd->value);
+		// printf("{%s\n", cpy_cmd->value);
 		if (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND || cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
 		{
 			cpy_cmd = cpy_cmd->next;
 		}
 		cpy_token = cpy_token->next->next;
 	}
-	printf("%s\n", cpy_token->value);
-	printf("%s\n", cpy_token->next->value);
-	printf("%s\n", cpy_cmd->value);
-	printf("%s\n", cpy_cmd->next->value);
+	// printf("%s\n", cpy_token->value);
+	// printf("%s\n", cpy_token->next->value);
+	// printf("%s\n", cpy_cmd->value);
+	// printf("%s\n", cpy_cmd->next->value);
 	if (check == 1)
 	{
-		printf("relink\n");
+		// printf("relink\n");
 		token =  relink_fdin_token(token, cpy_token);
 		cmd = relink_fdin_cmd(cmd, cpy_cmd);
 	}

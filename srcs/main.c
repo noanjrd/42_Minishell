@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/09 14:14:00 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/11 14:16:00 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void make_commands(t_data *data)
 			new_cmd->index = i;
 			new_cmd->path_found = 0;
 			new_cmd->builtin = 0;
+			new_cmd->fdpipe = malloc(3 * sizeof(int));
 			new_cmd->value = ft_copy(cpy_token->value);
 			new_cmd->infile = NULL;
 			new_cmd->type = WORD;
