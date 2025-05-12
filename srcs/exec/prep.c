@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 11:32:11 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 12:06:34 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void	exec_builtin(t_data *data)
 	cpy_token = data->tokens;
 	while (cpy_token)
 	{
-		if (cpy_token->type == WORD || cpy_token->type == DOUBLE_QUOTES || cpy_token->type == SINGLE_QUOTES)
+		if (cpy_token->type == WORD || cpy_token->type == DOUBLE_QUOTES
+			|| cpy_token->type == SINGLE_QUOTES)
 		{
 			cpy_token = builtin_check(data, cpy_token, cpy_token->value);
 			if (data->builtin_found == 1)
@@ -93,6 +94,22 @@ void	exec_builtin(t_data *data)
 	real_exec(data);
 }
 
+void	fdin_check(t_data *data, t_cmd *cpy_cmd)
+{
+	if (cpy_cmd->here_doc == 0)
+	{
+		cpy_cmd->fdin = open(cpy_cmd->infile,O_RDONLY, 0700);
+		if (cpy_cmd->fdin >= 0)
+			cpy_cmd->check_fdin = 1;
+	}
+	else
+	{
+		cpy_cmd->fdin = data->fd_here_doc;
+		cpy_cmd->check_fdin = 1;
+	}
+	return ;
+}
+
 void	exec_fdin(t_data *data)
 {
 	t_token *cpy_token;
@@ -102,23 +119,15 @@ void	exec_fdin(t_data *data)
 	cpy_token = data->tokens;
 	while (cpy_token)
 	{
-		if (cpy_token->next && (cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC))
+		if (cpy_token->next && (cpy_token->type == REDIRECT_IN
+			|| cpy_token->type == HERE_DOC))
 			open_fdin(data, cpy_token, cpy_cmd);
 		if (cpy_cmd && cpy_cmd->infile && cpy_cmd->fdin == -99)
-		{
-			if (cpy_cmd->here_doc == 0)
-			{
-				cpy_cmd->fdin = open(cpy_cmd->infile,O_RDONLY, 0700);
-				if (cpy_cmd->fdin >= 0)
-					cpy_cmd->check_fdin = 1;
-			}
-				if (cpy_cmd->here_doc == 1)
-				{
-					cpy_cmd->fdin = data->fd_here_doc;
-					cpy_cmd->check_fdin = 1;
-				}
-		}
-		if (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND || cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
+			fdin_check(data, cpy_cmd);
+		if (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT
+			|| cpy_token->type == REDIRECT_APPEND
+			|| cpy_token->type == REDIRECT_IN
+			|| cpy_token->type == HERE_DOC)
 			cpy_cmd = cpy_cmd->next;
 		cpy_token = cpy_token->next;
 	}
@@ -134,9 +143,13 @@ void	exec_fdout(t_data *data)
 	cpy_cmd = data->commands;
 	while (cpy_token)
 	{
-		if (cpy_token->next && (cpy_token->next->type == REDIRECT_OUT || cpy_token->next->type == REDIRECT_APPEND))
+		if (cpy_token->next && (cpy_token->next->type == REDIRECT_OUT
+			|| cpy_token->next->type == REDIRECT_APPEND))
 			open_fdout(data, cpy_token, cpy_cmd);
-		if (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND || cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
+		if (cpy_token->type == PIPE
+			|| cpy_token->type == REDIRECT_OUT
+			|| cpy_token->type == REDIRECT_APPEND
+			|| cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
 			cpy_cmd = cpy_cmd->next;
 		cpy_token = cpy_token->next;
 	}
@@ -148,6 +161,8 @@ void	exec(t_data *data)
 	t_token *cpy_token;
 	t_cmd *cpy_cmd;
 
+	if (!data->tokens)
+		return ;
 	cpy_cmd = data->commands;
 	cpy_token = data->tokens;
 	relink_commands(cpy_token, cpy_cmd);

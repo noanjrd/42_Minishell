@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 11:43:31 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 11:46:23 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd)
 	out = 0;
 	check = 0;
 	cpy_token = data->tokens;
-	fdin = NULL;
 	while (cpy_token)
 	{
 		if (cpy_token && (cpy_token->type == HERE_DOC || cpy_token->type == REDIRECT_IN))
@@ -107,7 +106,6 @@ void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd)
 			else
 				current->next = new_cmd;
 			current = new_cmd;
-
 		}
 		if (cpy_token->next && (cpy_token->next->type == REDIRECT_APPEND || cpy_token->next->type == REDIRECT_OUT))
 		{
@@ -123,5 +121,4 @@ void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd)
 	}
 	data->commands = head;
 	rest_ofthesteps(data->tokens, head);
-	return ;
 }
