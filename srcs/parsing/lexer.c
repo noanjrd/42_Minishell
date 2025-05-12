@@ -57,22 +57,18 @@ t_token *lexer(char *line)
 				token = create_token(WORD, "$?");
 				i = i + 2;
 			}
-			// else if (line[i] == '$')
-			// {
-			// 	token = create_token(VARIABLE, "$");
-			// 	i++;
-			// }
 		}
 		else
 			token = create_token_word(line, &i);
 		if (!token)
 		{
 			// printf("Lexer error near '%.10s'\n", line + i);
+			free_token_list(head);// ok ?
 			return NULL;
 		}
 		add_token(&head, token);
 	}
-	print_tokens(head);
+	// print_tokens(head);
 	return head;
 }
 // t_token	*lexer(char *line)

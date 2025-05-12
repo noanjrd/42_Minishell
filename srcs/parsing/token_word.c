@@ -28,39 +28,95 @@ int	is_symbol(char c)
 	return (0);
 }
 
+// t_token *create_token_word(char *line, int *index) {
+// 	int		i;
+// 	int		len;
+// 	char	*word;
+// 	char	quote;
+// 	int		in_quotes;
+// 	int		token_type;
+// 	t_token	*token;
+
+// 	i = *index;
+// 	while (line[i] && is_space(line[i]))
+// 		i++;
+// 	if (line[i] == '\0')
+// 		return (NULL);
+// 	token_type = WORD;
+// 	in_quotes = 0;
+// 	len = 0;
+// 	word = malloc(ft_strlen(&line[i]) + 1);
+// 	if (!word)
+// 		return (NULL);
+// 	while (line[i])
+// 	{
+// 		if ((line[i] == '\'' || line[i] == '"'))
+// 		{
+// 			if (in_quotes == 0)
+// 			{
+// 				in_quotes = 1;
+// 				quote = line[i];
+// 				if (quote == '"')
+// 					token_type = DOUBLE_QUOTES;
+// 				else if (quote == '\'')
+// 					token_type = SINGLE_QUOTES;
+// 				i++;
+// 			}
+// 			else if (line[i] == quote)
+// 			{
+// 				in_quotes = 0;
+// 				i++;
+// 			}
+// 			else
+// 				word[len++] = line[i++];
+// 		}
+// 		else if (!in_quotes && (is_space(line[i]) || is_symbol(line[i])))
+// 			break;
+// 		else
+// 			word[len++] = line[i++];
+// 	}
+// 	word[len] = '\0';
+// 	*index = i;
+
+// 	if (in_quotes)
+// 	{
+// 		printf("Syntax error: unclosed quote\n");
+// 		free(word);
+// 		return (NULL);
+// 	}
+
+// 	token = create_token(token_type, word);
+// 	free(word);
+// 	return (token);
+// }
 t_token *create_token_word(char *line, int *index)
 {
-	int		i;
-	int		len;
-	char	*word;
+	int		i = *index;
+	int		len = 0;
+	int		in_quotes = 0;
 	char	quote;
-	int		in_quotes;
-	int		token_type;
+	int		token_type = WORD;
+	char	*word;
+	t_token	*token;
 
-	i = *index;
 	while (line[i] && is_space(line[i]))
 		i++;
 	if (line[i] == '\0')
 		return (NULL);
-	token_type = WORD;
-	in_quotes = 0;
-	len = 0;
+
 	word = malloc(ft_strlen(&line[i]) + 1);
 	if (!word)
 		return (NULL);
+
 	while (line[i])
 	{
 		if ((line[i] == '\'' || line[i] == '"'))
 		{
-			if (in_quotes == 0)
+			if (!in_quotes)
 			{
 				in_quotes = 1;
-				quote = line[i];
-				if (quote == '"')
-					token_type = DOUBLE_QUOTES;
-				else if (quote == '\'')
-					token_type = SINGLE_QUOTES;
-				i++;
+				quote = line[i++];
+				token_type = (quote == '"') ? DOUBLE_QUOTES : SINGLE_QUOTES;
 			}
 			else if (line[i] == quote)
 			{
@@ -75,6 +131,7 @@ t_token *create_token_word(char *line, int *index)
 		else
 			word[len++] = line[i++];
 	}
+
 	if (in_quotes)
 	{
 		printf("Syntax error: unclosed quote\n");
@@ -83,8 +140,72 @@ t_token *create_token_word(char *line, int *index)
 	}
 	word[len] = '\0';
 	*index = i;
-	return (create_token(token_type, word));
+
+	token = create_token(token_type, word);
+	free(word); // safe: create_token does strdup
+	return (token);
 }
+
+// t_token *create_token_word(char *line, int *index)
+// {
+// 	int		i;
+// 	int		len;
+// 	char	*word;
+// 	char	quote;
+// 	int		in_quotes;
+// 	int		token_type;
+// 	t_token	*token;
+
+// 	i = *index;
+// 	while (line[i] && is_space(line[i]))
+// 		i++;
+// 	if (line[i] == '\0')
+// 		return (NULL);
+// 	token_type = WORD;
+// 	in_quotes = 0;
+// 	len = 0;
+// 	word = malloc(ft_strlen(&line[i]) + 1);
+// 	if (!word)
+// 		return (NULL);
+// 	while (line[i])
+// 	{
+// 		if ((line[i] == '\'' || line[i] == '"'))
+// 		{
+// 			if (in_quotes == 0)
+// 			{
+// 				in_quotes = 1;
+// 				quote = line[i];
+// 				if (quote == '"')
+// 					token_type = DOUBLE_QUOTES;
+// 				else if (quote == '\'')
+// 					token_type = SINGLE_QUOTES;
+// 				i++;
+// 			}
+// 			else if (line[i] == quote)
+// 			{
+// 				in_quotes = 0;
+// 				i++;
+// 			}
+// 			else
+// 				word[len++] = line[i++];
+// 		}
+// 		else if (!in_quotes && (is_space(line[i]) || is_symbol(line[i])))
+// 			break;
+// 		else
+// 			word[len++] = line[i++];
+// 	}
+// 	if (in_quotes)
+// 	{
+// 		printf("Syntax error: unclosed quote\n");
+// 		free(word);
+// 		return (NULL);
+// 	}
+// 	word[len] = '\0';
+// 	*index = i;
+// 	token = create_token(token_type, word);
+// 	free(word);
+// 	return (token);
+// }
 
 // int	is_quotes(char c)
 // {

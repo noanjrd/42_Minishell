@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   relink_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:56:37 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 11:31:49 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/10 17:53:50 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,14 +119,16 @@ void	put_tab(t_cmd *cmd, t_cmd *cpy_cmd)
 	free(cpy_cmd->outfile);
 	free(cpy_cmd);
 	cmd->next = temp;
-	printf("|%s\n", cmd->value);
-	if (cmd->next)
-		printf("|%s\n", cmd->next->value);
+	// printf("|%s\n", cmd->value);
+	// if (cmd->next)
+	// 	printf("|%s\n", cmd->next->value);
 	return ;
 }
 
 void	relink_commands(t_token *token, t_cmd *cpy_cmd)
 {
+	// t_cmd *cpy_cmd;
+	int i;
 	t_cmd *cmd;
 	int i; 
 	int z = 0;
@@ -135,15 +137,15 @@ void	relink_commands(t_token *token, t_cmd *cpy_cmd)
 	cmd = cpy_cmd;
 	while (token)
 	{
-		if (cmd->next)
-			printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->next->value);
-		else
-			printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->value);
+		// if (cmd->next)
+		// 	printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->next->value);
+		// else
+		// 	printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->value);
 		if (token->next && token->next->type != PIPE && cmd->next && cmd->type != IN_OUT_FILENAME)
 		{
 			if (cmd->next && cmd->next->type == IN_OUT_FILENAME)
 			{
-				printf("bababa\n");
+				// printf("bababa\n");
 				// if (z == 0)
 				if (cmd->tab == NULL)
 					cmd->tab = ft_join_tab(cmd->tab, NULL, cmd->value);
@@ -153,18 +155,23 @@ void	relink_commands(t_token *token, t_cmd *cpy_cmd)
 			}
 			else
 			{
-				printf("lol\n");
+				// printf("lol\n");
 				put_tab(cmd, cmd->next);
 				z = 1;
 			}
 			// if (cmd->next && token->next && (token->next->type == REDIRECT_OUT || token->next->type == PIPE) )
 			// 	cmd = cmd->next;
 		}
+		else if (cmd->tab == NULL)
+			cmd->tab = ft_join_tab(cmd->tab, NULL, cmd->value);
+		// else
+
+		// printf("next %s\n", cmd->value);
 		printf("next %s\n", cmd->value);
 		if (token->next && token->next->type == PIPE)
 		{
 			z = 0;
-			printf("idkkk %s\n", cmd->value);
+			// printf("idkkk %s\n", cmd->value);
 			cmd = cmd->next;
 			token = token->next;
 			token = token->next;
@@ -174,7 +181,7 @@ void	relink_commands(t_token *token, t_cmd *cpy_cmd)
 		{
 			// z = 0;
 			cmd = cmd->next;
-			printf("nddd %s\n", cmd->value);
+			// printf("nddd %s\n", cmd->value);
 			// token = token->next;
 		}
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:39:25 by njard             #+#    #+#             */
-/*   Updated: 2025/05/02 15:34:24 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/10 16:14:45 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void free_data(t_data *data)
 	free(data->line);
 	free(data->fdin);
 	free_env(data->env);
-	free_token(data->tokens);
+	// free_token(data->tokens);
 	free_cmd(data->commands);
 	if (data->here_doc == 1)
 	{

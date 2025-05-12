@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 12:06:34 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/10 17:54:02 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	exec_builtin(t_data *data)
 
 	cpy_cmd = data->commands;
 	cpy_token = data->tokens;
+	// printf_cmd(cpy_cmd);
+	// print_tokens(cpy_token);
 	while (cpy_token)
 	{
 		if (cpy_token->type == WORD || cpy_token->type == DOUBLE_QUOTES
@@ -89,6 +91,7 @@ void	exec_builtin(t_data *data)
 	cpy_cmd = data->commands;
 	cpy_token = data->tokens;
 	check_path_exist(data, data->commands);
+	// printf_cmd(cpy_cmd);
 	printf_cmd(cpy_cmd);
 	number_of_commands(data);
 	real_exec(data);
@@ -168,7 +171,7 @@ void	exec(t_data *data)
 	relink_commands(cpy_token, cpy_cmd);
 	cpy_token = data->tokens;
 	cpy_cmd = data->commands;
-	printf_cmd(cpy_cmd);
+	// printf_cmd(cpy_cmd);
 	while (cpy_token)
 	{
 		if (cpy_token->type == HERE_DOC)
