@@ -6,17 +6,18 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:35:47 by njard             #+#    #+#             */
-/*   Updated: 2025/05/11 10:05:41 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 13:04:55 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // This function initializes the data structure
-void	init_data(t_data *data, t_env *env)
+void	init_data(t_data *data, t_env *env, char **envp)
 {
 	data->paths_system = NULL; 
 	data->exit_code = 0;
+	data->envp = envp;
 	data->env = env;
 	data->line = NULL;
 	data->here_doc = 0;

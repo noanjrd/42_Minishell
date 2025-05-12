@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 11:46:23 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 13:00:06 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	assign_value(t_cmd *new_cmd, t_token *cpy_token, int i)
 	new_cmd->path_found = 0;
 	new_cmd->builtin = 0;
 	new_cmd->fdpipe = malloc(3 * sizeof(int));
+	new_cmd->prev_fdpipe = NULL;
 	new_cmd->value = ft_copy(cpy_token->value);
 	new_cmd->infile = NULL;
 	new_cmd->type = WORD;
@@ -65,6 +66,7 @@ void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd)
 	i = 0;
 	out = 0;
 	check = 0;
+	fdin = NULL;
 	cpy_token = data->tokens;
 	while (cpy_token)
 	{

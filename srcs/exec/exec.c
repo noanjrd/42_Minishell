@@ -6,13 +6,13 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 11:57:27 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 13:11:30 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	excve_apply(t_cmd *cmd)
+void	excve_apply(t_data *data, t_cmd *cmd)
 {
 	pipe(cmd->fdpipe);
 	printf("la< %s\n", cmd->value);
@@ -36,7 +36,7 @@ void	excve_apply(t_cmd *cmd)
 			close(cmd->prev_fdpipe[0]);
 			close(cmd->prev_fdpipe[1]);
 		}
-		execve(cmd->path, cmd->tab, NULL);
+		execve(cmd->path, cmd->tab, data->envp);
 		perror("execve");
 		// exit(1);
 	}
@@ -49,7 +49,7 @@ void	excve_apply(t_cmd *cmd)
 	}
 	if (cmd->next && cmd->next->type != IN_OUT_FILENAME)
 	{
-		cmd->next->prev_fdpipe = malloc(2 * sizeof(int));
+		cmd->next->prev_fdpipe = malloc(3 * sizeof(int));
 		cmd->next->prev_fdpipe[0] = cmd->fdpipe[0];
 		cmd->next->prev_fdpipe[1] = cmd->fdpipe[1];
 	}
@@ -105,7 +105,7 @@ void	real_exec(t_data *data)
 	{
 		if (cpy_cmd->type != IN_OUT_FILENAME)
 		{
-			excve_apply(cpy_cmd);
+			excve_apply(data, cpy_cmd);
 			i++;
 		}
 		printf("here\n");
