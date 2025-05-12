@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/10 19:54:16 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:04:05 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct t_data
 	int		fdout;
 	int		here_doc;
 	char	*line;
+	char **envp;
 	int		exit_code;
 	int	builtin_found;
 	int	nb_of_commands;
@@ -142,7 +143,7 @@ void	real_exec(t_data *data);
 
 t_env	*env_init(t_env *env, char **envp);
 void	initalising_path(t_data *data);
-void	init_data(t_data *data, t_env *env);
+void	init_data(t_data *data, t_env *env, char **envp);
 void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd);
 
 // PARSING
