@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:14:21 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 11:28:24 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 14:20:06 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 			if (fdout < 0)
 			{
 				data->exit_code = 1;
-				cmd->check_open = -1;
+				cmd->check_fdout = -1;
 			}
 			cmd->outfile = cpy->next->value;
 			cmd->fdout = fdout;

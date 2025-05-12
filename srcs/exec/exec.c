@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 13:11:30 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 14:53:47 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 		else if (cmd->prev_fdpipe)
 			dup2(cmd->prev_fdpipe[0], STDIN_FILENO);
 
-		if (cmd->fdout != -99)
+		if (cmd->fdout != -99 && cmd->check_fdout == 1)
 			dup2(cmd->fdout, STDOUT_FILENO);
 		else if (cmd->next)
 			dup2(cmd->fdpipe[1], STDOUT_FILENO);
@@ -78,7 +78,7 @@ void wait_p(t_data *data)
 	}
 	while (j < data->nb_of_commands)
 	{
-		if (cpy_cmd->pid > 0)
+		if (cpy_cmd->pid > 0 && cpy_cmd->fdin != -1)
 		{
 			waitpid(cpy_cmd->pid, &status, 0);
 			if (WIFEXITED(status))
@@ -87,6 +87,20 @@ void wait_p(t_data *data)
 		cpy_cmd = cpy_cmd->next;
 		j++;
 	}
+}
+
+void	check_if_builtin(t_data *data, t_cmd *cmd, char *s)
+{
+	if (builtin_check(data, s) == 1)
+	{
+		printf("builtin\n");
+		go_to_right_builtin(data, cmd->index);
+	}
+	else
+	{
+		excve_apply(data, cmd);
+	}
+	return ;
 }
 
 void	real_exec(t_data *data)
@@ -105,7 +119,7 @@ void	real_exec(t_data *data)
 	{
 		if (cpy_cmd->type != IN_OUT_FILENAME)
 		{
-			excve_apply(data, cpy_cmd);
+			check_if_builtin(data, cpy_cmd, cpy_cmd->tab[0]);
 			i++;
 		}
 		printf("here\n");

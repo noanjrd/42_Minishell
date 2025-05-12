@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   relink_commands.c								  :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: njard <njard@student.42.fr>				+#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2025/05/07 12:56:37 by njard			 #+#	#+#			 */
-/*   Updated: 2025/05/12 12:54:45 by njard			###   ########.fr	   */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   relink_commands.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/12 14:22:15 by njard             #+#    #+#             */
+/*   Updated: 2025/05/12 14:22:24 by njard            ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
@@ -127,7 +127,7 @@ void	put_tab(t_cmd *cmd, t_cmd *cpy_cmd)
 {
 	t_cmd	*temp;
 
-	cmd->index = cpy_cmd->index;
+	// cmd->index = cpy_cmd->index;
 	cmd->red_append = cpy_cmd->red_append;
 	cmd->fdout = cpy_cmd->fdout;
 	cmd->outfile = ft_copy(cpy_cmd->outfile);

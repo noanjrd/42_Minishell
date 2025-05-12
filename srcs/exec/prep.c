@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/10 17:54:02 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:58:58 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@ void printf_cmd(t_cmd *cmd)
 	while (current)
 	{
 		i = 0;
-		printf("val=%s, in=%s, out=%s, fdin=%d, fdout=%d, here=%d, appd=%d, path_f=%d, built=%d, path=%s ,",
+		printf("val=%s, in=%s, out=%s, fdin=%d, fdout=%d, i=%d, here=%d, appd=%d, path_f=%d, built=%d, path=%s ,",
 			current->value,
 			current->infile ? current->infile : "NULL",
 			current->outfile ? current->outfile : "NULL",
 			current->fdin,
 			current->fdout,
+			current->index,
 			current->here_doc,
 			current->red_append,
 			current->path_found,
@@ -68,26 +69,26 @@ void	exec_builtin(t_data *data)
 	t_cmd *cpy_cmd;
 	char *value_temp;
 
-	cpy_cmd = data->commands;
-	cpy_token = data->tokens;
+	// cpy_cmd = data->commands;
+	// cpy_token = data->tokens;
 	// printf_cmd(cpy_cmd);
 	// print_tokens(cpy_token);
-	while (cpy_token)
-	{
-		if (cpy_token->type == WORD || cpy_token->type == DOUBLE_QUOTES
-			|| cpy_token->type == SINGLE_QUOTES)
-		{
-			cpy_token = builtin_check(data, cpy_token, cpy_token->value);
-			if (data->builtin_found == 1)
-			{
-				cpy_cmd->builtin = 1;
-				cpy_cmd = cpy_cmd->next;
-			}
-			data->builtin_found = 0;
-		}
-		else
-			cpy_token = cpy_token->next;
-	}
+	// while (cpy_token)
+	// {
+	// 	if (cpy_token->type == WORD || cpy_token->type == DOUBLE_QUOTES
+	// 		|| cpy_token->type == SINGLE_QUOTES)
+	// 	{
+	// 		cpy_token = builtin_check(data, cpy_token, cpy_token->value);
+	// 		if (data->builtin_found == 1)
+	// 		{
+	// 			cpy_cmd->builtin = 1;
+	// 			cpy_cmd = cpy_cmd->next;
+	// 		}
+	// 		data->builtin_found = 0;
+	// 	}
+	// 	else
+	// 		cpy_token = cpy_token->next;
+	// }
 	cpy_cmd = data->commands;
 	cpy_token = data->tokens;
 	check_path_exist(data, data->commands);
@@ -104,6 +105,11 @@ void	fdin_check(t_data *data, t_cmd *cpy_cmd)
 		cpy_cmd->fdin = open(cpy_cmd->infile,O_RDONLY, 0700);
 		if (cpy_cmd->fdin >= 0)
 			cpy_cmd->check_fdin = 1;
+		else
+		{
+			printf("faux fdin\n");
+			data->exit_code = 1;
+		}
 	}
 	else
 	{

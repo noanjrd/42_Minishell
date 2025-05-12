@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:25:03 by njard             #+#    #+#             */
-/*   Updated: 2025/05/10 18:37:34 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:02:42 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	ft_echo(t_data *data, t_env *env, t_token *token)
 	{
 		if (copy_token->value[0] == '$' && copy_token->value[1] == '?')
 		{
+			// data->exit_code = 7777;
 			printf("%d\n", data->exit_code);
 			return ;
 		}

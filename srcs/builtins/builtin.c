@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:42:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/09 15:30:09 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 15:02:33 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,16 @@ t_token	*builtin_second(t_data *data, t_token *token, char *commands)
 	if (ft_strcmp(commands, "export") == 0)
 	{
 		ft_export(data->env, token);
-		data->builtin_found = 1;
 		return (free(arg), token->next);
 	}
 	if (ft_strcmp(commands, "cd") == 0)
 	{
 		ft_cd(data, data->env, token->next);
-		data->builtin_found = 1;
 		return (free(arg), token->next);
 	}
 	if (ft_strcmp(commands, "pwd") == 0)
 	{
 		ft_pwd(data->env);
-		data->builtin_found = 1;
 		return (free(arg), token->next);
 	}
 	return (token->next);
@@ -47,19 +44,16 @@ t_token	*builtin(t_data *data, t_token *token, char *commands)
 	if (ft_strcmp(commands, "echo") == 0)
 	{
 		ft_echo(data, data->env, token);
-		data->builtin_found = 1;
 		return (free(arg), update_echo_struct(token));
 	}
 	if (ft_strcmp(commands, "unset") == 0)
 	{
 		ft_unset(data->env, token);
-		data->builtin_found = 1;
 		return (free(arg), token->next);
 	}
 	if (ft_strcmp(commands, "env") == 0)
 	{
 		display_env(data->env);
-		data->builtin_found = 1;
 		return (free(arg), token->next);
 	}
 	if (ft_strcmp(commands, "exit") == 0)
@@ -69,27 +63,42 @@ t_token	*builtin(t_data *data, t_token *token, char *commands)
 	return(builtin_second(data, token, commands));
 }
 
-t_token	*builtin_second_check(t_data *data, t_token *token, char *commands)
+void	go_to_right_builtin(t_data *data, int i)
+{
+	t_token *cpy_token;
+
+	cpy_token = data->tokens;
+	while (cpy_token)
+	{
+		if (cpy_token->index == i)
+			break;
+		cpy_token = cpy_token->next;
+	}
+	builtin(data, cpy_token, cpy_token->value);
+	return ;
+}
+
+int	builtin_second_check(t_data *data, char *commands)
 {
 	char *arg;
 
 	arg = NULL;
 	if (ft_strcmp(commands, "export") == 0)
 	{
-		data->builtin_found = 1;
+		return (1);
 	}
 	if (ft_strcmp(commands, "cd") == 0)
 	{
-		data->builtin_found = 1;
+		return (1);
 	}
 	if (ft_strcmp(commands, "pwd") == 0)
 	{
-		data->builtin_found = 1;
+		return (1);
 	}
-	return (token->next);
+	return (0);
 }
 
-t_token	*builtin_check(t_data *data, t_token *token, char *commands)
+int	builtin_check(t_data *data, char *commands)
 {
 	char *arg;
 	
@@ -97,19 +106,19 @@ t_token	*builtin_check(t_data *data, t_token *token, char *commands)
 
 	if (ft_strcmp(commands, "echo") == 0)
 	{
-		data->builtin_found = 1;
+		return (1);
 	}
 	if (ft_strcmp(commands, "unset") == 0)
 	{
-		data->builtin_found = 1;
+		return (1);
 	}
 	if (ft_strcmp(commands, "env") == 0)
 	{
-		data->builtin_found = 1;
+		return (1);
 	}
 	if (ft_strcmp(commands, "exit") == 0)
 	{
-		ft_exit(data, token);
+		return (1);
 	}
-	return(builtin_second(data, token, commands));
+	return(builtin_second_check(data, commands));
 }

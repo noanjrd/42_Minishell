@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 13:04:05 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 14:34:44 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_cmd
 	pid_t	pid;
 	int red_append;
 	int here_doc;
-	int check_open;
+	int check_fdout;
 	int check_fdin;
 	int path_found;
 	int builtin;
@@ -80,14 +80,10 @@ typedef struct t_data
 {
 	char	**paths_system;
 	int		fd_here_doc;
-	int		*fdin;
-	int		fdin_index;
-	int		fdout;
 	int		here_doc;
 	char	*line;
 	char **envp;
 	int		exit_code;
-	int	builtin_found;
 	int	nb_of_commands;
 	t_env	*env;
 	t_token	*tokens;
@@ -106,6 +102,8 @@ void	ft_exit(t_data *data, t_token *token);
 void	ft_echo(t_data *data, t_env *env, t_token *token);
 void	ft_pwd(t_env *env);
 t_token	*update_echo_struct(t_token *token);
+int	builtin_check(t_data *data, char *commands);
+void	go_to_right_builtin(t_data *data, int i);
 
 // Utils
 
@@ -136,7 +134,6 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd);
 void	open_fdin(t_data *data, t_token *token, t_cmd *cmd);
 void	relink_commands(t_token *token, t_cmd *cmd);
 void	check_path_exist(t_data *data, t_cmd *cmd);
-t_token	*builtin_check(t_data *data, t_token *token, char *commands);
 void	real_exec(t_data *data);
 
 // Init

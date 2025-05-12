@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 13:03:28 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 15:03:07 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,19 @@ static void printf_cmd(t_cmd *cmd)
 		current = current->next;
 	}
 	printf("---------------------------\n");
+	return ;
+}
+
+void	free_readline_data(t_data *data)
+{
+	if (data->fd_here_doc > 0)
+		close(data->fd_here_doc);
+	data->fd_here_doc = 0;
+	data->here_doc = 0;
+	data->nb_of_commands = 0;
+	data->tokens = NULL;
+	data->line = NULL;
+	data->commands = NULL;
 	return ;
 }
 
@@ -56,6 +69,7 @@ void	ft_readline(t_data *data)
 		exec(data);
 		free(data->line);
 		free_token_list(data->tokens);
+		free_readline_data(data);
 	}
 }
 
@@ -76,6 +90,8 @@ int main(int argc, char **argv, char **envp)
 		make_commands(data,NULL, NULL, NULL);
 		printf_cmd(data->commands);
 		exec(data);
+		free_token_list(data->tokens);
+		free_readline_data(data);
 	}
 	if (argc >= 3)
 	{
@@ -83,6 +99,7 @@ int main(int argc, char **argv, char **envp)
 		make_commands(data,NULL, NULL, NULL);
 		// printf_cmd(data->commands);
 		exec(data);
+		free_readline_data(data);
 	}
 	if (argc >= 4)
 	{
@@ -90,6 +107,7 @@ int main(int argc, char **argv, char **envp)
 		make_commands(data,NULL, NULL, NULL);
 		// printf_cmd(data->commands);
 		exec(data);
+		free_readline_data(data);
 	}
 	if (argc >= 5)
 	{

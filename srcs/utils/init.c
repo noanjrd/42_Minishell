@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:35:47 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 13:04:55 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 14:31:50 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ void	init_data(t_data *data, t_env *env, char **envp)
 	data->env = env;
 	data->line = NULL;
 	data->here_doc = 0;
-	data->builtin_found = 0;
 	data->nb_of_commands = 0;
-	data->fdin = malloc(100 * sizeof(int));
 	initalising_path(data);
 }
 
