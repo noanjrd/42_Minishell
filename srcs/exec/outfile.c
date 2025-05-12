@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:14:21 by njard             #+#    #+#             */
-/*   Updated: 2025/05/09 11:41:04 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 11:28:24 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@ void	ft_relink_linked_list(t_token *token, t_cmd *cmd, char *value2, int i)
 		token = temp; 
 	}
 	start->next = token;
-	// printf("%s\n", token->value);
 	if (token->next->next && (token->next->next->type == REDIRECT_APPEND || token->next->next->type == REDIRECT_OUT))
 	{
-		// printf("lol\n");
 		ft_relink_linked_list(start, cmd, value2, 1);
 	}
 	return ;
@@ -67,7 +65,6 @@ void	ft_relink_linked_cmd(t_cmd *cmd, char *value2, int i)
 	start->next = cmd;
 	if (cmd->next && cmd->next->type == IN_OUT_FILENAME)
 	{
-		// printf("idk %s\n", start->value);
 		ft_relink_linked_cmd(start, value2, 1);
 	}
 	return ;
@@ -90,7 +87,13 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 		if (!cpy->next->next && check == 0)
 		{
 			// printf("mdr\n");
-			fdout = open(cpy->next->value,O_WRONLY | O_CREAT , 0644);
+			if (cpy->type == REDIRECT_APPEND)
+			{
+				cmd->red_append = 1;
+				fdout = open(cpy->next->value, O_WRONLY | O_CREAT | O_APPEND , 0700);
+			}
+			else
+				fdout = open(cpy->next->value, O_WRONLY | O_CREAT | O_TRUNC , 0700);
 			if (fdout < 0)
 			{
 				data->exit_code = 1;
@@ -113,14 +116,19 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 			break;
 	}
 	if (append == 1)
+	{
+		printf("app\n");
 		cmd->red_append = 1;
-	fdout = open(cpy->next->value,O_WRONLY | O_CREAT , 0644 );
+		fdout = open(cpy->next->value,O_WRONLY | O_CREAT | O_APPEND, 0700);
+	}
+	else 
+		fdout = open(cpy->next->value,O_WRONLY | O_CREAT, 0700);
 	cmd->outfile = cpy->next->value;
 	cmd->fdout = fdout;
 	// printf("lol\n");
-	printf("%s\n", token->value);
-	printf("cmd = %s", cmd->value);
-	printf("%s\n", cpy->next->value);
+	// printf("%s\n", token->value);
+	// printf("cmd = %s\n", cmd->value);
+	// printf("%s\n", cpy->next->value);
 	ft_relink_linked_list(token,cmd, cpy->next->value,0);
 	ft_relink_linked_cmd(cmd, cpy->next->value, 0);
 	return ;

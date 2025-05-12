@@ -60,13 +60,18 @@ typedef struct s_cmd
 	char	*infile;
 	char	*outfile;
 	char *path;
+	int		*fdpipe;
+	int		*prev_fdpipe;
 	int	index;
 	int fdin;
 	int fdout;
+	pid_t	pid;
 	int red_append;
 	int here_doc;
 	int check_open;
+	int check_fdin;
 	int path_found;
+	int builtin;
 	struct s_cmd *next;
 	t_token_type type;
 }				t_cmd;
@@ -81,6 +86,8 @@ typedef struct t_data
 	int		here_doc;
 	char	*line;
 	int		exit_code;
+	int	builtin_found;
+	int	nb_of_commands;
 	t_env	*env;
 	t_token	*tokens;
 	t_cmd	*commands;
@@ -128,12 +135,15 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd);
 void	open_fdin(t_data *data, t_token *token, t_cmd *cmd);
 void	relink_commands(t_token *token, t_cmd *cmd);
 void	check_path_exist(t_data *data, t_cmd *cmd);
+t_token	*builtin_check(t_data *data, t_token *token, char *commands);
+void	real_exec(t_data *data);
 
 // Init
 
 t_env	*env_init(t_env *env, char **envp);
 void	initalising_path(t_data *data);
 void	init_data(t_data *data, t_env *env);
+void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd);
 
 // PARSING
 

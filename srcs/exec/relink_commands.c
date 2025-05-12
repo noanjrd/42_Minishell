@@ -21,7 +21,6 @@ char **ft_join_tab(char **tab, char *value, char *value_app)
 
 	i = 0;
 	j = 0;
-	// printf("&& %s, %s\n", value, value_app);
 	while (tab && tab[i])
 		i++;
 	if (value)
@@ -32,7 +31,6 @@ char **ft_join_tab(char **tab, char *value, char *value_app)
 	i = 0;
 	while (tab && tab[j])
 	{
-		// printf("derrr\n");
 		while (tab[j][i])
 			i++;
 		new_tab[j] = malloc((i + 1) * sizeof(char));
@@ -42,13 +40,11 @@ char **ft_join_tab(char **tab, char *value, char *value_app)
 			new_tab[j][i] = tab[j][i];
 			i++;
 		}
-		new_tab[j][i] = 0;
-		j++;
+		new_tab[j++][i] = 0;
 	}
 	i = 0;
 	if (tab == NULL && value)
 	{
-		// printf("popo\n");
 		while (value[i])
 			i++;
 		new_tab[j] = malloc((i + 1) * sizeof(char));
@@ -58,8 +54,7 @@ char **ft_join_tab(char **tab, char *value, char *value_app)
 			new_tab[j][i] = value[i];
 			i++;
 		}
-		new_tab[j][i] = 0;
-		j++;
+		new_tab[j++][i] = 0;
 	}
 	i = 0;
 	while (value_app[i])
@@ -72,16 +67,7 @@ char **ft_join_tab(char **tab, char *value, char *value_app)
 		i++;
 	}
 	new_tab[j][i] = 0;
-	j++;
-	new_tab[j] = NULL;
-	// i = 0;
-	// printf("---");
-	// while (new_tab[i])
-	// {
-	// 	printf("%s ", new_tab[i]);
-	// 	i++;
-	// }
-	// printf("\n");
+	new_tab[++j] = NULL;
 	return (new_tab);
 }
 
@@ -113,7 +99,6 @@ char *ft_join_free(char *s1, char *s2)
 		new_string[i++] = s2[j++];
 	new_string[i] = 0;
 	free(s1);
-	// free(s2);
 	return(new_string);
 }
 
@@ -140,14 +125,16 @@ void	put_tab(t_cmd *cmd, t_cmd *cpy_cmd)
 	return ;
 }
 
-void	relink_commands(t_token *token, t_cmd *cmd)
+void	relink_commands(t_token *token, t_cmd *cpy_cmd)
 {
 	// t_cmd *cpy_cmd;
 	int i;
+	t_cmd *cmd;
+	int i; 
 	int z = 0;
 
 	i = 0;
-	// cpy_cmd = cmd->next;
+	cmd = cpy_cmd;
 	while (token)
 	{
 		// if (cmd->next)
@@ -180,6 +167,7 @@ void	relink_commands(t_token *token, t_cmd *cmd)
 		// else
 
 		// printf("next %s\n", cmd->value);
+		printf("next %s\n", cmd->value);
 		if (token->next && token->next->type == PIPE)
 		{
 			z = 0;
@@ -198,6 +186,13 @@ void	relink_commands(t_token *token, t_cmd *cmd)
 		}
 		i++;
 		token = token->next;
+	}
+	cmd = cpy_cmd;
+	while (cmd)
+	{
+		if (cmd->tab == NULL) 
+			cmd->tab = ft_join_tab(cmd->tab, NULL, cmd->value);
+		cmd = cmd->next;
 	}
 	return ;
 }
