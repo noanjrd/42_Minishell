@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 14:53:47 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 15:32:46 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 		if (cmd->fdin != -99 && cmd->check_fdin == 1)
 			dup2(cmd->fdin, STDIN_FILENO);
 		else if (cmd->prev_fdpipe)
+		{
+			printf("prev pipe existant\n");
 			dup2(cmd->prev_fdpipe[0], STDIN_FILENO);
-
+		}
 		if (cmd->fdout != -99 && cmd->check_fdout == 1)
 			dup2(cmd->fdout, STDOUT_FILENO);
 		else if (cmd->next)
 			dup2(cmd->fdpipe[1], STDOUT_FILENO);
-
 		close(cmd->fdpipe[0]);
 		close(cmd->fdpipe[1]);
 		if (cmd->prev_fdpipe) // Ferme les descripteurs de pipe précédent
@@ -36,9 +37,12 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 			close(cmd->prev_fdpipe[0]);
 			close(cmd->prev_fdpipe[1]);
 		}
-		execve(cmd->path, cmd->tab, data->envp);
+		if (builtin_check(data, cmd->tab[0]) == 1)
+			go_to_right_builtin(data, cmd->index);
+		else
+			execve(cmd->path, cmd->tab, data->envp);
 		perror("execve");
-		// exit(1);
+		exit(data->exit_code);
 	}
 	if (cmd->prev_fdpipe)
 	{
@@ -49,7 +53,7 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 	}
 	if (cmd->next && cmd->next->type != IN_OUT_FILENAME)
 	{
-		cmd->next->prev_fdpipe = malloc(3 * sizeof(int));
+		cmd->next->prev_fdpipe = malloc(2 * sizeof(int));
 		cmd->next->prev_fdpipe[0] = cmd->fdpipe[0];
 		cmd->next->prev_fdpipe[1] = cmd->fdpipe[1];
 	}
@@ -91,15 +95,42 @@ void wait_p(t_data *data)
 
 void	check_if_builtin(t_data *data, t_cmd *cmd, char *s)
 {
-	if (builtin_check(data, s) == 1)
-	{
-		printf("builtin\n");
-		go_to_right_builtin(data, cmd->index);
-	}
-	else
-	{
-		excve_apply(data, cmd);
-	}
+	// if (builtin_check(data, s) == 1)
+	// {
+	// 	pipe(cmd->fdpipe);
+	// 	cmd->pid = fork();
+	// 	if (cmd->pid == 0)
+	// 	{
+	// 		if (cmd->fdout != -99 && cmd->check_fdout == 1)
+	// 			dup2(cmd->fdout, STDOUT_FILENO);
+	// 		else if (cmd->next)
+	// 			dup2(cmd->fdpipe[1], STDOUT_FILENO);
+	// 		close(cmd->fdpipe[0]);
+	// 		close(cmd->fdpipe[1]);
+	// 		// execve(cmd->path, cmd->tab, data->envp);
+	// 		go_to_right_builtin(data, cmd->index);
+	// 	}
+	// 	if (cmd->prev_fdpipe)
+	// 	{
+	// 		close(cmd->prev_fdpipe[0]);
+	// 		close(cmd->prev_fdpipe[1]);
+	// 		free(cmd->prev_fdpipe);
+	// 		cmd->prev_fdpipe = NULL;
+	// 	}
+	// 	if (cmd->next && cmd->next->type != IN_OUT_FILENAME)
+	// 	{
+	// 		cmd->next->prev_fdpipe = malloc(3 * sizeof(int));
+	// 		cmd->next->prev_fdpipe[0] = cmd->fdpipe[0];
+	// 		cmd->next->prev_fdpipe[1] = cmd->fdpipe[1];
+	// 	}
+	// 	else
+	// 	{
+	// 		close(cmd->fdpipe[0]);
+	// 		close(cmd->fdpipe[1]);
+	// 	}
+	// 	printf("builtin\n");
+	// }
+	excve_apply(data, cmd);
 	return ;
 }
 
@@ -119,7 +150,7 @@ void	real_exec(t_data *data)
 	{
 		if (cpy_cmd->type != IN_OUT_FILENAME)
 		{
-			check_if_builtin(data, cpy_cmd, cpy_cmd->tab[0]);
+			excve_apply(data, cpy_cmd);
 			i++;
 		}
 		printf("here\n");
