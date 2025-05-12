@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:23:27 by njard             #+#    #+#             */
-/*   Updated: 2025/05/09 12:01:22 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 11:11:10 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	here_doc_start(char *stop, t_data *data)
 	char *line;
 	int fd;
 
-	fd = open("temp", O_WRONLY | O_CREAT | O_APPEND, 0644);
+	fd = open("temp", O_RDWR | O_CREAT | O_APPEND, 0700);
 	while (1)
 	{
 		line = readline("> ");
@@ -58,6 +58,8 @@ void	here_doc_start(char *stop, t_data *data)
 		write(fd, "\n", 1);
 		free(line);
 	}
+	close(fd);
+	fd = open("temp", O_RDONLY, 0700);
 	data->fd_here_doc = fd;
 	data->here_doc = 1;
 	return ;

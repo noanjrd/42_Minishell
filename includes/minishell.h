@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/11 14:10:22 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 11:43:50 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ void	real_exec(t_data *data);
 t_env	*env_init(t_env *env, char **envp);
 void	initalising_path(t_data *data);
 void	init_data(t_data *data, t_env *env);
+void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd);
 
 // PARSING
 

@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/11 13:58:14 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 11:32:11 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ void	exec_builtin(t_data *data)
 
 	cpy_cmd = data->commands;
 	cpy_token = data->tokens;
-	// printf_cmd(cpy_cmd);
-	// print_tokens(cpy_token);
 	while (cpy_token)
 	{
 		if (cpy_token->type == WORD || cpy_token->type == DOUBLE_QUOTES || cpy_token->type == SINGLE_QUOTES)
@@ -85,9 +83,7 @@ void	exec_builtin(t_data *data)
 			data->builtin_found = 0;
 		}
 		else
-		{
 			cpy_token = cpy_token->next;
-		}
 	}
 	cpy_cmd = data->commands;
 	cpy_token = data->tokens;
@@ -104,7 +100,6 @@ void	exec_fdin(t_data *data)
 
 	cpy_cmd = data->commands;
 	cpy_token = data->tokens;
-	// printf_cmd(cpy_cmd);
 	while (cpy_token)
 	{
 		if (cpy_token->next && (cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC))
@@ -113,12 +108,15 @@ void	exec_fdin(t_data *data)
 		{
 			if (cpy_cmd->here_doc == 0)
 			{
-				cpy_cmd->fdin = open(cpy_cmd->infile,O_RDONLY , 0644);
+				cpy_cmd->fdin = open(cpy_cmd->infile,O_RDONLY, 0700);
 				if (cpy_cmd->fdin >= 0)
 					cpy_cmd->check_fdin = 1;
 			}
 				if (cpy_cmd->here_doc == 1)
-				cpy_cmd->fdin = data->fd_here_doc;
+				{
+					cpy_cmd->fdin = data->fd_here_doc;
+					cpy_cmd->check_fdin = 1;
+				}
 		}
 		if (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND || cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
 			cpy_cmd = cpy_cmd->next;

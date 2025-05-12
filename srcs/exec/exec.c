@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/11 14:28:35 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/12 11:26:16 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,6 @@ void	excve_apply(t_cmd *cmd)
 {
 	pipe(cmd->fdpipe);
 	printf("la< %s\n", cmd->value);
-	// if (cmd->fdin != -99 && cmd->check_fdin == 1)
-	// {
-	// 	printf("put fdin\n");
-	// 	cmd->fdpipe[0] = cmd->fdin;
-	// }
-	// int fd = open("../../Makefile", O_RDONLY , 0644);
 	cmd->pid = fork();
 	if (cmd->pid == 0)
 	{
@@ -37,11 +31,11 @@ void	excve_apply(t_cmd *cmd)
 
 		close(cmd->fdpipe[0]);
 		close(cmd->fdpipe[1]);
-        if (cmd->prev_fdpipe) // Ferme les descripteurs de pipe précédent
-        {
-            close(cmd->prev_fdpipe[0]);
-            close(cmd->prev_fdpipe[1]);
-        }
+		if (cmd->prev_fdpipe) // Ferme les descripteurs de pipe précédent
+		{
+			close(cmd->prev_fdpipe[0]);
+			close(cmd->prev_fdpipe[1]);
+		}
 		execve(cmd->path, cmd->tab, NULL);
 		perror("execve");
 		// exit(1);
@@ -62,7 +56,7 @@ void	excve_apply(t_cmd *cmd)
 	else
 	{
 		close(cmd->fdpipe[0]);
-        close(cmd->fdpipe[1]);
+		close(cmd->fdpipe[1]);
 	}
 
 	// close(cmd->prev_fdpipe[0]);
@@ -109,9 +103,12 @@ void	real_exec(t_data *data)
 	pipe(cpy_cmd->fdpipe);
 	while (i < data->nb_of_commands)
 	{
+		if (cpy_cmd->type != IN_OUT_FILENAME)
+		{
+			excve_apply(cpy_cmd);
+			i++;
+		}
 		printf("here\n");
-		excve_apply(cpy_cmd);
-		i++;
 		cpy_cmd  = cpy_cmd->next;
 	}
 	wait_p(data);
