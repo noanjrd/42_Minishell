@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 10:16:56 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 11:10:31 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int main(int argc, char **argv, char **envp)
 		make_commands(data,NULL, NULL, NULL);
 		// printf_cmd(data->commands);
 		exec(data);
+		free_token_list(data->tokens);
 		free_readline_data(data);
 	}
 	if (argc >= 4)
@@ -107,6 +108,7 @@ int main(int argc, char **argv, char **envp)
 		make_commands(data,NULL, NULL, NULL);
 		// printf_cmd(data->commands);
 		exec(data);
+		free_token_list(data->tokens);
 		free_readline_data(data);
 	}
 	if (argc >= 5)
@@ -115,6 +117,8 @@ int main(int argc, char **argv, char **envp)
 		make_commands(data,NULL, NULL, NULL);
 		// printf_cmd(data->commands);
 		exec(data);
+		free_token_list(data->tokens);
+		free_readline_data(data);
 	}
 	free_data(data);
 	// free_token_list(data->tokens);
