@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 11:01:51 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 11:34:44 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 		else
 		{
 			execve(cmd->path, cmd->tab, data->envp);
-			exit(data->exit_code);
+			// exit(data->exit_code);
 		}
-		// exit(data->exit_code);
+		exit(data->exit_code);
 		// perror("execve");
 	}
 	if (cmd->prev_fdpipe)
@@ -82,6 +82,7 @@ void wait_p(t_data *data)
 	int status;
 
 	cpy_cmd = data->commands;
+	j = 0;
 	while (cpy_cmd && cpy_cmd->type == IN_OUT_FILENAME)
 	{
 		cpy_cmd = cpy_cmd->next;
@@ -100,47 +101,6 @@ void wait_p(t_data *data)
 	return ;
 }
 
-void	check_if_builtin(t_data *data, t_cmd *cmd, char *s)
-{
-	// if (builtin_check(data, s) == 1)
-	// {
-	// 	pipe(cmd->fdpipe);
-	// 	cmd->pid = fork();
-	// 	if (cmd->pid == 0)
-	// 	{
-	// 		if (cmd->fdout != -99 && cmd->check_fdout == 1)
-	// 			dup2(cmd->fdout, STDOUT_FILENO);
-	// 		else if (cmd->next)
-	// 			dup2(cmd->fdpipe[1], STDOUT_FILENO);
-	// 		close(cmd->fdpipe[0]);
-	// 		close(cmd->fdpipe[1]);
-	// 		// execve(cmd->path, cmd->tab, data->envp);
-	// 		go_to_right_builtin(data, cmd->index);
-	// 	}
-	// 	if (cmd->prev_fdpipe)
-	// 	{
-	// 		close(cmd->prev_fdpipe[0]);
-	// 		close(cmd->prev_fdpipe[1]);
-	// 		free(cmd->prev_fdpipe);
-	// 		cmd->prev_fdpipe = NULL;
-	// 	}
-	// 	if (cmd->next && cmd->next->type != IN_OUT_FILENAME)
-	// 	{
-	// 		cmd->next->prev_fdpipe = malloc(3 * sizeof(int));
-	// 		cmd->next->prev_fdpipe[0] = cmd->fdpipe[0];
-	// 		cmd->next->prev_fdpipe[1] = cmd->fdpipe[1];
-	// 	}
-	// 	else
-	// 	{
-	// 		close(cmd->fdpipe[0]);
-	// 		close(cmd->fdpipe[1]);
-	// 	}
-	// 	printf("builtin\n");
-	// }
-	excve_apply(data, cmd);
-	return ;
-}
-
 void	real_exec(t_data *data)
 {
 	t_cmd	*cpy_cmd;
@@ -152,7 +112,7 @@ void	real_exec(t_data *data)
 	{
 		cpy_cmd = cpy_cmd->next;
 	}
-	pipe(cpy_cmd->fdpipe);
+	// pipe(cpy_cmd->fdpipe);
 	while (i < data->nb_of_commands)
 	{
 		if (cpy_cmd->type != IN_OUT_FILENAME)

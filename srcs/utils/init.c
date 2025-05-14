@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:35:47 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 14:31:50 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 11:33:12 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	init_data(t_data *data, t_env *env, char **envp)
 	data->env = env;
 	data->line = NULL;
 	data->here_doc = 0;
+	data->fd_here_doc = -99;
 	data->nb_of_commands = 0;
 	initalising_path(data);
 }
