@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 15:32:46 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 11:01:51 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,17 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 			close(cmd->prev_fdpipe[1]);
 		}
 		if (builtin_check(data, cmd->tab[0]) == 1)
+		{
+			printf("builtin\n");
 			go_to_right_builtin(data, cmd->index);
+		}
 		else
+		{
 			execve(cmd->path, cmd->tab, data->envp);
-		perror("execve");
-		exit(data->exit_code);
+			exit(data->exit_code);
+		}
+		// exit(data->exit_code);
+		// perror("execve");
 	}
 	if (cmd->prev_fdpipe)
 	{
@@ -91,6 +97,7 @@ void wait_p(t_data *data)
 		cpy_cmd = cpy_cmd->next;
 		j++;
 	}
+	return ;
 }
 
 void	check_if_builtin(t_data *data, t_cmd *cmd, char *s)
@@ -150,6 +157,7 @@ void	real_exec(t_data *data)
 	{
 		if (cpy_cmd->type != IN_OUT_FILENAME)
 		{
+			// go_to_right_builtin(data, cpy_cmd->index);
 			excve_apply(data, cpy_cmd);
 			i++;
 		}

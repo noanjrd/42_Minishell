@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:42:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 15:02:33 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 10:35:55 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_token	*builtin_second(t_data *data, t_token *token, char *commands)
 	}
 	if (ft_strcmp(commands, "cd") == 0)
 	{
+		// printf("its cdddd\n");
 		ft_cd(data, data->env, token->next);
 		return (free(arg), token->next);
 	}
@@ -41,6 +42,7 @@ t_token	*builtin(t_data *data, t_token *token, char *commands)
 	
 	arg = NULL;
 
+	printf("builtin???\n");
 	if (ft_strcmp(commands, "echo") == 0)
 	{
 		ft_echo(data, data->env, token);
@@ -74,6 +76,7 @@ void	go_to_right_builtin(t_data *data, int i)
 			break;
 		cpy_token = cpy_token->next;
 	}
+	// printf("&&&%s\n", cpy_token->value);
 	builtin(data, cpy_token, cpy_token->value);
 	return ;
 }
