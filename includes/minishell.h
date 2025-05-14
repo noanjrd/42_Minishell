@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 14:34:44 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 11:25:31 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int		ft_atoi(const char *nptr);
 int		ft_isalnum(int c);
 char	*ft_strchr(const char *s, int c);
 int		ft_isdigit(int c);
+char	*ft_itoa(int n);
 
 
 // Free
@@ -150,10 +151,10 @@ void	add_token(t_token **head, t_token *new);
 void	print_tokens(t_token *head);
 t_token	*lexer(char *line);
 int		is_space(char c);
-int		is_symbol(char c);
+int	is_symbol(char c);
 int		ft_check_syntax_errors(t_token *token);
 t_token	*create_token_word(char *line, int *index);
-void	expander(t_token *token, t_env	*env);
+void	expander(t_token *token, t_data	*data);
 void	get_variable_value(t_token *token);
 void	free_token_list(t_token *head);
 

@@ -11,6 +11,7 @@ SRCS = srcs/main.c\
 	srcs/utils/free.c\
 	srcs/utils/ft_from_libft.c\
 	srcs/utils/ft_from_libft2.c\
+	srcs/utils/ft_from_libft3.c\
 	srcs/builtins/builtin.c\
 	srcs/builtins/env.c\
 	srcs/builtins/pwd.c\

@@ -52,7 +52,7 @@ int	get_token_lenght(char *str, t_env *env)
 	return (len);
 }
 
-char	*new_token_value(char *str, t_env	*env)
+char	*new_token_value(char *str, t_data	*data)
 {
 	int		i;
 	char	name[128];
@@ -61,8 +61,9 @@ char	*new_token_value(char *str, t_env	*env)
 	char	*final_buffer;
 	int		j;
 	int		k;
+	char	*str_exit_code;
 
-	final_buffer = malloc(get_token_lenght(str, env) + 1);
+	final_buffer = malloc(get_token_lenght(str, data->env) + 1);
 	if (!final_buffer)
 		return (NULL);
 	i = 0;
@@ -70,13 +71,20 @@ char	*new_token_value(char *str, t_env	*env)
 	while (str[i])
 	{
 		if (str[i] == '$' && str[i + 1] == '?')
-			final_buffer[j++] = str[i++];
+		{
+			str_exit_code = ft_itoa(data->exit_code);
+			k = 0;
+			while (str_exit_code[k])
+				final_buffer[j++] = str_exit_code[k++];
+			free(str_exit_code);
+			i += 2;
+		}
 		else if ((str[i] == '$') && (str[i + 1] == '\0'))
 			final_buffer[j++] = str[i++];
 		else if ((str[i] == '$' && ft_isdigit(str[i + 1])))
 		{
 			i += 2;
-			final_buffer[j++] = str[i++];
+			// final_buffer[j++] = str[i++];
 		}
 		else if ((str[i] == '$' && str[i + 1] != '$') || str[i] == 34)
 		{
@@ -86,7 +94,7 @@ char	*new_token_value(char *str, t_env	*env)
 			while (ft_isalnum(str[i]) || str[i] == '_')
 				name[name_len++] = str[i++];
 			name[name_len] = '\0';
-			value = ft_copy(ft_search_value(env, name));
+			value = ft_copy(ft_search_value(data->env, name));
 			// printf("%s\n", value);
 			if (!value)
 				value = ft_copy("");
@@ -102,7 +110,7 @@ char	*new_token_value(char *str, t_env	*env)
 	return (final_buffer);
 }
 
-void	expander(t_token *token, t_env	*env)
+void	expander(t_token *token, t_data	*data)
 {
 	t_token	*current;
 	char	*new_value;
@@ -112,14 +120,14 @@ void	expander(t_token *token, t_env	*env)
 	{
 		if (((current->type == WORD) || (current->type == DOUBLE_QUOTES)) && ft_strchr(current->value, '$'))
 		{
-			new_value = new_token_value(current->value, env);
+			new_value = new_token_value(current->value, data);
 			if (new_value)
 			{
 				free(current->value);
 				current->value = new_value;
 			}
 		}
-		// printf("Token apres expansion: %s\n", current->value);
+		printf("Token apres expansion: %s\n", current->value);
 		current = current->next;
 	}
 }
