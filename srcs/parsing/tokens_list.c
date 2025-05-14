@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 char	*ft_strdup(char *src)
 {
 	char	*dest;
@@ -50,21 +51,6 @@ t_token *create_token(t_token_type type, char *value)
 	return (token);
 }
 
-// t_token	*create_token(t_token_type type, const char *value)
-// {
-// 	t_token	*token;
-
-// 	token = malloc(sizeof(t_token));
-// 	if (!token)
-// 		return (NULL);
-// 	token->type = type;
-// 	token->value = strdup(value);
-// 	token->next = NULL;
-// 	token->index = index_t;
-// 	index_t += 1;
-// 	return(token);
-// }
-
 void	add_token(t_token **head, t_token *new)
 {
 	t_token	*current;
@@ -99,6 +85,7 @@ void	free_token_list(t_token *head)
 		free(temp);
 	}
 }
+
 void	print_tokens(t_token *head)
 {
 	t_token	*current;

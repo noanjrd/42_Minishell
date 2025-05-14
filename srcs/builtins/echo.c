@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:25:03 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 15:02:42 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 11:38:38 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,15 +99,15 @@ void	ft_echo(t_data *data, t_env *env, t_token *token)
 	// printf("coucou\n");
 	copy_token = copy_token->next;
 	// printf("%s\n",copy_token->value );
-	if (copy_token && copy_token->type ==  WORD || copy_token->type ==  SINGLE_QUOTES || copy_token->type ==  DOUBLE_QUOTES || copy_token->type == VARIABLE)
-	{
-		if (copy_token->value[0] == '$' && copy_token->value[1] == '?')
-		{
-			// data->exit_code = 7777;
-			printf("%d\n", data->exit_code);
-			return ;
-		}
-	}
+	// if (copy_token && copy_token->type ==  WORD || copy_token->type ==  SINGLE_QUOTES || copy_token->type ==  DOUBLE_QUOTES || copy_token->type == VARIABLE)
+	// {
+	// 	if (copy_token->value[0] == '$' && copy_token->value[1] == '?')
+	// 	{
+	// 		// data->exit_code = 7777;
+	// 		printf("%d\n", data->exit_code);
+	// 		return ;
+	// 	}
+	// }
 	while (copy_token && (copy_token->type ==  WORD || copy_token->type ==  SINGLE_QUOTES || copy_token->type ==  DOUBLE_QUOTES))
 	{
 		if (copy_token->value[0] == '-' && copy_token->value[1] == 'n')
