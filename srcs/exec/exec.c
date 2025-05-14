@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 11:34:44 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 16:39:14 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 	if (cmd->pid == 0)
 	{
 		if (cmd->fdin != -99 && cmd->check_fdin == 1)
+		{
+			printf("icii\n");
 			dup2(cmd->fdin, STDIN_FILENO);
+		}
 		else if (cmd->prev_fdpipe)
 		{
 			printf("prev pipe existant\n");
@@ -28,7 +31,7 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 		}
 		if (cmd->fdout != -99 && cmd->check_fdout == 1)
 			dup2(cmd->fdout, STDOUT_FILENO);
-		else if (cmd->next)
+		else if (cmd->next && cmd->next->redirect_in_before == 0)
 			dup2(cmd->fdpipe[1], STDOUT_FILENO);
 		close(cmd->fdpipe[0]);
 		close(cmd->fdpipe[1]);
@@ -113,7 +116,7 @@ void	real_exec(t_data *data)
 		cpy_cmd = cpy_cmd->next;
 	}
 	// pipe(cpy_cmd->fdpipe);
-	while (i < data->nb_of_commands)
+	while (cpy_cmd && i < data->nb_of_commands)
 	{
 		if (cpy_cmd->type != IN_OUT_FILENAME)
 		{

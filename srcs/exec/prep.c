@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 14:58:58 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 16:32:30 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void printf_cmd(t_cmd *cmd)
 	while (current)
 	{
 		i = 0;
-		printf("val=%s, in=%s, out=%s, fdin=%d, fdout=%d, i=%d, here=%d, appd=%d, path_f=%d, built=%d, path=%s ,",
+		printf("val=%s, in=%s, out=%s, fdin=%d, fdout=%d, i=%d, here=%d, appd=%d, path_f=%d, path=%s ,",
 			current->value,
 			current->infile ? current->infile : "NULL",
 			current->outfile ? current->outfile : "NULL",
@@ -30,7 +30,6 @@ void printf_cmd(t_cmd *cmd)
 			current->here_doc,
 			current->red_append,
 			current->path_found,
-			current->builtin,
 		current->path);
 		printf("tab = ");
 		if (current->tab)
@@ -69,33 +68,53 @@ void	exec_builtin(t_data *data)
 	t_cmd *cpy_cmd;
 	char *value_temp;
 
-	// cpy_cmd = data->commands;
-	// cpy_token = data->tokens;
-	// printf_cmd(cpy_cmd);
-	// print_tokens(cpy_token);
-	// while (cpy_token)
-	// {
-	// 	if (cpy_token->type == WORD || cpy_token->type == DOUBLE_QUOTES
-	// 		|| cpy_token->type == SINGLE_QUOTES)
-	// 	{
-	// 		cpy_token = builtin_check(data, cpy_token, cpy_token->value);
-	// 		if (data->builtin_found == 1)
-	// 		{
-	// 			cpy_cmd->builtin = 1;
-	// 			cpy_cmd = cpy_cmd->next;
-	// 		}
-	// 		data->builtin_found = 0;
-	// 	}
-	// 	else
-	// 		cpy_token = cpy_token->next;
-	// }
-	cpy_cmd = data->commands;
-	cpy_token = data->tokens;
+
 	check_path_exist(data, data->commands);
 	// printf_cmd(cpy_cmd);
+	cpy_cmd = data->commands;
+	cpy_token = data->tokens;
+	
 	printf_cmd(cpy_cmd);
 	number_of_commands(data);
 	real_exec(data);
+}
+
+void fdin_before(t_data *data, t_cmd *cmd)
+{
+	t_cmd *cpy_cmd;
+
+	cpy_cmd = cmd;
+	if (cmd->fdin > 0)
+		return ;
+	printf("BEFOOOORE\n");
+	if (cmd->next->redirect_in_before == 0)
+		return ;
+	while (cpy_cmd && cpy_cmd->next && cpy_cmd->next->type == IN_OUT_FILENAME)
+	{
+		cpy_cmd = cpy_cmd->next;
+	}
+	free(cmd->infile);
+	cmd->infile = ft_copy(cpy_cmd->value);
+	// printf("+++++%s\n", cpy_cmd->value);
+	cmd->fdin = open(cpy_cmd->value ,O_RDONLY, 0700);
+	if (cmd->fdin > 0)
+			cmd->check_fdin = 1;
+	return ;
+}
+
+void fdin_after(t_data *data, t_cmd *cmd)
+{
+	t_cmd *cpy_cmd;
+
+	cpy_cmd = cmd;
+	printf("AFTRRRRR\n");
+	if (cmd->next && cmd->next->type == WORD)
+	{
+		cpy_cmd->next->fdin = open(cpy_cmd->next->infile ,O_RDONLY, 0700);
+		if (cpy_cmd->next->fdin > 0)
+			cpy_cmd->next->check_fdin = 1;
+	}
+	return ;
 }
 
 void	fdin_check(t_data *data, t_cmd *cpy_cmd)
@@ -128,18 +147,27 @@ void	exec_fdin(t_data *data)
 	cpy_token = data->tokens;
 	while (cpy_token)
 	{
-		if (cpy_token->next && (cpy_token->type == REDIRECT_IN
-			|| cpy_token->type == HERE_DOC))
-			open_fdin(data, cpy_token, cpy_cmd);
-		if (cpy_cmd && cpy_cmd->infile && cpy_cmd->fdin == -99)
-			fdin_check(data, cpy_cmd);
-		if (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT
+		// if (cpy_token->next && (cpy_token->type == REDIRECT_IN
+		// 	|| cpy_token->type == HERE_DOC))
+		// 	open_fdin(data, cpy_token, cpy_cmd);
+		if (cpy_cmd->next && cpy_cmd->infile && cpy_cmd->next->type == IN_OUT_FILENAME)
+			fdin_before(data, cpy_cmd);
+		if (cpy_cmd->type == IN_OUT_FILENAME && cpy_cmd->redirect_in_before == 0)
+			fdin_after(data, cpy_cmd);
+		// if (cpy_cmd && cpy_cmd->infile && cpy_cmd->fdin == -99)
+		// 	fdin_check(data, cpy_cmd);
+		if (cpy_cmd->next && (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT
 			|| cpy_token->type == REDIRECT_APPEND
 			|| cpy_token->type == REDIRECT_IN
-			|| cpy_token->type == HERE_DOC)
+			|| cpy_token->type == HERE_DOC))
 			cpy_cmd = cpy_cmd->next;
 		cpy_token = cpy_token->next;
 	}
+	// cpy_cmd = data->commands;
+	// cpy_token = data->tokens;
+	// printf_cmd(cpy_cmd);
+	cpy_cmd = data->commands;
+	cpy_token = data->tokens;
 	exec_builtin(data);
 }
 
@@ -177,7 +205,9 @@ void	exec(t_data *data)
 	relink_commands(cpy_token, cpy_cmd);
 	cpy_token = data->tokens;
 	cpy_cmd = data->commands;
-	// printf_cmd(cpy_cmd);
+	printf_cmd(cpy_cmd);
+	cpy_token = data->tokens;
+	cpy_cmd = data->commands;
 	while (cpy_token)
 	{
 		if (cpy_token->type == HERE_DOC)

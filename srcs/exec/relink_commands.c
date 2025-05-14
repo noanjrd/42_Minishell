@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:22:15 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 14:22:24 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 15:50:49 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ void	put_tab(t_cmd *cmd, t_cmd *cpy_cmd)
 	cmd->outfile = ft_copy(cpy_cmd->outfile);
 	cmd->tab = ft_join_tab(cmd->tab, cmd->value, cpy_cmd->value);
 	cmd->value = ft_join_free(cmd->value, cpy_cmd->value);
+	if (cpy_cmd->infile)
+		cmd->infile = ft_copy(cpy_cmd->infile);
 	temp = cpy_cmd->next;
 	free(cpy_cmd->infile);
 	free(cpy_cmd->value);

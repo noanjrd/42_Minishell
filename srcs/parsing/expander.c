@@ -135,11 +135,6 @@ void	expander(t_token *token, t_data	*data)
 
 
 
-
-
-
-
-
 // test : echo "exit_code ->$? user ->$USER home -> $HOME" erreur car affiche ->$USER et pas ->naankour autre erreur $? doit afficher exit_code
 // echo $?HELLO doit afficher exit_code suivi de HELLO
 // echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<" doit afficher le $ aussi

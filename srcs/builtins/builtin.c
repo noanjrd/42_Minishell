@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:42:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 10:35:55 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 12:16:21 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_token	*builtin_second(t_data *data, t_token *token, char *commands)
 	}
 	if (ft_strcmp(commands, "cd") == 0)
 	{
-		// printf("its cdddd\n");
+		printf("its cdddd\n");
 		ft_cd(data, data->env, token->next);
 		return (free(arg), token->next);
 	}

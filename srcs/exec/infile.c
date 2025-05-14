@@ -6,24 +6,14 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:18:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 12:12:19 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 15:53:22 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	assign_value_cmd(t_cmd *cmd, t_cmd *cpy_cmd)
-{
-	free(cmd->value);
-	free(cmd->infile);
-	free(cmd->outfile);
-	cmd->value = ft_copy(cpy_cmd->value);
-	cmd->infile = ft_copy(cpy_cmd->infile);
-	cmd->outfile = ft_copy(cpy_cmd->outfile);
-	cmd->next = NULL;
-	return ;
-}
-
+ // < Makefile < history < Makefile2 ls | ls a tester apres modifs
+ 
 t_cmd *relink_fdin_cmd(t_cmd *cmd, t_cmd *cpy_cmd)
 {
 	t_cmd	*temp;
@@ -31,8 +21,14 @@ t_cmd *relink_fdin_cmd(t_cmd *cmd, t_cmd *cpy_cmd)
 	t_cmd *current;
 
 	start = cmd;
-	assign_value_cmd(cmd, cpy_cmd);
+	free(cmd->value);
+	free(cmd->infile);
+	free(cmd->outfile);
+	cmd->value = ft_copy(cpy_cmd->value);
+	cmd->infile = ft_copy(cpy_cmd->infile);
+	cmd->outfile = ft_copy(cpy_cmd->outfile);
 	current = cmd->next;
+	cmd->next = NULL;
 	while (current && current->index != cpy_cmd->index)
 	{
 		temp = current->next;
@@ -51,7 +47,8 @@ t_cmd *relink_fdin_cmd(t_cmd *cmd, t_cmd *cpy_cmd)
 		free(current);
 		cmd->next = temp;
 	}
-	return (start);
+
+	return start;
 }
 
 t_token *relink_fdin_token(t_token *token, t_token *cpy_token)
@@ -65,7 +62,7 @@ t_token *relink_fdin_token(t_token *token, t_token *cpy_token)
 	token->value = ft_copy(cpy_token->value);
 	token->type = cpy_token->type;
 	if (!token->value)
-		return (NULL);
+		return NULL;
 	current = token->next;
 	token->next = NULL;
 	while (current && current->index != cpy_token->index)
@@ -83,7 +80,7 @@ t_token *relink_fdin_token(t_token *token, t_token *cpy_token)
 		free(current);
 		token->next = temp;
 	}
-	return (start);
+	return start;
 }
 
 void	open_fdin(t_data *data, t_token *token, t_cmd *cmd)

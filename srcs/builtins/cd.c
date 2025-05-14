@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:32:25 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 10:51:20 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 12:17:39 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void go_into_specific_dr(t_env *env, char *current, char *path)
 	char *new_path;
 	char *temp;
 
+	printf("yeah\n");
 	temp = getcwd(NULL, 0);
 	new_path = ft_join(current, path);
 	free(current);
@@ -73,7 +74,7 @@ static void absolute_path(t_env *env, char *path)
 	char *temp;
 
 	temp = getcwd(NULL, 0);
-	printf("%s\n", path);
+	// printf("%s\n", path);
 	if (access(path, F_OK) == 0)
 	{
 		chdir(path);
@@ -180,7 +181,7 @@ void ft_cd(t_data *data, t_env *env, t_token *token)
 	change_value(env, "OLDPWD", temp);
 	chdir(path);
 	change_value(env, "PWD", path);
-	printf("%s, %s\n", path, ft_search_value(env, "PWD"));
+	// printf("%s, %s\n", path, ft_search_value(env, "PWD"));
 	data->exit_code = 0;
 	return ;
 }
