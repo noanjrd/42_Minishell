@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:25:03 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 11:38:38 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/15 11:11:42 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ static int	value_env(t_data *data, t_env *env, char *arg, int i)
 
 	j = 0;
 	// printf("%s\n", arg);
-	if (arg[0] == '$' && arg[1] == '?')
-	{
-		printf("%d", data->exit_code);
-		return (1);
-	}
+	// if (arg[0] == '$' && arg[1] == '?')
+	// {
+	// 	printf("%d", data->exit_code);
+	// 	return (1);
+	// }
 	while (arg[i + j] && arg[i + j] != ' ')
 		j++;
 	name = malloc((j + 1) * sizeof(char));

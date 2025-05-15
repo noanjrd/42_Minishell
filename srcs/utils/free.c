@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:39:25 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 14:27:16 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/15 10:22:52 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void free_data(t_data *data)
 	free_env(data->env);
 	// free_token(data->tokens);
 	free_cmd(data->commands);
-	if (data->here_doc == 1)
+	if (data->fd_here_doc > 0)
 	{
 		close(data->fd_here_doc);
 		unlink("temp");

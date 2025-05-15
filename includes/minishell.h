@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 15:22:59 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/15 10:54:53 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_cmd
 	int fdout;
 	pid_t	pid;
 	int red_append;
+	int red_out;
 	int here_doc;
 	int check_fdout;
 	int check_fdin;
@@ -81,7 +82,6 @@ typedef struct t_data
 {
 	char	**paths_system;
 	int		fd_here_doc;
-	int		here_doc;
 	char	*line;
 	char **envp;
 	int		exit_code;
@@ -133,11 +133,12 @@ void	free_data(t_data *data);
 void	exec(t_data *data);
 void	here_doc(t_token *token, t_data *data);
 void	open_fdout(t_data *data, t_token *token, t_cmd *cmd);
-void	open_fdin(t_data *data, t_token *token, t_cmd *cmd);
 void	relink_commands(t_token *token, t_cmd *cmd);
 void	check_path_exist(t_data *data, t_cmd *cmd);
 void	real_exec(t_data *data);
 void	fdin_check(t_data *data, t_cmd *cpy_cmd);
+void fdin_after(t_data *data, t_cmd *cmd);
+void fdin_before(t_data *data, t_cmd *cmd);
 
 // Init
 

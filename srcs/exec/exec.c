@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 16:39:14 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/15 11:03:06 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,13 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 		}
 		else
 		{
-			execve(cmd->path, cmd->tab, data->envp);
+			if (cmd->path == NULL)
+			{
+				data->exit_code = 127;
+				printf("not found\n");
+			}
+			else
+				execve(cmd->path, cmd->tab, data->envp);
 			// exit(data->exit_code);
 		}
 		exit(data->exit_code);

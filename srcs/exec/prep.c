@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 16:32:30 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/15 10:53:34 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,65 +77,6 @@ void	exec_builtin(t_data *data)
 	printf_cmd(cpy_cmd);
 	number_of_commands(data);
 	real_exec(data);
-}
-
-void fdin_before(t_data *data, t_cmd *cmd)
-{
-	t_cmd *cpy_cmd;
-
-	cpy_cmd = cmd;
-	if (cmd->fdin > 0)
-		return ;
-	printf("BEFOOOORE\n");
-	if (cmd->next->redirect_in_before == 0)
-		return ;
-	while (cpy_cmd && cpy_cmd->next && cpy_cmd->next->type == IN_OUT_FILENAME)
-	{
-		cpy_cmd = cpy_cmd->next;
-	}
-	free(cmd->infile);
-	cmd->infile = ft_copy(cpy_cmd->value);
-	// printf("+++++%s\n", cpy_cmd->value);
-	cmd->fdin = open(cpy_cmd->value ,O_RDONLY, 0700);
-	if (cmd->fdin > 0)
-			cmd->check_fdin = 1;
-	return ;
-}
-
-void fdin_after(t_data *data, t_cmd *cmd)
-{
-	t_cmd *cpy_cmd;
-
-	cpy_cmd = cmd;
-	printf("AFTRRRRR\n");
-	if (cmd->next && cmd->next->type == WORD)
-	{
-		cpy_cmd->next->fdin = open(cpy_cmd->next->infile ,O_RDONLY, 0700);
-		if (cpy_cmd->next->fdin > 0)
-			cpy_cmd->next->check_fdin = 1;
-	}
-	return ;
-}
-
-void	fdin_check(t_data *data, t_cmd *cpy_cmd)
-{
-	if (cpy_cmd->here_doc == 0)
-	{
-		cpy_cmd->fdin = open(cpy_cmd->infile,O_RDONLY, 0700);
-		if (cpy_cmd->fdin >= 0)
-			cpy_cmd->check_fdin = 1;
-		else
-		{
-			printf("faux fdin\n");
-			data->exit_code = 1;
-		}
-	}
-	else
-	{
-		cpy_cmd->fdin = data->fd_here_doc;
-		cpy_cmd->check_fdin = 1;
-	}
-	return ;
 }
 
 void	exec_fdin(t_data *data)

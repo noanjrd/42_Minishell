@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:54:46 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 16:24:48 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/15 11:01:27 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,21 @@ void	initalising_path(t_data *data)
 	data->paths_system = path;
 }
 
+// void	exit_code_path(t_data *data, t_cmd *cmd)
+// {
+// 	t_cmd *copy;
+
+// 	copy = cmd;
+// 	while (copy)
+// 	{
+// 		if (access(copy->path, F_OK) != 0)
+// 		{
+// 			data->exit_code = 127;
+// 		}
+// 		copy = copy->next;
+// 	}
+// 	return ;
+// }
 void	check_path_exist(t_data *data, t_cmd *cmd)
 {
 	t_cmd *cpy_cmd;
@@ -118,5 +133,5 @@ void	check_path_exist(t_data *data, t_cmd *cmd)
 		}
 		cpy_cmd = cpy_cmd->next;
 	}
-	return ;
+	// exit_code_path(data, cmd);
 }

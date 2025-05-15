@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 14:30:39 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/15 11:10:12 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ static void printf_cmd(t_cmd *cmd)
 	t_cmd *current = cmd;
 	while (current)
 	{
-		printf("value = %s, infile = %s, outfile = %s, type=%d, here_doc=%d, red_in_avant=%d\n",
+		printf("value = %s, infile = %s, outfile = %s, type=%d, here_doc=%d, red_in_avant=%d, red=%d\n",
 			current->value,
 			current->infile ? current->infile : "NULL",
 			current->outfile ? current->outfile : "NULL",
 			current->type,
 		current->here_doc,
-		current->redirect_in_before);
+		current->redirect_in_before,
+	current->red_out);
 		current = current->next;
 	}
 	printf("---------------------------\n");
@@ -38,7 +39,6 @@ void	free_readline_data(t_data *data)
 	if (data->fd_here_doc > 0)
 		close(data->fd_here_doc);
 	data->fd_here_doc = 0;
-	data->here_doc = 0;
 	data->nb_of_commands = 0;
 	data->tokens = NULL;
 	data->line = NULL;
@@ -66,7 +66,6 @@ void	ft_readline(t_data *data)
 		expander(data->tokens, data);
 		make_commands(data, NULL, NULL, NULL);
 		// printf_cmd(data->commands);
-		// printf_cmd(data->commands);
 		exec(data);
 		free(data->line);
 		free_token_list(data->tokens);
@@ -88,21 +87,25 @@ int main(int argc, char **argv, char **envp)
 	if (argc >= 2)
 	{
 		data->tokens = lexer(argv[1]);
+		expander(data->tokens, data);
 		make_commands(data,NULL, NULL, NULL);
 		printf_cmd(data->commands);
 		// printf_cmd(data->commands);
 		exec(data);
 		free_token_list(data->tokens);
 		free_readline_data(data);
+		// printf("%d\n", data->exit_code);
 	}
-	// if (argc >= 3)
-	// {
-	// 	data->tokens = lexer(argv[2]);
-	// 	make_commands(data,NULL, NULL, NULL);
-	// 	// printf_cmd(data->commands);
-	// 	exec(data);
-	// 	free_readline_data(data);
-	// }
+	if (argc >= 3)
+	{
+		data->tokens = lexer(argv[2]);
+		expander(data->tokens, data);
+		make_commands(data,NULL, NULL, NULL);
+		// printf_cmd(data->commands);
+		exec(data);
+		free_token_list(data->tokens);
+		free_readline_data(data);
+	}
 	// if (argc >= 4)
 	// {
 	// 	data->tokens = lexer(argv[3]);

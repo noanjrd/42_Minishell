@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 16:37:42 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/15 10:46:50 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ void	rest_ofthesteps(t_token *token, t_cmd *cmd)
 	{
 		if (cpy_token->type == HERE_DOC)
 		{
-			if (cpy_cmd->next)
-				cpy_cmd->next->here_doc = 1;
+			cpy_cmd->here_doc = 1;
 		}
-		if (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND || cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
+		if (cpy_cmd->next && ft_strcmp(cpy_token->value, cpy_cmd->value) == 0)
 		{
 			cpy_cmd = cpy_cmd->next;
 		}
@@ -102,6 +101,7 @@ void	assign_value(t_cmd *new_cmd, t_token *cpy_token, int i)
 	new_cmd->redirect_in_before = 0;
 	new_cmd->outfile = NULL;
 	new_cmd->next = NULL;
+	new_cmd->red_out = 0;
 	return ;
 }
 
@@ -151,6 +151,7 @@ void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd)
 			if (out == 1)
 			{
 				new_cmd->type = IN_OUT_FILENAME;
+				new_cmd->red_out = 1;
 				out = 0;
 			}
 			if (!head)

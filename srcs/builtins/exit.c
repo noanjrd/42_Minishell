@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:45:35 by njard             #+#    #+#             */
-/*   Updated: 2025/05/09 18:52:42 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/15 11:33:54 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,27 @@ void	ft_exit(t_data *data, t_token *token)
 	t_token *cpy_token;
 
 	cpy_token = token;
+	code_exit = 0;
 	if (cpy_token->next && cpy_token->next->type == WORD)
 	{
+		if (check_num(cpy_token->next->value) == 0)
+		{
+			exit_error(1);
+			data->exit_code = 1;
+			return ;
+		}
 		if (cpy_token->next->next && cpy_token->next->next->type == WORD)
 		{
 			exit_error(2);
-		}
-		if (check_num(cpy_token->value) == 0)
-		{
-			exit_error(1);
+			data->exit_code = 1;
+			return ;	
 		}
 		else
 		{
 			code_exit = ft_atoi(cpy_token->value);
 		}
 	}
-	code_exit = data->exit_code;
+	// printf("exit\n");
 	free_token_list(token);
 	free_data(data);
 	exit(code_exit);

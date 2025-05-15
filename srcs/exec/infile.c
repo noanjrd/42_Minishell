@@ -6,113 +6,98 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:18:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 15:53:22 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/15 11:20:12 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
- // < Makefile < history < Makefile2 ls | ls a tester apres modifs
- 
-t_cmd *relink_fdin_cmd(t_cmd *cmd, t_cmd *cpy_cmd)
+
+void fdin_before(t_data *data, t_cmd *cmd)
 {
-	t_cmd	*temp;
-	t_cmd	*start;
-	t_cmd *current;
+	t_cmd *cpy_cmd;
 
-	start = cmd;
-	free(cmd->value);
-	free(cmd->infile);
-	free(cmd->outfile);
-	cmd->value = ft_copy(cpy_cmd->value);
-	cmd->infile = ft_copy(cpy_cmd->infile);
-	cmd->outfile = ft_copy(cpy_cmd->outfile);
-	current = cmd->next;
-	cmd->next = NULL;
-	while (current && current->index != cpy_cmd->index)
-	{
-		temp = current->next;
-		free(current->value);
-		free(current->infile);
-		free(current->outfile);
-		free(current);
-		current = temp;
-	}
-	if (current && current->index == cpy_cmd->index)
-	{
-		free(current->value);
-		free(current->infile);
-		free(current->outfile);
-		temp = current->next;
-		free(current);
-		cmd->next = temp;
-	}
-
-	return start;
-}
-
-t_token *relink_fdin_token(t_token *token, t_token *cpy_token)
-{
-	t_token	*temp;
-	t_token	*start;
-	t_token *current;
-
-	start = token;
-	free(token->value);
-	token->value = ft_copy(cpy_token->value);
-	token->type = cpy_token->type;
-	if (!token->value)
-		return NULL;
-	current = token->next;
-	token->next = NULL;
-	while (current && current->index != cpy_token->index)
-	{
-		temp = current->next;
-		if (current->value)
-			free(current->value);
-		free(current);
-		current = temp;
-	}
-	if (current && current->index == cpy_token->index)
-	{
-		free(current->value);
-		temp = current->next;
-		free(current);
-		token->next = temp;
-	}
-	return start;
-}
-
-void	open_fdin(t_data *data, t_token *token, t_cmd *cmd)
-{
-	t_token *cpy_token;
-	t_cmd	*cpy_cmd;
-	int fdin;
-	cpy_token = token;
 	cpy_cmd = cmd;
-	int check = 0;
-
-	// printf("|%s|\n", cpy_token->value);
-	// printf("|%s|\n", cpy_token->next->value);
-	while (cpy_token->next->next && cpy_cmd->next->next && (cpy_cmd->next->type == IN_OUT_FILENAME || cpy_token->next->next->type == HERE_DOC || cpy_token->next->next->type == REDIRECT_IN))
+	if (cmd->fdin > 0)
+		return ;
+	printf("BEFOOOORE\n");
+	if (cmd->next->redirect_in_before == 0)
+		return ;
+	while (cpy_cmd && cpy_cmd->next && cpy_cmd->next->type == IN_OUT_FILENAME && cpy_cmd->next->red_out == 0)
 	{
-		check = 1;
-		// printf("{%s\n", cpy_cmd->value);
-		if (cpy_token->type == PIPE || cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND || cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
-		{
-			cpy_cmd = cpy_cmd->next;
-		}
-		cpy_token = cpy_token->next->next;
+		cpy_cmd = cpy_cmd->next;
 	}
-	// printf("%s\n", cpy_token->value);
-	// printf("%s\n", cpy_token->next->value);
-	// printf("%s\n", cpy_cmd->value);
-	// printf("%s\n", cpy_cmd->next->value);
-	if (check == 1)
+	// printf("+++++%s\n", cpy_cmd->value);
+	cmd->outfile = ft_copy(cpy_cmd->outfile);
+	cmd->fdout = cpy_cmd->fdout;
+	if (cmd->fdout > 0)
+		cmd->check_fdout = 1;
+	if (cpy_cmd->here_doc == 1)
 	{
-		// printf("relink\n");
-		token =  relink_fdin_token(token, cpy_token);
-		cmd = relink_fdin_cmd(cmd, cpy_cmd);
+		cmd->fdin = data->fd_here_doc;
+		cmd->check_fdin = 1;
+	}
+	else
+	{
+		free(cmd->infile);
+		cmd->infile = ft_copy(cpy_cmd->value);
+		cmd->fdin = open(cpy_cmd->value ,O_RDONLY, 0700);
+		if (cmd->fdin > 0)
+				cmd->check_fdin = 1;
+		else
+		{
+			perror("Error");
+			data->exit_code = 1;
+		}
+	}
+	return ;
+}
+
+void fdin_after(t_data *data, t_cmd *cmd)
+{
+	t_cmd *cpy_cmd;
+
+	cpy_cmd = cmd;
+	printf("AFTRRRRR\n");
+	if (cmd->next && cmd->next->type == WORD)
+	{
+		if (cmd->here_doc == 1)
+		{
+			cmd->next->fdin = data->fd_here_doc;
+			cmd->next->check_fdin = 1;
+		}
+		else
+		{
+			cpy_cmd->next->fdin = open(cpy_cmd->next->infile ,O_RDONLY, 0700);
+			if (cpy_cmd->next->fdin > 0)
+				cpy_cmd->next->check_fdin = 1;
+			else
+			{
+				perror("Error");
+				data->exit_code = 1;
+			}
+		}
+	}
+	return ;
+}
+
+void	fdin_check(t_data *data, t_cmd *cpy_cmd)
+{
+	if (cpy_cmd->here_doc == 0)
+	{
+		cpy_cmd->fdin = open(cpy_cmd->infile,O_RDONLY, 0700);
+		if (cpy_cmd->fdin >= 0)
+			cpy_cmd->check_fdin = 1;
+		else
+		{
+			printf("faux fdin\n");
+			data->exit_code = 1;
+		}
+	}
+	else
+	{
+		cpy_cmd->fdin = data->fd_here_doc;
+		cpy_cmd->check_fdin = 1;
 	}
 	return ;
 }
