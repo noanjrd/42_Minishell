@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   relink_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:22:15 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 14:22:24 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 11:58:25 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char **allocate_new_tab(char **tab, char *value)
 		i++;
 	if (value)
 		i++;
-		
+
 	new_tab = malloc((i + 2) * sizeof(char *));
 	if (!new_tab)
 		return (NULL);
@@ -60,7 +60,7 @@ int copy_value(char **new_tab, char *value, int j)
 	new_tab[j] = malloc((i + 1) * sizeof(char));
 	if (!new_tab[j])
 		return (j);
-		
+
 	i = 0;
 	while (value[i])
 	{
@@ -76,18 +76,18 @@ char **ft_join_tab(char **tab, char *value, char *value_app)
 {
 	char **new_tab;
 	int j = 0;
-		
+
 	new_tab = allocate_new_tab(tab, value);
 	if (!new_tab)
 		return (NULL);
-		
+
 	j = copy_existing_tab(new_tab, tab, j);
 	if (!tab && value)
 		j = copy_value(new_tab, value, j);
-		
+
 	j = copy_value(new_tab, value_app, j);
 	new_tab[j] = NULL;
-		
+
 	return (new_tab);
 }
 
@@ -157,10 +157,10 @@ void	relink_commands(t_token *token, t_cmd *cpy_cmd)
 	cmd = cpy_cmd;
 	while (token)
 	{
-		if (cmd->next)
-			printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->next->value);
-		else
-			printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->value);
+		// if (cmd->next)
+		// 	printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->next->value);
+		// else
+		// 	printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->value);
 		if (token->next && token->next->type != PIPE && cmd->next && cmd->type != IN_OUT_FILENAME)
 		{
 			if (cmd->next && cmd->next->type == IN_OUT_FILENAME)
@@ -187,7 +187,7 @@ void	relink_commands(t_token *token, t_cmd *cpy_cmd)
 		// else
 
 		// printf("next %s\n", cmd->value);
-		printf("next %s\n", cmd->value);
+		// printf("next %s\n", cmd->value);
 		if (token->next && token->next->type == PIPE)
 		{
 			z = 0;
@@ -210,7 +210,7 @@ void	relink_commands(t_token *token, t_cmd *cpy_cmd)
 	cmd = cpy_cmd;
 	while (cmd)
 	{
-		if (cmd->tab == NULL) 
+		if (cmd->tab == NULL)
 			cmd->tab = ft_join_tab(cmd->tab, NULL, cmd->value);
 		cmd = cmd->next;
 	}

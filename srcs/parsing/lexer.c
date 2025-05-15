@@ -83,7 +83,7 @@ t_token *lexer(char *line)
 		}
 		add_token(&head, token);
 	}
-	print_tokens(head);
+	// print_tokens(head);
 	return head;
 }
 // #include "../../includes/minishell.h"

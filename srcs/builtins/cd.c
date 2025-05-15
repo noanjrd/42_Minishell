@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:32:25 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 10:51:20 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 12:18:00 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void absolute_path(t_env *env, char *path)
 	char *temp;
 
 	temp = getcwd(NULL, 0);
-	printf("%s\n", path);
+	// printf("%s\n", path);
 	if (access(path, F_OK) == 0)
 	{
 		chdir(path);
@@ -152,9 +152,9 @@ void ft_cd(t_data *data, t_env *env, t_token *token)
 	temp = ft_copy(ft_search_value(env, "PWD"));
 	if (!cpy_token || cpy_token->type != WORD || ft_strcmp(cpy_token->value, "~") == 0)
 	{
-		printf("home\n");
+		// printf("home\n");
 		path = ft_copy(ft_search_value(env, "HOME"));
-		printf("!!!!%s, %s\n", path, ft_search_value(env, "PWD"));
+		// printf("!!!!%s, %s\n", path, ft_search_value(env, "PWD"));
 	}
 	else if (ft_strcmp(cpy_token->value, "-") == 0)
 	{
@@ -172,7 +172,7 @@ void ft_cd(t_data *data, t_env *env, t_token *token)
 		return(go_into_specific_dr(env, ft_copy(ft_search_value(env, "PWD")), ft_join("/",cpy_token->value)));
 	else if (cpy_token && ft_strcmp(cpy_token->value, "..") == 0)
 	{
-		printf("..\n");
+		// printf("..\n");
 		path = go_back_cd(temp);
 	}
 	else
@@ -180,7 +180,7 @@ void ft_cd(t_data *data, t_env *env, t_token *token)
 	change_value(env, "OLDPWD", temp);
 	chdir(path);
 	change_value(env, "PWD", path);
-	printf("%s, %s\n", path, ft_search_value(env, "PWD"));
+	// printf("%s, %s\n", path, ft_search_value(env, "PWD"));
 	data->exit_code = 0;
 	return ;
 }

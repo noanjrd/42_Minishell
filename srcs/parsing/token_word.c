@@ -30,6 +30,41 @@ int	is_symbol(char c)
 		return (1);
 	return (0);
 }
+// t_token *create_token_word(char *line, int *index)
+// {
+// 	int		i = *index;
+// 	int		start = i;
+// 	t_token	*token;
+// 	char	quote;
+// 	int		token_type = WORD;
+
+// 	if (line[i] == '\'' || line[i] == '"')
+// 	{
+// 		quote = line[i];
+// 		token_type = (quote == '"') ? DOUBLE_QUOTES : SINGLE_QUOTES;
+// 		i++;
+// 		start = i;
+// 		while (line[i] && line[i] != quote)
+// 			i++;
+// 		if (line[i] == '\0')
+// 		{
+// 			printf("Syntax error: unclosed quote\n");
+// 			return (NULL);
+// 		}
+// 		token = create_token(token_type, ft_substr(line, start, i - start));
+// 		i++; // skip closing quote
+// 	}
+// 	else
+// 	{
+// 		start = i;
+// 		while (line[i] && !is_space(line[i]) && line[i] != '\'' && line[i] != '"' && !is_symbol(line[i]))
+// 			i++;
+// 		token = create_token(WORD, ft_substr(line, start, i - start));
+// 	}
+
+// 	*index = i;
+// 	return (token);
+// }
 
 t_token *create_token_word(char *line, int *index)
 {

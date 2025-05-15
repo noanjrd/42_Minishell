@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 11:25:58 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:02:59 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	free_readline_data(t_data *data)
 	data->tokens = NULL;
 	data->line = NULL;
 	data->commands = NULL;
+	index_t = 0;
 	return ;
 }
 
