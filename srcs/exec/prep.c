@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/15 10:53:34 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/15 14:45:50 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,6 @@ void	exec(t_data *data)
 	cpy_token = data->tokens;
 	cpy_cmd = data->commands;
 	printf_cmd(cpy_cmd);
-	cpy_token = data->tokens;
-	cpy_cmd = data->commands;
 	while (cpy_token)
 	{
 		if (cpy_token->type == HERE_DOC)

@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:39:25 by njard             #+#    #+#             */
-/*   Updated: 2025/05/15 10:22:52 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/15 14:38:20 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,37 @@ void free_token(t_token *token)
 void free_cmd(t_cmd *cmd)
 {
 	t_cmd *temp;
+	int i;
 
+	i = 0;
 	temp = cmd;
 	while(temp)
 	{
+		i = 0;
 		temp = cmd->next;
 		free(cmd->value);
 		free(cmd->infile);
 		free(cmd->outfile);
+		if (cmd->fdpipe)
+		{
+			free(cmd->fdpipe);
+		}
+		free(cmd->prev_fdpipe);
+		if (cmd->path)
+			free(cmd->path);
+		if (cmd->fdin > 0)
+			close(cmd->fdin);
+		if (cmd->fdout > 0)
+			close(cmd->fdout);
+		if (cmd->tab)
+		{
+			while (cmd->tab[i])
+			{
+				free(cmd->tab[i]);
+				i++;
+			}
+			free(cmd->tab);
+		}
 		free(cmd);
 		// free(cmd->type);
 		cmd = temp;
@@ -52,6 +75,7 @@ void free_data(t_data *data)
 	int i;
 
 	i = 0;
+	printf("free\n");
 	if (data->paths_system)
 	{
 		while (data->paths_system[i])
@@ -63,8 +87,6 @@ void free_data(t_data *data)
 	}
 	free(data->line);
 	free_env(data->env);
-	// free_token(data->tokens);
-	free_cmd(data->commands);
 	if (data->fd_here_doc > 0)
 	{
 		close(data->fd_here_doc);

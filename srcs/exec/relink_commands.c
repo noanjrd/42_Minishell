@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:22:15 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 15:50:49 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/15 14:41:47 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,21 @@ int copy_value(char **new_tab, char *value, int j)
 	return (j);
 }
 
+void	ft_free_tab(char **tab)
+{
+	int i;
+
+	i = 0;
+	if (tab)
+	{
+		while(tab[i])
+		{
+			free(tab[i]);
+			i++;
+		}
+		free(tab);
+	}
+}
 
 char **ft_join_tab(char **tab, char *value, char *value_app)
 {
@@ -87,7 +102,7 @@ char **ft_join_tab(char **tab, char *value, char *value_app)
 		
 	j = copy_value(new_tab, value_app, j);
 	new_tab[j] = NULL;
-		
+	ft_free_tab(tab);
 	return (new_tab);
 }
 
@@ -139,6 +154,7 @@ void	put_tab(t_cmd *cmd, t_cmd *cpy_cmd)
 	free(cpy_cmd->infile);
 	free(cpy_cmd->value);
 	free(cpy_cmd->tab);
+	free(cpy_cmd->fdpipe);
 	free(cpy_cmd->outfile);
 	free(cpy_cmd);
 	cmd->next = temp;

@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/15 11:03:06 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/15 14:55:07 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 			dup2(cmd->prev_fdpipe[0], STDIN_FILENO);
 		}
 		if (cmd->fdout != -99 && cmd->check_fdout == 1)
+		{
+			printf("ya un fdout\n");
 			dup2(cmd->fdout, STDOUT_FILENO);
+		}
 		else if (cmd->next && cmd->next->redirect_in_before == 0)
 			dup2(cmd->fdpipe[1], STDOUT_FILENO);
 		close(cmd->fdpipe[0]);
@@ -133,6 +136,6 @@ void	real_exec(t_data *data)
 		printf("here\n");
 		cpy_cmd  = cpy_cmd->next;
 	}
-	wait_p(data);
+	// wait_p(data);
 	return ;
 }

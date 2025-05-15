@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:14:21 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 14:20:06 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/15 14:55:50 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,7 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 	int	append;
 
 	check = 0;
-
-	cpy = token;
-	cpy = cpy->next;
+	cpy = token->next;
 	// printf("%s", cpy->value);
 	while (cpy)
 	{
@@ -97,9 +95,13 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 			if (fdout < 0)
 			{
 				data->exit_code = 1;
-				cmd->check_fdout = -1;
+				perror("Error");
+				cmd->check_fdout = 0;
 			}
-			cmd->outfile = cpy->next->value;
+			else
+				cmd->check_fdout = 1;
+			free(cmd->outfile);
+			cmd->outfile = ft_copy(cpy->next->value);
 			cmd->fdout = fdout;
 			return ;
 		}
@@ -120,16 +122,27 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 		printf("app\n");
 		cmd->red_append = 1;
 		fdout = open(cpy->next->value,O_WRONLY | O_CREAT | O_APPEND, 0700);
+		cmd->check_fdout = 1;
 	}
 	else 
+	{
 		fdout = open(cpy->next->value,O_WRONLY | O_CREAT, 0700);
-	cmd->outfile = cpy->next->value;
+		cmd->check_fdout = 1;
+	}
+	if (fdout < 0)
+	{
+		data->exit_code = 1;
+		perror("Error");
+		cmd->check_fdout = 0;
+	}
+	free(cmd->outfile);
+	cmd->outfile = ft_copy(cpy->next->value);
 	cmd->fdout = fdout;
 	// printf("lol\n");
 	// printf("%s\n", token->value);
 	// printf("cmd = %s\n", cmd->value);
 	// printf("%s\n", cpy->next->value);
-	ft_relink_linked_list(token,cmd, cpy->next->value,0);
-	ft_relink_linked_cmd(cmd, cpy->next->value, 0);
+	// ft_relink_linked_list(token,cmd, cpy->next->value,0);
+	// ft_relink_linked_cmd(cmd, cpy->next->value, 0);
 	return ;
 }
