@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:39:25 by njard             #+#    #+#             */
-/*   Updated: 2025/05/15 14:38:20 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 10:37:42 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void free_data(t_data *data)
 	int i;
 
 	i = 0;
-	printf("free\n");
+	// printf("free\n");
 	if (data->paths_system)
 	{
 		while (data->paths_system[i])

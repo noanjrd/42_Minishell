@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/07 13:00:16 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 14:01:33 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,19 @@ static char *get_name_export(char *export)
 	{
 		i++;
 	}
+	if (export[i - 1] == '+')
+		i--;
 	name = malloc(sizeof(char) * (i + 1));
 	if (!name)
 		return (NULL);
 	j = 0;
-	i = 0;
-	while(export[i] && export[i] != '=')
+	while(j < i)
 	{
-		name[j] = export[i];
-		i++;
+		name[j] = export[j];
 		j++;
 	}
 	name[j] = '\0';
 	return (name);
-	
 }
 
 static char *get_value_export(char *export)
@@ -60,51 +59,10 @@ static char *get_value_export(char *export)
 	j = 0;
 	while(export[i])
 	{
-		value[j] = export[i];
-		i++;
-		j++;
+		value[j++] = export[i++];
 	}
 	value[j] =  '\0';
 	return (value);
-}
-
-static int check_alrdy_exist(t_env *env, char *name, char *value)
-{
-	t_env	*copy;
-
-	copy = env;
-	while(copy)
-	{
-		if (ft_strcmp(copy->name, name) == 0)
-		{
-			free(copy->value);
-			copy->value = value;
-			return (1);
-		}
-		copy = copy->next;
-	}
-	return (0);
-}
-
-static void	create_export(t_env *env, char *name, char *value)
-{
-	t_env *temp;
-	t_env *new;
-
-	new = malloc(sizeof(t_env));
-	if (!new)
-		return ;
-	new->name = name;
-	new->value = value;
-	new->displayed = 0;
-	new->next = NULL;
-	temp = env;
-	while (temp->next)
-	{
-		temp = temp->next;
-	}
-	temp->next = new;
-	return ;
 }
 
 static int	check_valid_name(char *name)
@@ -132,7 +90,7 @@ void export_launch(t_env *env, char *export)
 	if (check_valid_name(name) == 1)
 		return;
 	value = get_value_export(export);
-	if (check_alrdy_exist(env, name, value) == 1)
+	if (check_alrdy_exist(env, name, value, export) == 1)
 	{
 		free(name);
 		return ;
@@ -143,36 +101,18 @@ void export_launch(t_env *env, char *export)
 
 void ft_export(t_env *env, t_token *token)
 {
-	// int i;
-	// char *arg;
-	
-	// arg = NULL;
-	t_token *token_copy = token;
-	// i = 6;
-	// while(export[i])
-	// {
-	// 	if (export[i] != ' ' && !(export[i] >= 7 && export[i] <= 13))
-	// 	{
-	// 		i = -99;
-	// 		break;
-	// 	}
-	// 	i++;
-	// }
-	if (!token_copy->next || token_copy->next->type != WORD)
+	t_token *token_copy;
+
+	token_copy = token;
+	if (!token_copy->next || (token_copy->next->type != WORD && token_copy->next->type != SINGLE_QUOTES && token_copy->type != DOUBLE_QUOTES))
 	{
 		return (display_export(env));
 	}
 	token_copy = token_copy->next;
-	// else
-	// {
-	// 	arg = cut_builtin(export);
-	// }
-	while (token_copy && token_copy->type == WORD)
+	while (token_copy && (token_copy->type == WORD || token_copy->type == SINGLE_QUOTES || token_copy->type == DOUBLE_QUOTES))
 	{
-		// printf("%s\n", token_copy->value);
 		export_launch(env, token_copy->value);
 		token_copy = token_copy->next;
 	}
-	// export_launch(env, arg);
-	// free(arg);
+	return ;
 }

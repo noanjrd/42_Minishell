@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/15 14:05:05 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 14:03:09 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ typedef struct s_cmd
 	int here_doc;
 	int check_fdout;
 	int check_fdin;
-	int path_found;
 	int redirect_in_before;
 	struct s_cmd *next;
 	t_token_type type;
@@ -94,7 +93,6 @@ typedef struct t_data
 
 t_token	*builtin(t_data *data, t_token *token, char *commands);
 void	ft_unset(t_env *env, t_token *token);
-void	display_export(t_env *env);
 void	display_env(t_env *env);
 void	ft_export(t_env *env, t_token *token);
 void	ft_cd(t_data *data, t_env *env, t_token *token);
@@ -104,6 +102,15 @@ void	ft_pwd(t_env *env);
 t_token	*update_echo_struct(t_token *token);
 int	builtin_check(t_data *data, char *commands);
 void	go_to_right_builtin(t_data *data, int i);
+
+
+// Export
+
+void	export_merge(t_env *env, char *name, char *value);
+int	check_plus(char *export);
+void	create_export(t_env *env, char *name, char *value);
+int check_alrdy_exist(t_env *env, char *name, char *value, char *export);
+void	display_export(t_env *env);
 
 // Utils
 
@@ -120,7 +127,6 @@ int		ft_isalnum(int c);
 char	*ft_strchr(const char *s, int c);
 int		ft_isdigit(int c);
 char	*ft_itoa(int n);
-
 
 // Free
 

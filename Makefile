@@ -15,7 +15,8 @@ SRCS = srcs/main.c\
 	srcs/builtins/builtin.c\
 	srcs/builtins/env.c\
 	srcs/builtins/pwd.c\
-	srcs/builtins/export_display.c\
+	srcs/builtins/export2.c\
+	srcs/builtins/export3.c\
 	srcs/builtins/unset.c\
 	srcs/builtins/cd.c\
 	srcs/builtins/echo.c\

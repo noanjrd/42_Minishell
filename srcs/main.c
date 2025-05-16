@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/15 14:50:12 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 13:00:34 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ static void printf_cmd(t_cmd *cmd)
 void	free_readline_data(t_data *data)
 {
 	if (data->fd_here_doc > 0)
+	{
 		close(data->fd_here_doc);
+		unlink("temp");
+	}
 	data->fd_here_doc = 0;
 	data->nb_of_commands = 0;
 	data->tokens = NULL;
@@ -96,17 +99,17 @@ int main(int argc, char **argv, char **envp)
 		free_readline_data(data);
 		// printf("%d\n", data->exit_code);
 	}
-	// if (argc >= 3)
-	// {
-	// 	data->tokens = lexer(argv[2]);
-	// 	expander(data->tokens, data);
-	// 	make_commands(data,NULL, NULL, NULL);
-	// 	// printf_cmd(data->commands);
-	// 	exec(data);
-	// 	free_token_list(data->tokens);
-	// 	free_cmd(data->commands);
-	// 	free_readline_data(data);
-	// }
+	if (argc >= 3)
+	{
+		data->tokens = lexer(argv[2]);
+		expander(data->tokens, data);
+		make_commands(data,NULL, NULL, NULL);
+		// printf_cmd(data->commands);
+		exec(data);
+		free_token_list(data->tokens);
+		free_cmd(data->commands);
+		free_readline_data(data);
+	}
 	// if (argc >= 4)
 	// {
 	// 	data->tokens = lexer(argv[3]);

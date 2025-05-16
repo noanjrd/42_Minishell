@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:45:35 by njard             #+#    #+#             */
-/*   Updated: 2025/05/15 11:33:54 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 11:27:08 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ void	ft_exit(t_data *data, t_token *token)
 		if (check_num(cpy_token->next->value) == 0)
 		{
 			exit_error(1);
-			data->exit_code = 1;
-			return ;
+			code_exit = 1;
 		}
 		if (cpy_token->next->next && cpy_token->next->next->type == WORD)
 		{

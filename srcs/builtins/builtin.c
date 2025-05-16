@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:42:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 12:16:21 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 14:03:52 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	go_to_right_builtin(t_data *data, int i)
 			break;
 		cpy_token = cpy_token->next;
 	}
-	// printf("&&&%s\n", cpy_token->value);
 	builtin(data, cpy_token, cpy_token->value);
 	return ;
 }
@@ -88,7 +87,7 @@ int	builtin_second_check(t_data *data, char *commands)
 	arg = NULL;
 	if (ft_strcmp(commands, "export") == 0)
 	{
-		return (1);
+		return (2);
 	}
 	if (ft_strcmp(commands, "cd") == 0)
 	{
@@ -117,7 +116,7 @@ int	builtin_check(t_data *data, char *commands)
 	}
 	if (ft_strcmp(commands, "env") == 0)
 	{
-		return (1);
+		return (2);
 	}
 	if (ft_strcmp(commands, "exit") == 0)
 	{

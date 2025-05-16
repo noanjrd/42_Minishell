@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_display.c                                   :+:      :+:    :+:   */
+/*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:57:03 by njard             #+#    #+#             */
-/*   Updated: 2025/04/21 13:29:19 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 13:39:33 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,41 @@ void	display_export(t_env *env)
 	{
 		cpy->displayed = 0;
 		cpy = cpy->next;
+	}
+	return ;
+}
+
+int	check_plus(char *export)
+{
+	int i;
+
+	i = 0;
+	while (export[i] && export[i] != '=')
+	{
+		i++;
+	}
+	if (export[i - 1] == '+')
+		return (1);
+	return (0);
+}
+
+void	export_merge(t_env *env, char *name, char *value)
+{
+	t_env *copy;
+	char *new_value;
+
+	copy = env;
+	new_value  =NULL;
+	while(copy)
+	{
+		if (ft_strcmp(copy->name, name) == 0)
+		{
+			new_value = ft_join(copy->value, value);
+			free(copy->value);
+			copy->value = new_value;
+			return ;
+		}
+		copy = copy->next;
 	}
 	return ;
 }

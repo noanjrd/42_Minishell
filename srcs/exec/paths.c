@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:54:46 by njard             #+#    #+#             */
-/*   Updated: 2025/05/15 11:01:27 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 14:04:12 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,18 +113,14 @@ void	check_path_exist(t_data *data, t_cmd *cmd)
 
 	cpy_cmd = cmd;
 	i = 0;
-	// printf("path");
 	while (cpy_cmd)
 	{
 		i = 0;
 		while (cpy_cmd->type != IN_OUT_FILENAME && cpy_cmd->tab && data->paths_system[i])
 		{
 			entire_path = ft_join(data->paths_system[i], cpy_cmd->tab[0]);
-			
-			// printf("### %s\n", entire_path);
 			if (access(entire_path, F_OK) == 0)
 			{
-				cpy_cmd->path_found =1;
 				cpy_cmd->path = entire_path;
 				break;
 			}
@@ -133,5 +129,5 @@ void	check_path_exist(t_data *data, t_cmd *cmd)
 		}
 		cpy_cmd = cpy_cmd->next;
 	}
-	// exit_code_path(data, cmd);
+	return ;
 }
