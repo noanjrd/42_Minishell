@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 14:36:23 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 12:40:28 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_token
 	t_token_type	type;
 	char			*value;
 	int				index;
+	int			has_space;
 	struct s_token	*next;
 }					t_token;
 
@@ -172,5 +173,6 @@ t_token	*create_token_word(char *line, int *index);
 void	expander(t_token *token, t_data	*data);
 void	get_variable_value(t_token *token);
 void	free_token_list(t_token *head);
+char	*new_token_value(char *str, t_data	*data);
 
 #endif

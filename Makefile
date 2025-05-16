@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-FLAGS =  -g3
+FLAGS = -g3
 LIBS = -lreadline
 RM = rm -rf
 
@@ -42,8 +42,7 @@ OBJS = ${SRCS:.c=.o}
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) $(SRCS) -o $(NAME) $(LIBS)
-	make clean
+	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(LIBS)
 
 %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@

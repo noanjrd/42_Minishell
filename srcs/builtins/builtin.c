@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:42:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 14:03:52 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 11:59:30 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ t_token	*builtin_second(t_data *data, t_token *token, char *commands)
 t_token	*builtin(t_data *data, t_token *token, char *commands)
 {
 	char *arg;
-	
+
 	arg = NULL;
 
-	printf("builtin???\n");
+	// printf("builtin???\n");
 	if (ft_strcmp(commands, "echo") == 0)
 	{
 		ft_echo(data, data->env, token);
@@ -103,7 +103,7 @@ int	builtin_second_check(t_data *data, char *commands)
 int	builtin_check(t_data *data, char *commands)
 {
 	char *arg;
-	
+
 	arg = NULL;
 
 	if (ft_strcmp(commands, "echo") == 0)

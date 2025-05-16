@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 13:59:39 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 11:59:33 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 		}
 		if (builtin_check(data, cmd->tab[0]) == 1)
 		{
-			printf("builtin\n");
+			// printf("builtin\n");
 			go_to_right_builtin(data, cmd->index);
 		}
 		else
@@ -148,7 +148,7 @@ void	real_exec(t_data *data)
 			excve_apply(data, cpy_cmd);
 			i++;
 		}
-		printf("here\n");
+		// printf("here\n");
 		cpy_cmd  = cpy_cmd->next;
 	}
 	wait_p(data);

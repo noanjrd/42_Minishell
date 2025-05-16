@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   relink_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:22:15 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 15:05:33 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/14 11:58:25 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ void	relink_commands(t_token *token, t_cmd *cpy_cmd)
 	cmd = cpy_cmd;
 	while (token)
 	{
-		if (cmd->next)
-			printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->next->value);
-		else
-			printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->value);
+		// if (cmd->next)
+		// 	printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->next->value);
+		// else
+		// 	printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->value);
 		if (token->next && token->next->type != PIPE && cmd->next && cmd->type != IN_OUT_FILENAME)
 		{
 			printf("join\n");

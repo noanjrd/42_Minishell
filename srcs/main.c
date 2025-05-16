@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 13:00:34 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 12:29:12 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void	ft_readline(t_data *data)
 
 int main(int argc, char **argv, char **envp)
 {
+	(void)argc;
+	(void)argv;
 	t_env	*env;
 	t_data *data;
 

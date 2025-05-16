@@ -12,15 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-// je parcours les tokens, chaque fois que j'ai un token word je regarde s'il y a un $,
-// si je le trouve je skip le $ et je copie ce qui suit tant que c'est un caractere alphanumérique ou un _
-// j'ai le nom de la variable
-// avec getenv je cherche dans l'env le nom de cette variable stockée dans value
-
-// maintenant je dois récuperer la totalité du token le copier et afficher la value a la place de la variable
-// a la fin remplacer current->value par le contenu du nouveau buffer
-// int	ft_isalnum(int c)
-
 int	get_token_lenght(char *str, t_env *env)
 {
 	int		len;
@@ -79,13 +70,10 @@ char	*new_token_value(char *str, t_data	*data)
 			free(str_exit_code);
 			i += 2;
 		}
-		else if ((str[i] == '$') && (str[i + 1] == '\0'))
+		else if ((str[i] == '$') && ((str[i + 1] == '\0') || (str[i + 1] == ' ') || (!ft_isalnum(str[i + 1]))))
 			final_buffer[j++] = str[i++];
-		else if ((str[i] == '$' && ft_isdigit(str[i + 1])))
-		{
+		else if (str[i] == '$' && ft_isdigit(str[i + 1]))
 			i += 2;
-			// final_buffer[j++] = str[i++];
-		}
 		else if ((str[i] == '$' && str[i + 1] != '$') || str[i] == 34)
 		{
 			// printf("%c\n", str[i]);
@@ -127,13 +115,10 @@ void	expander(t_token *token, t_data	*data)
 				current->value = new_value;
 			}
 		}
-		printf("Token apres expansion: %s\n", current->value);
+		// printf("Token apres expansion: %s\n", current->value);
 		current = current->next;
 	}
 }
-
-
-
 
 // test : echo "exit_code ->$? user ->$USER home -> $HOME" erreur car affiche ->$USER et pas ->naankour autre erreur $? doit afficher exit_code
 // echo $?HELLO doit afficher exit_code suivi de HELLO
@@ -142,8 +127,6 @@ void	expander(t_token *token, t_data	*data)
 
 // $USER$USER oooook mais doit afficher "naankournaankour :command not found"
 // $$USER oooook mais doit afficher "$naankour :command not found"
-
-
 
 // $ tout seul doit afficher quoi ?
 // $132 oooookkkk mais pas chiffre negatif
