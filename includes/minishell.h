@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 14:03:09 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 14:36:23 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,10 @@ void	ft_pwd(t_env *env);
 t_token	*update_echo_struct(t_token *token);
 int	builtin_check(t_data *data, char *commands);
 void	go_to_right_builtin(t_data *data, int i);
-
+char *cd_root(void);
+void cd_error(t_data *data, t_token *token);
+void go_into_specific_dr(t_env *env, char *current, char *path);
+void absolute_path(t_env *env, char *path);
 
 // Export
 
@@ -127,6 +130,7 @@ int		ft_isalnum(int c);
 char	*ft_strchr(const char *s, int c);
 int		ft_isdigit(int c);
 char	*ft_itoa(int n);
+void	ft_free_tab(char **tab);
 
 // Free
 
@@ -145,6 +149,8 @@ void	real_exec(t_data *data);
 void	fdin_check(t_data *data, t_cmd *cpy_cmd);
 void fdin_after(t_data *data, t_cmd *cmd);
 void fdin_before(t_data *data, t_cmd *cmd);
+char **ft_join_tab(char **tab, char *value, char *value_app);
+char *ft_join_free(char *s1, char *s2);
 
 // Init
 

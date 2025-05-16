@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:18:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/15 11:20:12 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 15:09:00 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void fdin_after(t_data *data, t_cmd *cmd)
 	t_cmd *cpy_cmd;
 
 	cpy_cmd = cmd;
-	printf("AFTRRRRR\n");
-	if (cmd->next && cmd->next->type == WORD)
+	printf("AFTRRRRR %s\n", cmd->value);
+	if (cmd->next && cmd->next->type == WORD && cmd->type != IN_OUT_FILENAME)
 	{
 		if (cmd->here_doc == 1)
 		{

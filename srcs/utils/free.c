@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:39:25 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 10:37:42 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 14:33:32 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void free_token(t_token *token)
 	{
 		temp = token->next;
 		free(token->value);
-		// free(token->type);
 		free(token);
 		token = temp;
 	}
@@ -33,7 +32,6 @@ void free_cmd(t_cmd *cmd)
 	t_cmd *temp;
 	int i;
 
-	i = 0;
 	temp = cmd;
 	while(temp)
 	{
@@ -43,10 +41,7 @@ void free_cmd(t_cmd *cmd)
 		free(cmd->infile);
 		free(cmd->outfile);
 		if (cmd->fdpipe)
-		{
 			free(cmd->fdpipe);
-		}
-		free(cmd->prev_fdpipe);
 		if (cmd->path)
 			free(cmd->path);
 		if (cmd->fdin > 0)
@@ -63,10 +58,8 @@ void free_cmd(t_cmd *cmd)
 			free(cmd->tab);
 		}
 		free(cmd);
-		// free(cmd->type);
 		cmd = temp;
 	}
-	return ;
 }
 
 // This function frees the memory allocated for data.
