@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:25:03 by njard             #+#    #+#             */
-/*   Updated: 2025/05/15 17:10:16 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/16 12:43:38 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,15 +99,6 @@ void	ft_echo(t_data *data, t_env *env, t_token *token)
 	// printf("coucou\n");
 	copy_token = copy_token->next;
 	// printf("%s\n",copy_token->value );
-	// if (copy_token && copy_token->type ==  WORD || copy_token->type ==  SINGLE_QUOTES || copy_token->type ==  DOUBLE_QUOTES || copy_token->type == VARIABLE)
-	// {
-	// 	if (copy_token->value[0] == '$' && copy_token->value[1] == '?')
-	// 	{
-	// 		// data->exit_code = 7777;
-	// 		printf("%d\n", data->exit_code);
-	// 		return ;
-	// 	}
-	// }
 	while (copy_token && (copy_token->type ==  WORD || copy_token->type ==  SINGLE_QUOTES || copy_token->type ==  DOUBLE_QUOTES))
 	{
 		if (copy_token->value[0] == '-' && copy_token->value[1] == 'n')
@@ -119,7 +110,7 @@ void	ft_echo(t_data *data, t_env *env, t_token *token)
 	while (copy_token && (copy_token->type == WORD || copy_token->type == SINGLE_QUOTES || copy_token->type == DOUBLE_QUOTES))
 	{
 		printf("%s", copy_token->value);
-		if (copy_token->next && (copy_token->next->type == WORD || copy_token->next->type == SINGLE_QUOTES || copy_token->next->type == DOUBLE_QUOTES))
+		if (copy_token->has_space && copy_token->next && (copy_token->next->type == WORD || copy_token->next->type == SINGLE_QUOTES || copy_token->next->type == DOUBLE_QUOTES))
 			printf(" ");
 		copy_token = copy_token->next;
 	}

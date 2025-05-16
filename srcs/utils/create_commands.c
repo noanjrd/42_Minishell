@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 14:21:38 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 12:32:47 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd)
 				fdin = NULL;
 				check = 0;
 			}
-			if (check == 3 && cpy_token->type == HERE_DOC || cpy_token->type == REDIRECT_IN)
+			if ((check == 3 && cpy_token->type == HERE_DOC) || (cpy_token->type == REDIRECT_IN))
 				check = 0;
 			if (out == 1)
 			{

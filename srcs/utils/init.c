@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:35:47 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 11:33:12 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 12:29:53 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // This function initializes the data structure
 void	init_data(t_data *data, t_env *env, char **envp)
 {
-	data->paths_system = NULL; 
+	data->paths_system = NULL;
 	data->exit_code = 0;
 	data->envp = envp;
 	data->env = env;
@@ -73,7 +73,7 @@ t_env	*env_init(t_env *env, char **envp)
 {
 	t_env	*head;
 	t_env	 *current;
-	t_env *temp;
+	// t_env *temp;
 	int i;
 
 	i = 0;

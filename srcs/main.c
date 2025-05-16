@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/15 17:02:59 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/16 12:29:12 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,22 @@
 #define COLOR_PINK "\001\033[38;5;205m\002"
 #define COLOR_RED
 
-static void printf_cmd(t_cmd *cmd)
-{
-	t_cmd *current = cmd;
-	while (current)
-	{
-		printf("value = %s, infile = %s, outfile = %s, type=%d, here_doc=%d\n",
-			current->value,
-			current->infile ? current->infile : "NULL",
-			current->outfile ? current->outfile : "NULL",
-			current->type,
-		current->here_doc);
-		current = current->next;
-	}
-	printf("---------------------------\n");
-	return ;
-}
+// static void printf_cmd(t_cmd *cmd)
+// {
+// 	t_cmd *current = cmd;
+// 	while (current)
+// 	{
+// 		printf("value = %s, infile = %s, outfile = %s, type=%d, here_doc=%d\n",
+// 			current->value,
+// 			current->infile ? current->infile : "NULL",
+// 			current->outfile ? current->outfile : "NULL",
+// 			current->type,
+// 		current->here_doc);
+// 		current = current->next;
+// 	}
+// 	printf("---------------------------\n");
+// 	return ;
+// }
 
 void	free_readline_data(t_data *data)
 {
@@ -76,6 +76,8 @@ void	ft_readline(t_data *data)
 
 int main(int argc, char **argv, char **envp)
 {
+	(void)argc;
+	(void)argv;
 	t_env	*env;
 	t_data *data;
 
