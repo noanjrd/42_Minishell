@@ -14,22 +14,39 @@
 
 void	excve_apply(t_data *data, t_cmd *cmd)
 {
-	pipe(cmd->fdpipe);
-	// printf("la< %s\n", cmd->value);
-	cmd->pid = fork();
-	if (cmd->pid == 0)
+	if (builtin_check(data, cmd->tab[0]) == 2)
+	{
+		printf("builtin\n");
+		go_to_right_builtin(data, cmd->index);
+	}
+	else
+	{
+		pipe(cmd->fdpipe);
+		cmd->pid = fork();
+	}
+	printf("la< %s\n", cmd->value);
+	if (cmd->pid == 0 && builtin_check(data, cmd->tab[0]) != 2)
 	{
 		if (cmd->fdin != -99 && cmd->check_fdin == 1)
+		{
+			printf("icii\n");
 			dup2(cmd->fdin, STDIN_FILENO);
+		}
 		else if (cmd->prev_fdpipe)
 		{
 			printf("prev pipe existant\n");
 			dup2(cmd->prev_fdpipe[0], STDIN_FILENO);
 		}
-		if (cmd->fdout != -99 && cmd->check_fdout == 1)
+		if (cmd->path != NULL && cmd->fdout != -99 && cmd->check_fdout == 1)
+		{
+			printf("ya un fdout\n");
 			dup2(cmd->fdout, STDOUT_FILENO);
-		else if (cmd->next)
+		}
+		else if (cmd->path != NULL && cmd->next && cmd->next->redirect_in_before == 0)
+		{
+			printf("normal\n");
 			dup2(cmd->fdpipe[1], STDOUT_FILENO);
+		}
 		close(cmd->fdpipe[0]);
 		close(cmd->fdpipe[1]);
 		if (cmd->prev_fdpipe) // Ferme les descripteurs de pipe précédent
@@ -44,11 +61,21 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 		}
 		else
 		{
-			execve(cmd->path, cmd->tab, data->envp);
-			// exit(data->exit_code);
+			if (cmd->path == NULL)
+			{
+				data->exit_code = 127;
+				if (access(cmd->value, F_OK) == 0)
+					printf("%s: Is a directory\n", cmd->value);
+				else
+					printf("%s: command not found\n", cmd->value);
+			}
+			else
+			{
+				printf("exec exec\n");
+				execve(cmd->path, cmd->tab, data->envp);
+			}
 		}
 		exit(data->exit_code);
-		// perror("execve");
 	}
 	if (cmd->prev_fdpipe)
 	{
@@ -113,7 +140,7 @@ void	real_exec(t_data *data)
 		cpy_cmd = cpy_cmd->next;
 	}
 	// pipe(cpy_cmd->fdpipe);
-	while (i < data->nb_of_commands)
+	while (cpy_cmd && i < data->nb_of_commands)
 	{
 		if (cpy_cmd->type != IN_OUT_FILENAME)
 		{

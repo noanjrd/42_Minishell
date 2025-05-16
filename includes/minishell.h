@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
 /*   Updated: 2025/05/16 12:40:28 by naankour         ###   ########.fr       */
@@ -68,11 +68,11 @@ typedef struct s_cmd
 	int fdout;
 	pid_t	pid;
 	int red_append;
+	int red_out;
 	int here_doc;
 	int check_fdout;
 	int check_fdin;
-	int path_found;
-	int builtin;
+	int redirect_in_before;
 	struct s_cmd *next;
 	t_token_type type;
 }				t_cmd;
@@ -81,7 +81,6 @@ typedef struct t_data
 {
 	char	**paths_system;
 	int		fd_here_doc;
-	int		here_doc;
 	char	*line;
 	char **envp;
 	int		exit_code;
@@ -95,7 +94,6 @@ typedef struct t_data
 
 t_token	*builtin(t_data *data, t_token *token, char *commands);
 void	ft_unset(t_env *env, t_token *token);
-void	display_export(t_env *env);
 void	display_env(t_env *env);
 void	ft_export(t_env *env, t_token *token);
 void	ft_cd(t_data *data, t_env *env, t_token *token);
@@ -105,6 +103,18 @@ void	ft_pwd(t_env *env);
 t_token	*update_echo_struct(t_token *token);
 int	builtin_check(t_data *data, char *commands);
 void	go_to_right_builtin(t_data *data, int i);
+char *cd_root(void);
+void cd_error(t_data *data, t_token *token);
+void go_into_specific_dr(t_env *env, char *current, char *path);
+void absolute_path(t_env *env, char *path);
+
+// Export
+
+void	export_merge(t_env *env, char *name, char *value);
+int	check_plus(char *export);
+void	create_export(t_env *env, char *name, char *value);
+int check_alrdy_exist(t_env *env, char *name, char *value, char *export);
+void	display_export(t_env *env);
 
 // Utils
 
@@ -121,22 +131,27 @@ int		ft_isalnum(int c);
 char	*ft_strchr(const char *s, int c);
 int		ft_isdigit(int c);
 char	*ft_itoa(int n);
-
+void	ft_free_tab(char **tab);
 
 // Free
 
 void	free_env(t_env *env);
 void	free_data(t_data *data);
+void free_cmd(t_cmd *cmd);
 
 // Execution
 
 void	exec(t_data *data);
 void	here_doc(t_token *token, t_data *data);
 void	open_fdout(t_data *data, t_token *token, t_cmd *cmd);
-void	open_fdin(t_data *data, t_token *token, t_cmd *cmd);
 void	relink_commands(t_token *token, t_cmd *cmd);
 void	check_path_exist(t_data *data, t_cmd *cmd);
 void	real_exec(t_data *data);
+void	fdin_check(t_data *data, t_cmd *cpy_cmd);
+void fdin_after(t_data *data, t_cmd *cmd);
+void fdin_before(t_data *data, t_cmd *cmd);
+char **ft_join_tab(char **tab, char *value, char *value_app);
+char *ft_join_free(char *s1, char *s2);
 
 // Init
 

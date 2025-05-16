@@ -15,14 +15,17 @@ SRCS = srcs/main.c\
 	srcs/builtins/builtin.c\
 	srcs/builtins/env.c\
 	srcs/builtins/pwd.c\
-	srcs/builtins/export_display.c\
+	srcs/builtins/export2.c\
+	srcs/builtins/export3.c\
 	srcs/builtins/unset.c\
 	srcs/builtins/cd.c\
+	srcs/builtins/cd2.c\
 	srcs/builtins/echo.c\
 	srcs/builtins/export.c\
 	srcs/builtins/exit.c\
 	srcs/exec/exec.c\
 	srcs/exec/relink_commands.c\
+	srcs/exec/relink_commands2.c\
 	srcs/exec/infile.c\
 	srcs/exec/outfile.c\
 	srcs/exec/here_doc.c\

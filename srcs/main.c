@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
 /*   Updated: 2025/05/16 12:29:12 by naankour         ###   ########.fr       */
@@ -15,29 +15,33 @@
 #define COLOR_PINK "\001\033[38;5;205m\002"
 #define COLOR_RED
 
-// static void printf_cmd(t_cmd *cmd)
-// {
-// 	t_cmd *current = cmd;
-// 	while (current)
-// 	{
-// 		printf("value = %s, infile = %s, outfile = %s, type=%d, here_doc=%d\n",
-// 			current->value,
-// 			current->infile ? current->infile : "NULL",
-// 			current->outfile ? current->outfile : "NULL",
-// 			current->type,
-// 		current->here_doc);
-// 		current = current->next;
-// 	}
-// 	printf("---------------------------\n");
-// 	return ;
-// }
+static void printf_cmd(t_cmd *cmd)
+{
+	t_cmd *current = cmd;
+	while (current)
+	{
+		printf("value = %s, infile = %s, outfile = %s, type=%d, here_doc=%d, red_in_avant=%d, red=%d\n",
+			current->value,
+			current->infile ? current->infile : "NULL",
+			current->outfile ? current->outfile : "NULL",
+			current->type,
+		current->here_doc,
+		current->redirect_in_before,
+	current->red_out);
+		current = current->next;
+	}
+	printf("---------------------------\n");
+	return ;
+}
 
 void	free_readline_data(t_data *data)
 {
 	if (data->fd_here_doc > 0)
+	{
 		close(data->fd_here_doc);
+		unlink("temp");
+	}
 	data->fd_here_doc = 0;
-	data->here_doc = 0;
 	data->nb_of_commands = 0;
 	data->tokens = NULL;
 	data->line = NULL;
@@ -65,11 +69,10 @@ void	ft_readline(t_data *data)
 		expander(data->tokens, data);
 		make_commands(data, NULL, NULL, NULL);
 		// printf_cmd(data->commands);
-		make_commands(data, NULL, NULL, NULL);
-		// printf_cmd(data->commands);
 		exec(data);
 		free(data->line);
 		free_token_list(data->tokens);
+		free_cmd(data->commands);
 		free_readline_data(data);
 	}
 }
@@ -83,27 +86,32 @@ int main(int argc, char **argv, char **envp)
 
 	data = malloc(sizeof(t_data));
 	env = malloc(sizeof(t_env));
-	env = env_init(env, envp);
 	init_data(data, env, envp);
-	ft_readline(data);
+	// ft_readline(data);
 
-	// if (argc >= 2)
-	// {
-	// 	data->tokens = lexer(argv[1]);
-	// 	make_commands(data,NULL, NULL, NULL);
-	// 	// printf_cmd(data->commands);
-	// 	exec(data);
-	// 	free_token_list(data->tokens);
-	// 	free_readline_data(data);
-	// }
-	// if (argc >= 3)
-	// {
-	// 	data->tokens = lexer(argv[2]);
-	// 	make_commands(data,NULL, NULL, NULL);
-	// 	// printf_cmd(data->commands);
-	// 	exec(data);
-	// 	free_readline_data(data);
-	// }
+	if (argc >= 2)
+	{
+		data->tokens = lexer(argv[1]);
+		expander(data->tokens, data);
+		make_commands(data,NULL, NULL, NULL);
+		printf_cmd(data->commands);
+		exec(data);
+		free_token_list(data->tokens);
+		free_cmd(data->commands);
+		free_readline_data(data);
+		// printf("%d\n", data->exit_code);
+	}
+	if (argc >= 3)
+	{
+		data->tokens = lexer(argv[2]);
+		expander(data->tokens, data);
+		make_commands(data,NULL, NULL, NULL);
+		// printf_cmd(data->commands);
+		exec(data);
+		free_token_list(data->tokens);
+		free_cmd(data->commands);
+		free_readline_data(data);
+	}
 	// if (argc >= 4)
 	// {
 	// 	data->tokens = lexer(argv[3]);

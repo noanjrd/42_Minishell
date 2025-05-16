@@ -24,7 +24,7 @@ t_token	*builtin_second(t_data *data, t_token *token, char *commands)
 	}
 	if (ft_strcmp(commands, "cd") == 0)
 	{
-		// printf("its cdddd\n");
+		printf("its cdddd\n");
 		ft_cd(data, data->env, token->next);
 		return (free(arg), token->next);
 	}
@@ -76,7 +76,6 @@ void	go_to_right_builtin(t_data *data, int i)
 			break;
 		cpy_token = cpy_token->next;
 	}
-	// printf("&&&%s\n", cpy_token->value);
 	builtin(data, cpy_token, cpy_token->value);
 	return ;
 }
@@ -88,7 +87,7 @@ int	builtin_second_check(t_data *data, char *commands)
 	arg = NULL;
 	if (ft_strcmp(commands, "export") == 0)
 	{
-		return (1);
+		return (2);
 	}
 	if (ft_strcmp(commands, "cd") == 0)
 	{
@@ -117,7 +116,7 @@ int	builtin_check(t_data *data, char *commands)
 	}
 	if (ft_strcmp(commands, "env") == 0)
 	{
-		return (1);
+		return (2);
 	}
 	if (ft_strcmp(commands, "exit") == 0)
 	{

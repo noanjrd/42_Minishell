@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:23:27 by njard             #+#    #+#             */
-/*   Updated: 2025/05/09 12:07:50 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/15 10:21:52 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	here_doc_start(char *stop, t_data *data)
 	close(fd);
 	fd = open("temp", O_RDONLY, 0700);
 	data->fd_here_doc = fd;
-	data->here_doc = 1;
 	return ;
 }
 

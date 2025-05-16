@@ -17,10 +17,10 @@ void	init_data(t_data *data, t_env *env, char **envp)
 {
 	data->paths_system = NULL;
 	data->exit_code = 0;
+	data->commands = NULL;
 	data->envp = envp;
-	data->env = env;
+	data->env = env_init(env, envp);
 	data->line = NULL;
-	data->here_doc = 0;
 	data->fd_here_doc = -99;
 	data->nb_of_commands = 0;
 	initalising_path(data);
