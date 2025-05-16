@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   outfile.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:14:21 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 14:25:35 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 15:22:25 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 // 		temp = token->next;
 // 		free(token->value);
 // 		free(token);
-// 		token = temp; 
+// 		token = temp;
 // 	}
 // 	start->next = token;
 // 	if (token->next->next && (token->next->next->type == REDIRECT_APPEND || token->next->next->type == REDIRECT_OUT))
@@ -60,7 +60,7 @@
 // 		free(cmd->infile);
 // 		free(cmd->outfile);
 // 		free(cmd);
-// 		cmd = temp; 
+// 		cmd = temp;
 // 	}
 // 	start->next = cmd;
 // 	if (cmd->next && cmd->next->type == IN_OUT_FILENAME)
@@ -112,17 +112,17 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 			cpy = cpy->next->next;
 			check = 1;
 		}
-		else 
+		else
 			break;
 	}
 	if (append == 1)
 	{
-		printf("app\n");
+		// printf("app\n");
 		cmd->red_append = 1;
 		fdout = open(cpy->next->value,O_WRONLY | O_CREAT | O_APPEND, 0700);
 		cmd->check_fdout = 1;
 	}
-	else 
+	else
 	{
 		fdout = open(cpy->next->value,O_WRONLY | O_CREAT, 0700);
 		cmd->check_fdout = 1;

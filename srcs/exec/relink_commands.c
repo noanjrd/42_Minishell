@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:22:15 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 11:58:25 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:22:52 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	rest_tab(t_cmd *cpy_cmd)
 	cmd = cpy_cmd;
 	while (cmd)
 	{
-		if (cmd->tab == NULL) 
+		if (cmd->tab == NULL)
 			cmd->tab = ft_join_tab(cmd->tab, NULL, cmd->value);
 		cmd = cmd->next;
 	}
@@ -63,7 +63,7 @@ void	relink_commands(t_token *token, t_cmd *cpy_cmd)
 		// 	printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->value);
 		if (token->next && token->next->type != PIPE && cmd->next && cmd->type != IN_OUT_FILENAME)
 		{
-			printf("join\n");
+			// printf("join\n");
 			if (cmd->next && cmd->next->type == IN_OUT_FILENAME)
 			{
 				if (cmd->tab == NULL)
@@ -82,7 +82,7 @@ void	relink_commands(t_token *token, t_cmd *cpy_cmd)
 		// else
 
 		// printf("next %s\n", cmd->value);
-		printf("next %s\n", cmd->value);
+		// printf("next %s\n", cmd->value);
 		if (token->next && (token->next->type == REDIRECT_OUT || token->next->type == REDIRECT_APPEND))
 		{
 			if (cmd->next)

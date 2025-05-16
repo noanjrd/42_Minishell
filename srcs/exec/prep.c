@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 11:56:56 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:22:46 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	exec_builtin(t_data *data)
 	// printf_cmd(cpy_cmd);
 	cpy_cmd = data->commands;
 	cpy_token = data->tokens;
-	printf_cmd(cpy_cmd);
+	// printf_cmd(cpy_cmd);
 	number_of_commands(data);
 	real_exec(data);
 }
@@ -136,7 +136,7 @@ void	exec(t_data *data)
 	relink_commands(cpy_token, cpy_cmd);
 	cpy_token = data->tokens;
 	cpy_cmd = data->commands;
-	printf_cmd(cpy_cmd);
+	// printf_cmd(cpy_cmd);
 	while (cpy_token)
 	{
 		if (cpy_token->type == HERE_DOC)

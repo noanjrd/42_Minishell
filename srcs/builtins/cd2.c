@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd2.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:34:00 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 14:35:15 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 15:20:54 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void go_into_specific_dr(t_env *env, char *current, char *path)
 	char *new_path;
 	char *temp;
 
-	printf("yeah\n");
+	// printf("yeah\n");
 	temp = getcwd(NULL, 0);
 	new_path = ft_join(current, path);
 	free(current);

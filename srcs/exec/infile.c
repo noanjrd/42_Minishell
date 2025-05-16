@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:18:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 13:39:26 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:22:20 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void fdin_before(t_data *data, t_cmd *cmd)
 	cpy_cmd = cmd;
 	if (cmd->fdin > 0)
 		return ;
-	printf("BEFOOOORE\n");
+	// printf("BEFOOOORE\n");
 	if (cmd->next->redirect_in_before == 0)
 		return ;
 	while (cpy_cmd && cpy_cmd->next && cpy_cmd->next->type == IN_OUT_FILENAME && cpy_cmd->next->red_out == 0)
@@ -58,7 +58,7 @@ void fdin_after(t_data *data, t_cmd *cmd)
 	t_cmd *cpy_cmd;
 
 	cpy_cmd = cmd;
-	printf("AFTRRRRR %s\n", cmd->value);
+	// printf("AFTRRRRR %s\n", cmd->value);
 	if (cmd->next && cmd->next->type == WORD && cmd->type != IN_OUT_FILENAME)
 	{
 		if (cmd->here_doc == 1)
@@ -90,7 +90,7 @@ void	fdin_check(t_data *data, t_cmd *cpy_cmd)
 			cpy_cmd->check_fdin = 1;
 		else
 		{
-			printf("faux fdin\n");
+			// printf("faux fdin\n");
 			data->exit_code = 1;
 		}
 	}

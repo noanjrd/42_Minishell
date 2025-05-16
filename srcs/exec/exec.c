@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 11:59:33 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:22:00 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 {
 	if (builtin_check(data, cmd->tab[0]) == 2)
 	{
-		printf("builtin\n");
+		// printf("builtin\n");
 		go_to_right_builtin(data, cmd->index);
 	}
 	else
@@ -24,27 +24,27 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 		pipe(cmd->fdpipe);
 		cmd->pid = fork();
 	}
-	printf("la< %s\n", cmd->value);
+	// printf("la< %s\n", cmd->value);
 	if (cmd->pid == 0 && builtin_check(data, cmd->tab[0]) != 2)
 	{
 		if (cmd->fdin != -99 && cmd->check_fdin == 1)
 		{
-			printf("icii\n");
+			// printf("icii\n");
 			dup2(cmd->fdin, STDIN_FILENO);
 		}
 		else if (cmd->prev_fdpipe)
 		{
-			printf("prev pipe existant\n");
+			// printf("prev pipe existant\n");
 			dup2(cmd->prev_fdpipe[0], STDIN_FILENO);
 		}
 		if (cmd->path != NULL && cmd->fdout != -99 && cmd->check_fdout == 1)
 		{
-			printf("ya un fdout\n");
+			// printf("ya un fdout\n");
 			dup2(cmd->fdout, STDOUT_FILENO);
 		}
 		else if (cmd->path != NULL && cmd->next && cmd->next->redirect_in_before == 0)
 		{
-			printf("normal\n");
+			// printf("normal\n");
 			dup2(cmd->fdpipe[1], STDOUT_FILENO);
 		}
 		close(cmd->fdpipe[0]);
@@ -71,7 +71,7 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 			}
 			else
 			{
-				printf("exec exec\n");
+				// printf("exec exec\n");
 				execve(cmd->path, cmd->tab, data->envp);
 			}
 		}
