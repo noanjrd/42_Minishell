@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:25:03 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 12:43:38 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:31:32 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@ static int	value_env(t_data *data, t_env *env, char *arg, int i)
 	char *value;
 
 	j = 0;
+	// printf("%s\n", arg);
+	if (arg[0] == '$' && arg[1] == '?')
+	{
+		printf("%d", data->exit_code);
+		return (1);
+	}
 	while (arg[i + j] && arg[i + j] != ' ')
 		j++;
 	name = malloc((j + 1) * sizeof(char));
@@ -60,9 +66,12 @@ static int	value_env(t_data *data, t_env *env, char *arg, int i)
 		j++;
 	}
 	name[j] =  '\0';
+	// printf("%s\n", name);
 	value = ft_search_value(env, name);
 	printf("%s", value);
+	// free(value);
 	free(name);
+	// printf("%d\n", i);
 	return (j);
 }
 
@@ -75,9 +84,9 @@ t_token *update_echo_struct(t_token *token)
 
 void	ft_echo(t_data *data, t_env *env, t_token *token)
 {
-	int i;
-	int n;
-	char *arg;
+	int		i;
+	int		n;
+	char	*arg;
 
 	n = 0;
 	t_token *copy_token = token;
@@ -110,3 +119,16 @@ void	ft_echo(t_data *data, t_env *env, t_token *token)
 	data->exit_code = 0;
 	return ;
 }
+
+// void	ft_echo(t_data *data, t_env *env, char *commands)
+// {
+// 	char *arg;
+
+// 	arg = cut_builtin_echo(commands);
+// 	// printf("%s\n",arg);
+// 	if (arg[0] == '$' && arg[1] == '?')
+// 		printf("%d\n", data->exit_code);
+// 	ft_echo_next(env, commands);
+// 	free(arg);
+// 	return ;
+// }

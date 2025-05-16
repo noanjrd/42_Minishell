@@ -115,7 +115,7 @@ void	expander(t_token *token, t_data	*data)
 				current->value = new_value;
 			}
 		}
-		// printf("Token apres expansion: %s\n", current->value);
+		printf("Token apres expansion: %s\n", current->value);
 		current = current->next;
 	}
 }
@@ -143,3 +143,10 @@ void	expander(t_token *token, t_data	*data)
 // naankour@c1r3p4:~/Documents/Minishellbis$ echo $dfjkslkgfjsw
 // naankour@c1r3p4:~/Documents/Minishellbis$ echo $658
 // 58
+
+
+// naankour@c2r11p1:~/minimerge2$ echo "$dawdaw" hello
+//  hello
+// naankour@c2r11p1:~/minimerge2$ echo $dawdaw hello
+// hello
+// naankour@c2r11p1:~/minimerge2$ echo $dawdaw hello
