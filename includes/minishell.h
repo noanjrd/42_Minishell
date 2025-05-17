@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 12:40:28 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/17 12:48:35 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,5 +174,6 @@ void	expander(t_token *token, t_data	*data);
 void	get_variable_value(t_token *token);
 void	free_token_list(t_token *head);
 char	*new_token_value(char *str, t_data	*data);
+void	merge_tokens(t_token	**token);
 
 #endif

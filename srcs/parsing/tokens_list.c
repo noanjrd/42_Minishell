@@ -46,6 +46,7 @@ t_token *create_token(t_token_type type, char *value)
 		free(token);
 		return (NULL);
 	}
+	token->has_space = 0;
 	token->next = NULL;
 	token->index = index_t++;
 	return (token);

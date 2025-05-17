@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:25:03 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 17:31:32 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/17 18:18:23 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ t_token *update_echo_struct(t_token *token)
 
 void	ft_echo(t_data *data, t_env *env, t_token *token)
 {
+	printf(">>> FT_ECHO CALLED\n");
 	int		i;
 	int		n;
 	char	*arg;
@@ -110,7 +111,7 @@ void	ft_echo(t_data *data, t_env *env, t_token *token)
 	while (copy_token && (copy_token->type == WORD || copy_token->type == SINGLE_QUOTES || copy_token->type == DOUBLE_QUOTES))
 	{
 		printf("%s", copy_token->value);
-		if (copy_token->has_space && copy_token->next && (copy_token->next->type == WORD || copy_token->next->type == SINGLE_QUOTES || copy_token->next->type == DOUBLE_QUOTES))
+		if (copy_token->next && (copy_token->next->type == WORD || copy_token->next->type == SINGLE_QUOTES || copy_token->next->type == DOUBLE_QUOTES))
 			printf(" ");
 		copy_token = copy_token->next;
 	}

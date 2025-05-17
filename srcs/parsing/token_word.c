@@ -109,13 +109,19 @@ t_token *create_token_word(char *line, int *index)
 	free(word);
 	return (token);
 }
+
+
 //"e"'c'ho hello
 
 // apres avoir fait l expansion
 // jai plusieurs tokens           e c ho hello
 
 // je fais une fonction qui va parcourir la liste de tokens, qui va les merge en fonction de is_space ?
-// while tokens if token->has_space cest un seul token donc lajouter dasn un token dont le type est word sinon !has_space on merge
+// while tokens if token->has_space cest un seul token donc lajouter dans un token dont le type est word sinon !has_space on merge
+
+// token -> token -> token -> token -> token -> NULL
+
+
 
 // gerer aussi le cas suivant :
 // naankour@c2r11p1:~/minimerge2$ echo "$dawdaw" hello

@@ -36,6 +36,7 @@ SRCS = srcs/main.c\
 	srcs/parsing/token_word.c\
 	srcs/parsing/check_syntax.c\
 	srcs/parsing/expander.c\
+	srcs/parsing/merge_tokens.c\
 
 OBJS = ${SRCS:.c=.o}
 
