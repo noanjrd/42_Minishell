@@ -3,15 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   infile.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:18:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 13:39:26 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/17 16:10:56 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+void	fd_error(t_data *data)
+{
+	t_token *cpy_token;
+	t_cmd *cpy_cmd;
+	int fd;
+
+	cpy_cmd = data->commands;
+	cpy_token = data->tokens;
+	while (cpy_cmd)
+	{
+		if (cpy_cmd->type == IN_OUT_FILENAME)
+		{
+			fd = open(cpy_cmd->value, O_RDONLY);
+			// printf("@@@@@ %s\n", cpy_cmd->value);
+			if (fd < 0 && data->error_alrdy_displayed == 0)
+			{
+				data->exit_code = 1;
+				data->error_alrdy_displayed = 1;
+				// printf("error here %d %s\n", data->exit_code, cpy_cmd->value);
+				perror("Error");
+			}
+			close(fd);
+		}
+		cpy_cmd = cpy_cmd->next;
+	}
+	return ;
+}
 
 void fdin_before(t_data *data, t_cmd *cmd)
 {
@@ -20,7 +47,7 @@ void fdin_before(t_data *data, t_cmd *cmd)
 	cpy_cmd = cmd;
 	if (cmd->fdin > 0)
 		return ;
-	printf("BEFOOOORE\n");
+	printf("BEFOOOORE %s\n", cmd->value);
 	if (cmd->next->redirect_in_before == 0)
 		return ;
 	while (cpy_cmd && cpy_cmd->next && cpy_cmd->next->type == IN_OUT_FILENAME && cpy_cmd->next->red_out == 0)
@@ -28,8 +55,8 @@ void fdin_before(t_data *data, t_cmd *cmd)
 		cpy_cmd = cpy_cmd->next;
 	}
 	// printf("+++++%s\n", cpy_cmd->value);
-	cmd->outfile = ft_copy(cpy_cmd->outfile);
-	cmd->fdout = cpy_cmd->fdout;
+	// cmd->outfile = ft_copy(cpy_cmd->outfile);
+	// cmd->fdout = cpy_cmd->fdout;
 	if (cmd->fdout > 0)
 		cmd->check_fdout = 1;
 	if (cpy_cmd->here_doc == 1)
@@ -46,7 +73,7 @@ void fdin_before(t_data *data, t_cmd *cmd)
 				cmd->check_fdin = 1;
 		else
 		{
-			perror("Error");
+			// perror("Error");
 			data->exit_code = 1;
 		}
 	}
@@ -59,7 +86,7 @@ void fdin_after(t_data *data, t_cmd *cmd)
 
 	cpy_cmd = cmd;
 	printf("AFTRRRRR %s\n", cmd->value);
-	if (cmd->next && cmd->next->type == WORD && cmd->type != IN_OUT_FILENAME)
+	if (cmd->next && cmd->next->type == WORD && cmd->type == IN_OUT_FILENAME)
 	{
 		if (cmd->here_doc == 1)
 		{
@@ -73,31 +100,10 @@ void fdin_after(t_data *data, t_cmd *cmd)
 				cpy_cmd->next->check_fdin = 1;
 			else
 			{
-				perror("Error");
+				// perror("Error");
 				data->exit_code = 1;
 			}
 		}
-	}
-	return ;
-}
-
-void	fdin_check(t_data *data, t_cmd *cpy_cmd)
-{
-	if (cpy_cmd->here_doc == 0)
-	{
-		cpy_cmd->fdin = open(cpy_cmd->infile,O_RDONLY, 0700);
-		if (cpy_cmd->fdin >= 0)
-			cpy_cmd->check_fdin = 1;
-		else
-		{
-			printf("faux fdin\n");
-			data->exit_code = 1;
-		}
-	}
-	else
-	{
-		cpy_cmd->fdin = data->fd_here_doc;
-		cpy_cmd->check_fdin = 1;
 	}
 	return ;
 }

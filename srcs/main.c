@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 12:29:12 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/17 14:23:54 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,15 @@ static void printf_cmd(t_cmd *cmd)
 	t_cmd *current = cmd;
 	while (current)
 	{
-		printf("value = %s, infile = %s, outfile = %s, type=%d, here_doc=%d, red_in_avant=%d, red=%d\n",
+		printf("value = %s, infile = %s, outfile = %s, type=%d, here_doc=%d, red_in_avant=%d, red=%d, appnd=%d\n",
 			current->value,
 			current->infile ? current->infile : "NULL",
 			current->outfile ? current->outfile : "NULL",
 			current->type,
 		current->here_doc,
 		current->redirect_in_before,
-	current->red_out);
+	current->red_out,
+	current->red_append);
 		current = current->next;
 	}
 	printf("---------------------------\n");
@@ -107,6 +108,7 @@ int main(int argc, char **argv, char **envp)
 		expander(data->tokens, data);
 		make_commands(data,NULL, NULL, NULL);
 		// printf_cmd(data->commands);
+		// printf("((((((%d\n", data->exit_code);
 		exec(data);
 		free_token_list(data->tokens);
 		free_cmd(data->commands);

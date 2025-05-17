@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 11:56:56 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/17 16:15:42 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ void	number_of_commands(t_data *data)
 	cpy_cmd = data->commands;
 	while (cpy_cmd)
 	{
-		if (cpy_cmd->type != IN_OUT_FILENAME)
+		if (cpy_cmd->type != IN_OUT_FILENAME || cpy_cmd->red_out == 1)
 			data->nb_of_commands++;
 		cpy_cmd = cpy_cmd->next;
 	}
-	// printf("{{%d}}", data->nb_of_commands);
+	printf("{{%d}}", data->nb_of_commands);
 	return ;
 }
 
@@ -70,9 +70,7 @@ void	exec_builtin(t_data *data)
 
 	check_path_exist(data, data->commands);
 	// printf_cmd(cpy_cmd);
-	cpy_cmd = data->commands;
-	cpy_token = data->tokens;
-	printf_cmd(cpy_cmd);
+	printf_cmd(data->commands);
 	number_of_commands(data);
 	real_exec(data);
 }
@@ -97,8 +95,6 @@ void	exec_fdin(t_data *data)
 			cpy_cmd = cpy_cmd->next;
 		cpy_token = cpy_token->next;
 	}
-	cpy_cmd = data->commands;
-	cpy_token = data->tokens;
 	exec_builtin(data);
 }
 
@@ -107,20 +103,22 @@ void	exec_fdout(t_data *data)
 	t_token *cpy_token;
 	t_cmd *cpy_cmd;
 
-	cpy_token = data->tokens;
+
+	fd_error(data);
+	open_fdout(data, data->tokens, data->commands);
 	cpy_cmd = data->commands;
-	while (cpy_token)
-	{
-		if (cpy_token->next && (cpy_token->next->type == REDIRECT_OUT
-			|| cpy_token->next->type == REDIRECT_APPEND))
-			open_fdout(data, cpy_token, cpy_cmd);
-		if (cpy_token->type == PIPE
-			|| cpy_token->type == REDIRECT_OUT
-			|| cpy_token->type == REDIRECT_APPEND
-			|| cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
-			cpy_cmd = cpy_cmd->next;
-		cpy_token = cpy_token->next;
-	}
+	// while (cpy_token)
+	// {
+	// 	if (cpy_token->next && (cpy_token->next->type == REDIRECT_OUT
+	// 		|| cpy_token->next->type == REDIRECT_APPEND))
+	// 		open_fdout(data, cpy_token, cpy_cmd);
+	// 	if (cpy_token->type == PIPE
+	// 		|| cpy_token->type == REDIRECT_OUT
+	// 		|| cpy_token->type == REDIRECT_APPEND
+	// 		|| cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
+	// 		cpy_cmd = cpy_cmd->next;
+	// 	cpy_token = cpy_token->next;
+	// }
 	exec_fdin(data);
 }
 

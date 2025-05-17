@@ -1,3 +1,5 @@
+# enlever le relink et mettre les flags
+
 NAME = minishell
 CC = cc
 FLAGS = -g3
@@ -26,6 +28,7 @@ SRCS = srcs/main.c\
 	srcs/exec/exec.c\
 	srcs/exec/relink_commands.c\
 	srcs/exec/relink_commands2.c\
+	srcs/exec/relink_commands3.c\
 	srcs/exec/infile.c\
 	srcs/exec/outfile.c\
 	srcs/exec/here_doc.c\
@@ -43,6 +46,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(LIBS)
+	make clean
 
 %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@

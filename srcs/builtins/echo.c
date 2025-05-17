@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:25:03 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 12:43:38 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/17 13:31:50 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,11 @@ void	ft_echo(t_data *data, t_env *env, t_token *token)
 	if (!copy_token->next)
 	{
 		printf("\n");
-		data->exit_code = 0;
 		return ;
 	}
 	// printf("coucou\n");
 	copy_token = copy_token->next;
-	// printf("%s\n",copy_token->value );
+	// printf("%s\n",copy_token->value);
 	while (copy_token && (copy_token->type ==  WORD || copy_token->type ==  SINGLE_QUOTES || copy_token->type ==  DOUBLE_QUOTES))
 	{
 		if (copy_token->value[0] == '-' && copy_token->value[1] == 'n')

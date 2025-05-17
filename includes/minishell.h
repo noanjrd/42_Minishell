@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 12:40:28 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/17 13:52:58 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_cmd
 	int red_append;
 	int red_out;
 	int here_doc;
+	int end;
 	int check_fdout;
 	int check_fdin;
 	int redirect_in_before;
@@ -85,6 +86,7 @@ typedef struct t_data
 	char **envp;
 	int		exit_code;
 	int	nb_of_commands;
+	int error_alrdy_displayed;
 	t_env	*env;
 	t_token	*tokens;
 	t_cmd	*commands;
@@ -132,6 +134,7 @@ char	*ft_strchr(const char *s, int c);
 int		ft_isdigit(int c);
 char	*ft_itoa(int n);
 void	ft_free_tab(char **tab);
+int	ft_check_type(t_token *token);
 
 // Free
 
@@ -152,6 +155,7 @@ void fdin_after(t_data *data, t_cmd *cmd);
 void fdin_before(t_data *data, t_cmd *cmd);
 char **ft_join_tab(char **tab, char *value, char *value_app);
 char *ft_join_free(char *s1, char *s2);
+void	fd_error(t_data *data);
 
 // Init
 
