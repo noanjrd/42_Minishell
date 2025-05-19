@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/17 13:52:58 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/19 16:07:46 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ typedef struct t_data
 t_token	*builtin(t_data *data, t_token *token, char *commands);
 void	ft_unset(t_env *env, t_token *token);
 void	display_env(t_env *env);
-void	ft_export(t_env *env, t_token *token);
+void	ft_export(t_data *data, t_env *env, t_token *token);
 void	ft_cd(t_data *data, t_env *env, t_token *token);
 void	ft_exit(t_data *data, t_token *token);
 void	ft_echo(t_data *data, t_env *env, t_token *token);
@@ -107,7 +107,7 @@ int	builtin_check(t_data *data, char *commands);
 void	go_to_right_builtin(t_data *data, int i);
 char *cd_root(void);
 void cd_error(t_data *data, t_token *token);
-void go_into_specific_dr(t_env *env, char *current, char *path);
+void go_into_specific_dr(t_data *data, t_env *env, char *current, char *path);
 void absolute_path(t_env *env, char *path);
 
 // Export

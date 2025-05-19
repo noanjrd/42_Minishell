@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/19 13:52:18 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/19 16:31:21 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	number_of_commands(t_data *data)
 			data->nb_of_commands++;
 		cpy_cmd = cpy_cmd->next;
 	}
-	printf("{{%d}}", data->nb_of_commands);
+	// printf("{{%d}}", data->nb_of_commands);
 	return ;
 }
 
@@ -69,7 +69,7 @@ void	exec_builtin(t_data *data)
 
 	
 	check_path_exist(data, data->commands);
-	printf_cmd(data->commands);
+	// printf_cmd(data->commands);
 	number_of_commands(data);
 	real_exec(data);
 }
@@ -135,12 +135,13 @@ void	exec(t_data *data)
 	relink_commands(cpy_token, cpy_cmd);
 	cpy_token = data->tokens;
 	cpy_cmd = data->commands;
-	printf_cmd(cpy_cmd);
+	// printf_cmd(cpy_cmd);
 	while (cpy_token)
 	{
 		if (cpy_token->type == HERE_DOC)
 			here_doc(cpy_token, data);
 		cpy_token = cpy_token->next;
 	}
+	// printf("exit codeeee : %d\n", data->exit_code);
 	exec_fdout(data);
 }

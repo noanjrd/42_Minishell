@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:34:00 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 14:35:15 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/19 16:10:12 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ char *cd_root(void)
 
 void	cd_error(t_data *data, t_token *token)
 {
-	printf("cd: too many arguments\n");
+	write(2," too many arguments\n",20);
 	data->exit_code = 1;
 	return ;
 }
 
-void go_into_specific_dr(t_env *env, char *current, char *path)
+void go_into_specific_dr(t_data *data, t_env *env, char *current, char *path)
 {
 	char *new_path;
 	char *temp;
 
-	printf("yeah\n");
+	// printf("yeah\n");
 	temp = getcwd(NULL, 0);
 	new_path = ft_join(current, path);
 	free(current);
@@ -51,7 +51,8 @@ void go_into_specific_dr(t_env *env, char *current, char *path)
 	else
 	{
 		path++;
-		printf("no such file or directory: %s\n", path);
+		write(2," no such file or directory\n",28);
+		data->exit_code = 1;
 		path--;
 		free(path);
 		free(new_path);
@@ -75,7 +76,7 @@ void absolute_path(t_env *env, char *path)
 	else
 	{
 		// path++;
-		printf("no such file or directory: %s\n", path);
+		write(2," no such file or directory\n",28);
 		// path--;
 		free(path);
 		free(temp);

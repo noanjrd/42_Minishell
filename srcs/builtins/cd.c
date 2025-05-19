@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:32:25 by njard             #+#    #+#             */
-/*   Updated: 2025/05/14 12:18:00 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/19 16:07:54 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void ft_cd(t_data *data, t_env *env, t_token *token)
 	else if (cpy_token->value[0] ==  '/')
 		return(free(temp), absolute_path(env, cpy_token->value));
 	else if (cpy_token && ft_strcmp(cpy_token->value, "..") != 0)
-		return(go_into_specific_dr(env, ft_copy(ft_search_value(env, "PWD")), ft_join("/",cpy_token->value)));
+		return(go_into_specific_dr(data, env, ft_copy(ft_search_value(env, "PWD")), ft_join("/",cpy_token->value)));
 	else if (cpy_token && ft_strcmp(cpy_token->value, "..") == 0)
 		path = go_back_cd(temp);
 	else

@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:14:21 by njard             #+#    #+#             */
-/*   Updated: 2025/05/19 13:48:13 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/19 14:01:02 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void	reach_furthest_fd(t_cmd *cmd, t_token *token)
 	{
 		cpy_cmd = cpy_cmd->next;
 	}
-	printf(",,,,,%s\n", cpy_cmd->value);
+	// printf(",,,,,%s\n", cpy_cmd->value);
 	if (cpy_cmd->outfile || cpy_cmd->red_out == 1)
 	{
 		if (cpy_cmd->red_append == 1)
@@ -161,9 +161,9 @@ void	reach_furthest_fd(t_cmd *cmd, t_token *token)
 			cmd->check_fdout = 1;
 		free(cmd->outfile);
 		cmd->outfile = ft_copy(cpy_cmd->value);
-		printf("cmd_out reach furthest: %s\n", cmd->outfile);
-		printf("cmd_value reach furthest: %s\n", cmd->value);
-		printf("copy_value reach furthest: %s\n", cpy_cmd->value);
+		// printf("cmd_out reach furthest: %s\n", cmd->outfile);
+		// printf("cmd_value reach furthest: %s\n", cmd->value);
+		// printf("copy_value reach furthest: %s\n", cpy_cmd->value);
 	}
 	// cmd = cmd->next;
 	// token = token->next;
@@ -181,11 +181,11 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 	{
 		if (cpy_cmd->outfile && cpy_cmd->redirect_in_before == 0 || (cpy_cmd->next && cpy_cmd->next->redirect_in_before == 1))
 		{
-			printf("ddddoutcmd: %s\n", cpy_cmd->value);
+			// printf("ddddoutcmd: %s\n", cpy_cmd->value);
 			if (cpy_cmd->type == WORD )
 			{
 				reach_furthest_fd(cpy_cmd, cpy_token);
-				printf("outcmd: %s\n", cpy_cmd->value);
+				// printf("outcmd: %s\n", cpy_cmd->value);
 				cpy_cmd = cpy_cmd->next;
 				cpy_token = cpy_token->next;
 				continue;

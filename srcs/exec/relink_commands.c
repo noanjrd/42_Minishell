@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:22:15 by njard             #+#    #+#             */
-/*   Updated: 2025/05/19 10:31:17 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/19 16:31:17 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,33 @@ void	relink_commands(t_token *token, t_cmd *cpy_cmd)
 	t_cmd *cmd;
 
 	cmd = cpy_cmd;
-	if (token->next && ft_check_type(token->next) == 1)
-		token = token->next;
+	if (ft_check_type(token) == 1)
+	{
+		token = token->next->next;
+		cmd = cmd->next;
+	}
 	while (token)
 	{
-		if (cmd->next)
-			printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->next->value);
-		else
-			printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->value);
+		// if (cmd->next)
+		// 	printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->next->value);
+		// else
+		// 	printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->value);
 		if (token->next && cmd && cmd->next && token->type != REDIRECT_OUT && token->type != REDIRECT_APPEND &&token->type != HERE_DOC  &&  token->type != PIPE && token->type != REDIRECT_IN && cmd->next && cmd->type != IN_OUT_FILENAME && ft_check_type(token->next) == 0)
 		{
-			printf("join\n");
+			// printf("join\n");
 			put_tab(cmd, cmd->next);
-			token = token->next;
+			// token = token->next;
+		}
+		else if (!token->next && cmd && cmd->next && token->type != REDIRECT_OUT && token->type != REDIRECT_APPEND &&token->type != HERE_DOC  &&  token->type != PIPE && token->type != REDIRECT_IN && cmd->next && cmd->type != IN_OUT_FILENAME) 
+		{
+			put_tab(cmd, cmd->next);
+			// token = token->next;
 		}
 		// else if (cmd->tab == NULL)
 		// 	cmd->tab = ft_join_tab(cmd->tab, NULL, cmd->value);
 		// else
 
-		printf("next %s\n", cmd->value);
+		// printf("next %s\n", cmd->value);
 		// if (token->next && (token->next->type == REDIRECT_OUT || token->next->type == REDIRECT_APPEND))
 		// {
 		// 	if (cmd->next)
