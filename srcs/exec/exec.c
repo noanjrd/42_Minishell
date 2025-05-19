@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/17 16:18:54 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/19 13:54:00 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 	{
 		if (cmd->fdin != -99 && cmd->check_fdin == 1)
 		{
-			printf("icii\n");
+			printf("ya un fdin %s\n", cmd->value);
 			dup2(cmd->fdin, STDIN_FILENO);
+			// close(cmd->fdin);
 		}
 		else if (cmd->prev_fdpipe && cmd->prev_fdpipe[0] != -1)
 		{
@@ -66,7 +67,7 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 		}
 		else
 		{
-			if (cmd->path == NULL)
+			if (cmd->path == NULL && data->error_alrdy_displayed == 0)
 			{
 				data->exit_code = 127;
 				if (access(cmd->value, F_OK) == 0)
@@ -76,8 +77,9 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 			}
 			else if (cmd->fdin != -1)
 			{
-				printf("exec exec\n");
+				printf("exec exec %s\n", cmd->value);
 				execve(cmd->path, cmd->tab, data->envp);
+				data->error_alrdy_displayed = 1;
 			}
 		}
 		exit(data->exit_code);
@@ -91,7 +93,9 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 		free(cmd->prev_fdpipe);
 		cmd->prev_fdpipe = NULL;
 	}
-	while (cmd->next && cmd->next->type == IN_OUT_FILENAME && cmd->next->redirect_in_before == 1)
+	// if (cmd->fdin)
+	// 	close(cmd->fdin);
+	while (cmd->next && cmd->next->type == IN_OUT_FILENAME && cmd->next->end == 0 && cmd->next->redirect_in_before == 1)
 	{
 		printf("loop\n");
 		cmd = cmd->next;
@@ -129,20 +133,20 @@ void wait_p(t_data *data)
 
 	cpy_cmd = data->commands;
 	j = 0;
-	while (cpy_cmd && cpy_cmd->type == IN_OUT_FILENAME)
+	// while (cpy_cmd && cpy_cmd->type == IN_OUT_FILENAME)
+	// {
+	// 	cpy_cmd = cpy_cmd->next;
+	// }
+	while (cpy_cmd && j < data->nb_of_commands)
 	{
-		cpy_cmd = cpy_cmd->next;
-	}
-	while (j < data->nb_of_commands)
-	{
-		if (cpy_cmd->pid > 0 && cpy_cmd->fdin >= 0)
+		if (cpy_cmd && cpy_cmd->type !=IN_OUT_FILENAME &&  cpy_cmd->pid > 0)
 		{
 			waitpid(cpy_cmd->pid, &status, 0);
-			if (WIFEXITED(status))
+			if (cpy_cmd->fdout >= 0 && WIFEXITED(status))
 				data->exit_code = WEXITSTATUS(status);
+			j++;
 		}
 		cpy_cmd = cpy_cmd->next;
-		j++;
 	}
 	return ;
 }

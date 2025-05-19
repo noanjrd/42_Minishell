@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/17 15:36:43 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/19 11:56:09 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,28 @@ void	rest_ofthesteps_three(t_token *token, t_cmd *cmd)
 			cpy_cmd->next->redirect_in_before = 1;
 			cpy_cmd->infile = ft_copy(cpy_token->next->next->value);
 			cpy_cmd->outfile = ft_copy(cpy_cmd->next->outfile);
+			printf("$$%s\n", cpy_cmd->value);
 			cpy_cmd = cpy_cmd->next;
 			cpy_token = cpy_token->next;
 		}
 		if (cpy_cmd->next && cpy_token->next && cpy_cmd->type == IN_OUT_FILENAME && cpy_cmd->next->type == IN_OUT_FILENAME && cpy_cmd->redirect_in_before == 1 
 			&& (cpy_token->next->type == REDIRECT_IN || cpy_token->next->type == HERE_DOC))
+		{	
 			cpy_cmd->next->redirect_in_before = 1;
+		}
 		if (cpy_cmd->next && cpy_token->next && cpy_cmd->type == IN_OUT_FILENAME && cpy_cmd->redirect_in_before == 0 && (cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC))
 			cpy_cmd->next->infile = ft_copy(cpy_cmd->value);
 		if (cpy_cmd->next && ft_strcmp(cpy_token->value, cpy_cmd->value) == 0)
 			cpy_cmd = cpy_cmd->next;
 		cpy_token = cpy_token->next;
+	}
+	cpy_cmd = cmd;
+	cpy_token = token;
+	while (cpy_cmd)
+	{
+		if (cpy_cmd->next && cpy_cmd->redirect_in_before == 1 && cpy_cmd->next->infile)
+			cpy_cmd->end = 1;
+		cpy_cmd = cpy_cmd->next;
 	}
 	rest_ofthesteps_four(token, cmd);
 }

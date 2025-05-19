@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:18:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/17 16:10:56 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/19 13:50:48 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,16 @@ void	fd_error(t_data *data)
 		{
 			fd = open(cpy_cmd->value, O_RDONLY);
 			// printf("@@@@@ %s\n", cpy_cmd->value);
+			if (fd < 0)
+			{
+				cpy_cmd->check_fdin = -1;
+				cpy_cmd->check_fdout = -1;
+			}
 			if (fd < 0 && data->error_alrdy_displayed == 0)
 			{
 				data->exit_code = 1;
 				data->error_alrdy_displayed = 1;
+				
 				// printf("error here %d %s\n", data->exit_code, cpy_cmd->value);
 				perror("Error");
 			}
@@ -71,11 +77,6 @@ void fdin_before(t_data *data, t_cmd *cmd)
 		cmd->fdin = open(cpy_cmd->value ,O_RDONLY, 0700);
 		if (cmd->fdin > 0)
 				cmd->check_fdin = 1;
-		else
-		{
-			// perror("Error");
-			data->exit_code = 1;
-		}
 	}
 	return ;
 }
@@ -86,7 +87,7 @@ void fdin_after(t_data *data, t_cmd *cmd)
 
 	cpy_cmd = cmd;
 	printf("AFTRRRRR %s\n", cmd->value);
-	if (cmd->next && cmd->next->type == WORD && cmd->type == IN_OUT_FILENAME)
+	if (cmd->next && cmd->next->type == WORD && cmd->type == IN_OUT_FILENAME && cmd->next->infile)
 	{
 		if (cmd->here_doc == 1)
 		{
@@ -98,11 +99,6 @@ void fdin_after(t_data *data, t_cmd *cmd)
 			cpy_cmd->next->fdin = open(cpy_cmd->next->infile ,O_RDONLY, 0700);
 			if (cpy_cmd->next->fdin > 0)
 				cpy_cmd->next->check_fdin = 1;
-			else
-			{
-				// perror("Error");
-				data->exit_code = 1;
-			}
 		}
 	}
 	return ;

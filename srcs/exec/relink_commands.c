@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:22:15 by njard             #+#    #+#             */
-/*   Updated: 2025/05/17 14:14:01 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/19 10:31:17 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	relink_commands(t_token *token, t_cmd *cpy_cmd)
 			printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->next->value);
 		else
 			printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->value);
-		if (token->next && cmd && cmd->next && token->type != REDIRECT_OUT && token->type != REDIRECT_APPEND &&token->type != HERE_DOC  &&  token->type != PIPE && token->type != REDIRECT_IN && cmd->next && cmd->type != IN_OUT_FILENAME)
+		if (token->next && cmd && cmd->next && token->type != REDIRECT_OUT && token->type != REDIRECT_APPEND &&token->type != HERE_DOC  &&  token->type != PIPE && token->type != REDIRECT_IN && cmd->next && cmd->type != IN_OUT_FILENAME && ft_check_type(token->next) == 0)
 		{
 			printf("join\n");
 			put_tab(cmd, cmd->next);
