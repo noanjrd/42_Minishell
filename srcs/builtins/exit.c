@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:45:35 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 11:27:08 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/19 19:09:05 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ void	ft_exit(t_data *data, t_token *token)
 		{
 			exit_error(2);
 			data->exit_code = 1;
-			return ;	
+			return ;
 		}
 		else
 		{
-			code_exit = ft_atoi(cpy_token->value);
+			code_exit = ft_atoi(cpy_token->next->value);
 		}
 	}
 	// printf("exit\n");

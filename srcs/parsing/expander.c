@@ -86,6 +86,7 @@ char	*new_token_value(char *str, t_data	*data)
 			// printf("%s\n", value);
 			if (!value)
 				value = ft_copy("");
+
 			k = 0;
 			while (value[k])
 				final_buffer[j++] = value[k++];
@@ -98,27 +99,112 @@ char	*new_token_value(char *str, t_data	*data)
 	return (final_buffer);
 }
 
-void	expander(t_token *token, t_data	*data)
+void remove_token(t_token **token, t_token **current)
 {
-	t_token	*current;
+	t_token *remove;
+	t_token *prev;
+
+	if (!token || !*token || !current || !*current)
+		return;
+	remove = *current; // je garde le token a supprimer current est deja sur le token a supp
+	if (remove == *token) // sil est en tete de liste
+	{
+		*token = remove->next; //mise a jour de la tete
+		*current = *token; // mise a jour du token current pour quil soit sur la tete
+	}
+	else
+	{
+		prev = *token; // si pas la tete on a besoin du token precedent celui a supp pour reco la liste
+		while (prev && prev->next != remove) // on parcout la liste et on sarrete quand le suivant est celui a supp
+			prev = prev->next;
+		if (prev)
+		{
+			prev->next = remove->next; //connecter le token juste avant celui supp avec celui qui le suit
+			*current = remove->next;// mise a jour du token current sur celui suivamt le supp
+		}
+	}
+	free(remove->value);
+	free(remove);
+}
+
+void	expander(t_token *token, t_data *data)
+{
+	t_token	*current = token;
+	t_token	*next;
 	char	*new_value;
 
-	current = token;
 	while (current)
 	{
+		next = current->next;
+
 		if (((current->type == WORD) || (current->type == DOUBLE_QUOTES)) && ft_strchr(current->value, '$'))
 		{
 			new_value = new_token_value(current->value, data);
-			if (new_value)
+			if (new_value && new_value[0] == '\0' && current->type == WORD)
+			{
+				// arrive ici current est egal au token a supprimer
+				free(new_value);
+				remove_token(&token, &current); //ici current est deja mis a jour
+				continue;
+			}
+			else if (new_value)
 			{
 				free(current->value);
 				current->value = new_value;
 			}
 		}
-		printf("Token apres expansion: %s\n", current->value);
-		current = current->next;
+		current = next;
 	}
 }
+
+// void	expander(t_token *token, t_data	*data)
+// {
+// 	t_token	*current;
+// 	char	*new_value;
+
+// 	current = token;
+// 	while (current)
+// 	{
+// 		if (((current->type == WORD) || (current->type == DOUBLE_QUOTES)) && ft_strchr(current->value, '$'))
+// 		{
+// 			new_value = new_token_value(current->value, data);
+// 			if (new_value && new_value[0] == '\0' && current->type == WORD)
+// 			{
+// 					remove_token(&token, &current);
+// 					continue;
+// 			}
+// 			else if (new_value)
+// 			{
+// 				free(current->value);
+// 				current->value = new_value;
+// 			}
+
+// 		}
+// 		// printf("Token apres expansion: %s\n", current->value);
+// 		current = current->next;
+// 	}
+// }
+// void	expander(t_token *token, t_data	*data)
+// {
+// 	t_token	*current;
+// 	char	*new_value;
+
+// 	current = token;
+// 	while (current)
+// 	{
+// 		if (((current->type == WORD) || (current->type == DOUBLE_QUOTES)) && ft_strchr(current->value, '$'))
+// 		{
+// 			new_value = new_token_value(current->value, data);
+// 			if (new_value)
+// 			{
+// 				free(current->value);
+// 				current->value = new_value;
+// 			}
+// 		}
+// 		// printf("Token apres expansion: %s\n", current->value);
+// 		current = current->next;
+// 	}
+// }
 
 // test : echo "exit_code ->$? user ->$USER home -> $HOME" erreur car affiche ->$USER et pas ->naankour autre erreur $? doit afficher exit_code
 // echo $?HELLO doit afficher exit_code suivi de HELLO

@@ -18,9 +18,11 @@ void	merge_tokens(t_token **token)
 	char	*merged;
 	t_token	*new_token;
 	t_token	*prev;
+	t_token *next;
 
-	// prev = NULL;
+	prev = NULL;
 	current = *token;
+	next = current->next;
 	while (current && current->next)
 	{
 		if ((current->type == WORD || current->type == DOUBLE_QUOTES || current->type == SINGLE_QUOTES)
@@ -31,32 +33,47 @@ void	merge_tokens(t_token **token)
 			if (!merged)
 				return;
 			new_token = create_token(WORD, merged);
-			new_token->has_space = current->next->has_space; // pour savoir si je dois mettre un espace lors de laffichage je recupere has_space du dernier token
 			free(merged);
-			new_token->next = current->next->next; //jintegre new_token a la liste en le liant au token suivant current->next
-			free(current->value);
-			free(current);
-			free(current->next->value);
-			free(current->next);
+			new_token->has_space = current->next->has_space; // pour savoir si je dois mettre un espace lors de laffichage je recupere has_space du dernier token
+			new_token->next = next->next; //jintegre new_token a la liste en le liant au token suivant current->next
 			//mettre a jour la tête de la liste si cetait le premier token de la liste
 			if (current == *token)
-				*token = new_token;
+			*token = new_token;
 			//raccorder avec le token precedent sil y en un avant
 			//je suis actuellement en train de remplacer current par un new_token donc il faut que le token precedent de current soit relie a new_token
-			else
+			else if (prev)
 			{
-				prev = *token;
-				// je parcours la liste tant que je nai pas trouve prev de current donc il faut que prev-> next soit egal a current
-				while(prev->next != current) // quand prev->next == current ca veut dire que le suivant apres prev est current
-					prev = prev->next;			//donc a la place de current et donc de pv_next je dois mettre new_token
+				// prev = *token;
+				// // je parcours la liste tant que je nai pas trouve prev de current donc il faut que prev-> next soit egal a current
+				// while(prev->next != current) // quand prev->next == current ca veut dire que le suivant apres prev est current
+				// prev = prev->next;			//donc a la place de current et donc de pv_next je dois mettre new_token
 				prev->next = new_token;
 			}
+			free(current->next->value);
+			free(current->next);
+			free(current->value);
+			free(current);
 			current = new_token;
 		}
 		else
+		{
+			prev = current;
 			current = current->next; //je passe au suivant
+		}
 	}
-	print_tokens(*token);
+	// print_tokens(*token);
+}
+
+void	reassign_index(t_token *tokens)
+{
+	int		i;
+
+	i = 0;
+	while(tokens)
+	{
+		tokens->index = i++;
+		tokens = tokens->next;
+	}
 }
 
 

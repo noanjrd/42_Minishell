@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/17 12:48:35 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:20:33 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,5 +175,6 @@ void	get_variable_value(t_token *token);
 void	free_token_list(t_token *head);
 char	*new_token_value(char *str, t_data	*data);
 void	merge_tokens(t_token	**token);
+void	reassign_index(t_token *tokens);
 
 #endif

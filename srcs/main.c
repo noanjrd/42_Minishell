@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/17 14:12:12 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:23:45 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,9 @@ void	ft_readline(t_data *data)
 			continue;
 		expander(data->tokens, data);
 		merge_tokens(&data->tokens);
+		reassign_index(data->tokens);
 		make_commands(data, NULL, NULL, NULL);
-		printf_cmd(data->commands);
+		// printf_cmd(data->commands);
 		exec(data);
 		free(data->line);
 		free_token_list(data->tokens);
