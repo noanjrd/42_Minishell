@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:45:35 by njard             #+#    #+#             */
-/*   Updated: 2025/05/19 19:09:05 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:18:20 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_exit(t_data *data, t_token *token)
 		}
 		else
 		{
-			code_exit = ft_atoi(cpy_token->next->value);
+			code_exit = ft_atoi(cpy_token->value);
 		}
 	}
 	// printf("exit\n");
