@@ -34,13 +34,23 @@ int	get_token_lenght(char *str, t_env *env)
 				len = len + ft_strlen(value);
 		}
 		else
-		{
-			len++;
-			str++;
-		}
+			len++, str++;
 	}
 	free (value);
 	return (len);
+}
+
+int	ft_exit_code(char *final_buffer, int exit_code, int j)
+{
+	char	*str_exit_code;
+	int		k;
+
+	str_exit_code = ft_itoa(exit_code);
+	k = 0;
+	while (str_exit_code[k])
+		final_buffer[j++] = str_exit_code[k++];
+	free(str_exit_code);
+	return(j);
 }
 
 char	*new_token_value(char *str, t_data	*data)
@@ -52,7 +62,6 @@ char	*new_token_value(char *str, t_data	*data)
 	char	*final_buffer;
 	int		j;
 	int		k;
-	char	*str_exit_code;
 
 	final_buffer = malloc(get_token_lenght(str, data->env) + 1);
 	if (!final_buffer)
@@ -62,14 +71,7 @@ char	*new_token_value(char *str, t_data	*data)
 	while (str[i])
 	{
 		if (str[i] == '$' && str[i + 1] == '?')
-		{
-			str_exit_code = ft_itoa(data->exit_code);
-			k = 0;
-			while (str_exit_code[k])
-				final_buffer[j++] = str_exit_code[k++];
-			free(str_exit_code);
-			i += 2;
-		}
+			j = ft_exit_code(final_buffer, data->exit_code, j), i += 2;
 		else if ((str[i] == '$') && ((str[i + 1] == '\0') || (str[i + 1] == ' ') || (!ft_isalnum(str[i + 1]))))
 			final_buffer[j++] = str[i++];
 		else if (str[i] == '$' && ft_isdigit(str[i + 1]))
@@ -106,21 +108,21 @@ void remove_token(t_token **token, t_token **current)
 
 	if (!token || !*token || !current || !*current)
 		return;
-	remove = *current; // je garde le token a supprimer current est deja sur le token a supp
-	if (remove == *token) // sil est en tete de liste
+	remove = *current;
+	if (remove == *token)
 	{
-		*token = remove->next; //mise a jour de la tete
-		*current = *token; // mise a jour du token current pour quil soit sur la tete
+		*token = remove->next;
+		*current = *token;
 	}
 	else
 	{
-		prev = *token; // si pas la tete on a besoin du token precedent celui a supp pour reco la liste
-		while (prev && prev->next != remove) // on parcout la liste et on sarrete quand le suivant est celui a supp
+		prev = *token;
+		while (prev && prev->next != remove)
 			prev = prev->next;
 		if (prev)
 		{
-			prev->next = remove->next; //connecter le token juste avant celui supp avec celui qui le suit
-			*current = remove->next;// mise a jour du token current sur celui suivamt le supp
+			prev->next = remove->next;
+			*current = remove->next;
 		}
 	}
 	free(remove->value);

@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/19 15:20:33 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:55:05 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ int	is_symbol(char c);
 int		ft_check_syntax_errors(t_token *token);
 t_token	*create_token_word(char *line, int *index);
 void	expander(t_token *token, t_data	*data);
+int	ft_exit_code(char *final_buffer, int exit_code, int j);
 void	get_variable_value(t_token *token);
 void	free_token_list(t_token *head);
 char	*new_token_value(char *str, t_data	*data);
