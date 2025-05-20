@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:25:03 by njard             #+#    #+#             */
-/*   Updated: 2025/05/17 13:31:50 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/20 14:32:35 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ void	ft_echo(t_data *data, t_env *env, t_token *token)
 	}
 	if (n == 0)
 		printf("\n");
-	data->exit_code = 0;
+	// data->exit_code = 0;
 	return ;
 }

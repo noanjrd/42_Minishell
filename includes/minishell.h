@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/19 16:07:46 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/20 12:10:50 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,11 @@ typedef struct s_cmd
 	int red_out;
 	int here_doc;
 	int end;
+	int first;
 	int check_fdout;
 	int check_fdin;
 	int redirect_in_before;
+	int deleted;
 	struct s_cmd *next;
 	t_token_type type;
 }				t_cmd;

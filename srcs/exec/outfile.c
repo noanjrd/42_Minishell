@@ -6,138 +6,11 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:14:21 by njard             #+#    #+#             */
-/*   Updated: 2025/05/19 14:01:02 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/20 15:36:54 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// void	ft_relink_linked_list(t_token *token, t_cmd *cmd, char *value2, int i)
-// {
-// 	if (!token || !token->next || !token->next->next)
-// 		return ;
-// 	t_token *start;
-// 	start = token;
-// 	token = token->next;
-// 	t_token *temp;
-// 	while (i > 0 && token->next)
-// 	{
-// 		token = token->next;
-// 		i--;
-// 	}
-// 	// printf("|%s|\n", token->value);
-// 	while (token->next && ft_strcmp(token->next->value, value2) != 0)
-// 	{
-// 		temp = token->next;
-// 		free(token->value);
-// 		free(token);
-// 		token = temp; 
-// 	}
-// 	start->next = token;
-// 	if (token->next->next && (token->next->next->type == REDIRECT_APPEND || token->next->next->type == REDIRECT_OUT))
-// 	{
-// 		ft_relink_linked_list(start, cmd, value2, 1);
-// 	}
-// 	return ;
-// }
-
-// void	ft_relink_linked_cmd(t_cmd *cmd, char *value2, int i)
-// {
-// 	t_cmd *temp;
-// 	t_cmd *start;
-// 	start = cmd;
-// 	cmd = cmd->next;
-// 	while (i > 0)
-// 	{
-// 		if (cmd->next)
-// 			cmd = cmd->next;
-// 		i--;
-// 	}
-// 	while (cmd && cmd->type == IN_OUT_FILENAME && ft_strcmp(cmd->value, value2) != 0)
-// 	{
-// 		temp = cmd->next;
-// 		free(cmd->value);
-// 		free(cmd->infile);
-// 		free(cmd->outfile);
-// 		free(cmd);
-// 		cmd = temp; 
-// 	}
-// 	start->next = cmd;
-// 	if (cmd->next && cmd->next->type == IN_OUT_FILENAME)
-// 	{
-// 		ft_relink_linked_cmd(start, value2, 1);
-// 	}
-// 	return ;
-// }
-
-// void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
-// {
-// 	t_token *cpy;
-// 	int fdout;
-// 	int check;
-// 	int	append;
-
-// 	check = 0;
-// 	cpy = token->next;
-// 	while (cpy)
-// 	{
-// 		if (!cpy->next->next && check == 0)
-// 		{
-// 			if (cpy->type == REDIRECT_APPEND)
-// 			{
-// 				cmd->red_append = 1;
-// 				fdout = open(cpy->next->value, O_WRONLY | O_CREAT | O_APPEND , 0700);
-// 			}
-// 			else
-// 				fdout = open(cpy->next->value, O_WRONLY | O_CREAT | O_TRUNC , 0700);
-// 			if (fdout < 0)
-// 			{
-// 				data->exit_code = 1;
-// 				perror("Error");
-// 				cmd->check_fdout = 0;
-// 			}
-// 			else
-// 				cmd->check_fdout = 1;
-// 			free(cmd->outfile);
-// 			cmd->outfile = ft_copy(cpy->next->value);
-// 			cmd->fdout = fdout;
-// 			return ;
-// 		}
-// 		if (cpy->next->next && (cpy->next->next->type == REDIRECT_OUT || cpy->next->next->type == REDIRECT_APPEND))
-// 		{
-// 			if (cpy->next->next->type == REDIRECT_OUT)
-// 				append = 0;
-// 			if (cpy->next->next->type == REDIRECT_APPEND)
-// 				append = 1;
-// 			cpy = cpy->next->next;
-// 			check = 1;
-// 		}
-// 		else 
-// 			break;
-// 	}
-// 	if (append == 1)
-// 	{
-// 		printf("app\n");
-// 		cmd->red_append = 1;
-// 		fdout = open(cpy->next->value,O_WRONLY | O_CREAT | O_APPEND, 0700);
-// 		cmd->check_fdout = 1;
-// 	}
-// 	else 
-// 	{
-// 		fdout = open(cpy->next->value,O_WRONLY | O_CREAT, 0700);
-// 		cmd->check_fdout = 1;
-// 	}
-// 	if (fdout < 0)
-// 	{
-// 		data->exit_code = 1;
-// 		// perror("Error");
-// 		cmd->check_fdout = 0;
-// 	}
-// 	free(cmd->outfile);
-// 	cmd->outfile = ft_copy(cpy->next->value);
-// 	cmd->fdout = fdout;
-// 	return ;
-// }
 
 void	reach_furthest_fd(t_cmd *cmd, t_token *token)
 {
@@ -146,7 +19,10 @@ void	reach_furthest_fd(t_cmd *cmd, t_token *token)
 
 	cpy_token = token;
 	cpy_cmd = cmd;
-	while (cpy_cmd && cpy_cmd->check_fdin != -1 && cpy_cmd->check_fdout != -1 && (cpy_cmd->outfile || (cpy_cmd->next && cpy_cmd->next->redirect_in_before == 1)))
+	// printf("!!!!!%s\n", cmd->value);
+	while ((cpy_cmd->next && cpy_cmd->next->deleted == 1 )||  cpy_cmd && cpy_cmd->check_fdin != -1 
+		&& cpy_cmd->check_fdout != -1 && (cpy_cmd->outfile 
+		|| (cpy_cmd->next && cpy_cmd->next->redirect_in_before == 1)))
 	{
 		cpy_cmd = cpy_cmd->next;
 	}
@@ -184,8 +60,8 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 			// printf("ddddoutcmd: %s\n", cpy_cmd->value);
 			if (cpy_cmd->type == WORD )
 			{
-				reach_furthest_fd(cpy_cmd, cpy_token);
 				// printf("outcmd: %s\n", cpy_cmd->value);
+				reach_furthest_fd(cpy_cmd, cpy_token);
 				cpy_cmd = cpy_cmd->next;
 				cpy_token = cpy_token->next;
 				continue;

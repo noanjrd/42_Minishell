@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/19 16:31:05 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/20 15:54:26 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 		}
 		else if (cmd->path != NULL && cmd->next && cmd->next->end == 0)
 		{
-			// printf("normal %s\n", cmd->value);
+			printf("normal %s\n", cmd->value);
 			dup2(cmd->fdpipe[1], STDOUT_FILENO);
 		}
 		if (cmd->fdpipe[0] != -1)
@@ -60,7 +60,7 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 				close(cmd->prev_fdpipe[1]);
 		}
 
-		if (builtin_check(data, cmd->tab[0]) == 1)
+		if (builtin_check(data, cmd->tab[0]) == 1 && cmd->fdout != -1)
 		{
 			// printf("builtin\n");
 			go_to_right_builtin(data, cmd->index);
@@ -70,14 +70,15 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 			if (cmd->path == NULL && data->error_alrdy_displayed == 0)
 			{
 				data->exit_code = 127;
-				// if (access(cmd->value, F_OK) == 0)
-				// 	write(2,"Is a directory\n",15);
 				if (data->error_alrdy_displayed == 0)
-					write(2,"command not found\n",18);
+					write(2," command not found\n",19);
+				// else if (access(cmd->value, F_OK) == 0)
+				// 	write(2," Is a directory\n",16);
+
 				
 				// printf("exit code : %d\n", data->exit_code);
 			}
-			else if (cmd->fdin != -1)
+			else if (cmd->fdin != -1 && cmd->fdout != -1)
 			{
 				// printf("exec exec %s\n", cmd->value);
 				execve(cmd->path, cmd->tab, data->envp);
@@ -144,7 +145,7 @@ void wait_p(t_data *data)
 		{
 			// printf("wait %s\n", cpy_cmd->value);
 			waitpid(cpy_cmd->pid, &status, 0);
-			if (cpy_cmd->fdout >= 0 && WIFEXITED(status))
+			if ((cpy_cmd->fdout >= 0 || cpy_cmd->fdout == -99) && WIFEXITED(status))
 				data->exit_code = WEXITSTATUS(status);
 			j++;
 		}
@@ -166,11 +167,29 @@ void	check_fdout_between(t_data *data, t_cmd *cmd)
 			close(fd);
 		}
 	}
-	else if (cmd->red_out == 0)
+	else if (cmd->red_out == 0 && cmd->deleted == 0)
 	{
 		excve_apply(data, cmd, NULL);
 	}
 	return ;
+}
+
+void	ft_check_extra(t_data *data, t_cmd *cmd)
+{
+	if (cmd->first == 1 && cmd->next == NULL)
+	{
+		// if (cmd->value[0] == '$' && !cmd->value[1])
+		// {
+		// 	printf("");
+		// 	data->exit_code = 127;
+		// 	return ;
+		// }
+		// if (access(cmd->value, F_OK) == 0)
+		// {
+			
+		// }
+	}
+	check_fdout_between(data, cmd);
 }
 
 void	real_exec(t_data *data)
@@ -187,7 +206,7 @@ void	real_exec(t_data *data)
 		{
 			// go_to_right_builtin(data, cpy_cmd->index);
 			// excve_apply(data, cpy_cmd);
-			check_fdout_between(data, cpy_cmd);
+			ft_check_extra(data, cpy_cmd);
 			i++;
 		}
 		// printf("here %s\n", cpy_cmd->value);

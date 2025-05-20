@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:42:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/19 16:16:09 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/20 13:55:10 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,10 @@ int	builtin_check(t_data *data, char *commands)
 
 	arg = NULL;
 
+	// printf("buiiii '%s'\n", commands);
 	if (ft_strcmp(commands, "echo") == 0)
 	{
+		// printf("echoi\n");
 		return (1);
 	}
 	if (ft_strcmp(commands, "unset") == 0)

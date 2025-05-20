@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/19 16:19:02 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/20 13:08:41 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,10 @@ void	rest_ofthesteps_two(t_token *token, t_cmd *cmd)
 
 	cpy_cmd = cmd;
 	cpy_token = token;
+	if (cpy_cmd)
+	{
+		cpy_cmd->first = 1;
+	}
 	while (cpy_token)
 	{
 		if (cpy_cmd && cpy_token->type == REDIRECT_IN 
@@ -131,7 +135,6 @@ void	rest_ofthesteps(t_token *token, t_cmd *cmd)
 	rest_ofthesteps_two(token, cmd);
 	cpy_cmd = cmd;
 	cpy_token = token;
-
 	return ;
 }
 
@@ -142,6 +145,8 @@ void	assign_value(t_cmd *new_cmd, t_token *cpy_token, int i)
 	new_cmd->check_fdout = 0;
 	new_cmd->here_doc = 0;
 	new_cmd->red_append = 0;
+	new_cmd->deleted = 0;
+	new_cmd->first = 0;
 	new_cmd->index = i;
 	new_cmd->pid = -1;
 	new_cmd->fdpipe = malloc(3 * sizeof(int));
@@ -149,8 +154,6 @@ void	assign_value(t_cmd *new_cmd, t_token *cpy_token, int i)
 	new_cmd->fdpipe[1] = -1;
 	new_cmd->prev_fdpipe =NULL;
 	new_cmd->end = 0;
-	// new_cmd->prev_fdpipe[0] = -1;
-	// new_cmd->prev_fdpipe[1] = -1;
 	new_cmd->value = ft_copy(cpy_token->value);
 	new_cmd->infile = NULL;
 	new_cmd->type = WORD;
@@ -160,7 +163,6 @@ void	assign_value(t_cmd *new_cmd, t_token *cpy_token, int i)
 	new_cmd->outfile = NULL;
 	new_cmd->next = NULL;
 	new_cmd->red_out = 0;
-	return ;
 }
 
 void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd)
