@@ -20,14 +20,16 @@ static void printf_cmd(t_cmd *cmd)
 	t_cmd *current = cmd;
 	while (current)
 	{
-		printf("value = %s, infile = %s, outfile = %s, type=%d, here_doc=%d, red_in_avant=%d, red=%d\n",
+		printf("value = %s, infile = %s, outfile = %s, type=%d,here_doc=%d, red_in_avant=%d, red=%d, appnd=%d, end=%d\n",
 			current->value,
 			current->infile ? current->infile : "NULL",
 			current->outfile ? current->outfile : "NULL",
 			current->type,
 		current->here_doc,
 		current->redirect_in_before,
-	current->red_out);
+	current->red_out,
+	current->red_append,
+current->end);
 		current = current->next;
 	}
 	printf("---------------------------\n");

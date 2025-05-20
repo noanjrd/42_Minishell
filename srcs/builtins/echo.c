@@ -94,12 +94,11 @@ void	ft_echo(t_data *data, t_env *env, t_token *token)
 	if (!copy_token->next)
 	{
 		printf("\n");
-		data->exit_code = 0;
 		return ;
 	}
 	// printf("coucou\n");
 	copy_token = copy_token->next;
-	// printf("%s\n",copy_token->value );
+	// printf("%s\n",copy_token->value);
 	while (copy_token && (copy_token->type ==  WORD || copy_token->type ==  SINGLE_QUOTES || copy_token->type ==  DOUBLE_QUOTES))
 	{
 		if (copy_token->value[0] == '-' && copy_token->value[1] == 'n')
@@ -117,7 +116,7 @@ void	ft_echo(t_data *data, t_env *env, t_token *token)
 	}
 	if (n == 0)
 		printf("\n");
-	data->exit_code = 0;
+	// data->exit_code = 0;
 	return ;
 }
 

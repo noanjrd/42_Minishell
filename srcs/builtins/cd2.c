@@ -26,12 +26,12 @@ char *cd_root(void)
 
 void	cd_error(t_data *data, t_token *token)
 {
-	printf("cd: too many arguments\n");
+	write(2," too many arguments\n",20);
 	data->exit_code = 1;
 	return ;
 }
 
-void go_into_specific_dr(t_env *env, char *current, char *path)
+void go_into_specific_dr(t_data *data, t_env *env, char *current, char *path)
 {
 	char *new_path;
 	char *temp;
@@ -51,7 +51,8 @@ void go_into_specific_dr(t_env *env, char *current, char *path)
 	else
 	{
 		path++;
-		printf("no such file or directory: %s\n", path);
+		write(2," no such file or directory\n",28);
+		data->exit_code = 1;
 		path--;
 		free(path);
 		free(new_path);
@@ -75,7 +76,7 @@ void absolute_path(t_env *env, char *path)
 	else
 	{
 		// path++;
-		printf("no such file or directory: %s\n", path);
+		write(2," no such file or directory\n",28);
 		// path--;
 		free(path);
 		free(temp);

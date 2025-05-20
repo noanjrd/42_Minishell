@@ -33,7 +33,7 @@ static int	check_num(char *s)
 	i = 0;
 	while (s[i])
 	{
-		if (! (s[i] >= '0' && s[i] <= '9'))
+		if (s[i]!= '+' || s[i] != '-' || (s[i] >= '0' && s[i] <= '9'))
 		{
 			return (0);
 		}

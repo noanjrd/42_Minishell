@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 14:01:33 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/20 15:49:50 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static char *get_name_export(char *export)
 	}
 	if (export[i - 1] == '+')
 		i--;
+	if (export[i - 1] == '-')
+		return (NULL);
 	name = malloc(sizeof(char) * (i + 1));
 	if (!name)
 		return (NULL);
@@ -68,9 +70,23 @@ static char *get_value_export(char *export)
 static int	check_valid_name(char *name)
 {
 	int i;
+	int check;
 
+	check = 0;
 	i = 0;
-	while(name[i])
+	while (name[i])
+	{
+		if (!(name[i] >= '0' && name[i] <= '9'))
+		{
+			check = 1;
+			break;
+		}
+		i++;
+	}
+	if (check == 0)
+		return (1);
+	i = 0;
+	while (name[i])
 	{
 		if (!(name[i] >= '0' && name[i] <= '9')
 			&& !(name[i] >= 'a' && name[i] <= 'z')
@@ -81,14 +97,18 @@ static int	check_valid_name(char *name)
 	return (0);
 }
 
-void export_launch(t_env *env, char *export)
+void export_launch(t_data *data, t_env *env, char *export)
 {
 	char *name;
 	char *value;
 
 	name = get_name_export(export);
-	if (check_valid_name(name) == 1)
-		return;
+	if (!name || check_valid_name(name) == 1)
+	{
+		write(2," not a valid identifier\n",24);
+		data->exit_code = 1;
+		return ;
+	}
 	value = get_value_export(export);
 	if (check_alrdy_exist(env, name, value, export) == 1)
 	{
@@ -99,19 +119,33 @@ void export_launch(t_env *env, char *export)
 	return ;
 }
 
-void ft_export(t_env *env, t_token *token)
+void ft_export(t_data *data, t_env *env, t_token *token)
 {
 	t_token *token_copy;
 
+	token_copy = token;
+	while (token_copy)
+	{
+		if (token_copy->type == PIPE)
+			return ;
+		token_copy = token_copy->next;
+	}
 	token_copy = token;
 	if (!token_copy->next || (token_copy->next->type != WORD && token_copy->next->type != SINGLE_QUOTES && token_copy->type != DOUBLE_QUOTES))
 	{
 		return (display_export(env));
 	}
 	token_copy = token_copy->next;
+	
+	if (token_copy->next && token_copy->value[0] == '=')
+	{
+		write(2," not a valid identifier\n",24);
+		data->exit_code = 1;
+		return ;
+	}
 	while (token_copy && (token_copy->type == WORD || token_copy->type == SINGLE_QUOTES || token_copy->type == DOUBLE_QUOTES))
 	{
-		export_launch(env, token_copy->value);
+		export_launch(data, env, token_copy->value);
 		token_copy = token_copy->next;
 	}
 	return ;

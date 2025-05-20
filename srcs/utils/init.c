@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:35:47 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 12:29:53 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/17 10:58:06 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	init_data(t_data *data, t_env *env, char **envp)
 	data->line = NULL;
 	data->fd_here_doc = -99;
 	data->nb_of_commands = 0;
+	data->error_alrdy_displayed = 0;
 	initalising_path(data);
 }
 

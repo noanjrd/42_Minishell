@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
 /*   Updated: 2025/05/16 15:22:00 by naankour         ###   ########.fr       */
@@ -12,29 +12,30 @@
 
 #include "../../includes/minishell.h"
 
-void	excve_apply(t_data *data, t_cmd *cmd)
+void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 {
 	if (builtin_check(data, cmd->tab[0]) == 2)
 	{
-		// printf("builtin\n");
+		// printf("builtin1\n");
 		go_to_right_builtin(data, cmd->index);
+		return ;
 	}
-	else
-	{
-		pipe(cmd->fdpipe);
-		cmd->pid = fork();
-	}
+	cmd->fdpipe[0] = -1;
+	cmd->fdpipe[1] = -1;
+	pipe(cmd->fdpipe);
+	cmd->pid = fork();
 	// printf("la< %s\n", cmd->value);
 	if (cmd->pid == 0 && builtin_check(data, cmd->tab[0]) != 2)
 	{
 		if (cmd->fdin != -99 && cmd->check_fdin == 1)
 		{
-			// printf("icii\n");
+			// printf("ya un fdin %s\n", cmd->value);
 			dup2(cmd->fdin, STDIN_FILENO);
+			// close(cmd->fdin);
 		}
-		else if (cmd->prev_fdpipe)
+		else if (cmd->prev_fdpipe && cmd->prev_fdpipe[0] != -1)
 		{
-			// printf("prev pipe existant\n");
+			// printf("prev pipe existant %s\n", cmd->value);
 			dup2(cmd->prev_fdpipe[0], STDIN_FILENO);
 		}
 		if (cmd->path != NULL && cmd->fdout != -99 && cmd->check_fdout == 1)
@@ -42,63 +43,87 @@ void	excve_apply(t_data *data, t_cmd *cmd)
 			// printf("ya un fdout\n");
 			dup2(cmd->fdout, STDOUT_FILENO);
 		}
-		else if (cmd->path != NULL && cmd->next && cmd->next->redirect_in_before == 0)
+		else if (cmd->path != NULL && cmd->next && cmd->next->end == 0)
 		{
 			// printf("normal\n");
 			dup2(cmd->fdpipe[1], STDOUT_FILENO);
 		}
-		close(cmd->fdpipe[0]);
-		close(cmd->fdpipe[1]);
-		if (cmd->prev_fdpipe) // Ferme les descripteurs de pipe précédent
+		if (cmd->fdpipe[0] != -1)
+			close(cmd->fdpipe[0]);
+		if (cmd->fdpipe[1] != -1)
+			close(cmd->fdpipe[1]);
+		if (cmd->prev_fdpipe)
 		{
-			close(cmd->prev_fdpipe[0]);
-			close(cmd->prev_fdpipe[1]);
+			if (cmd->prev_fdpipe[0] != -1)
+				close(cmd->prev_fdpipe[0]);
+			if (cmd->prev_fdpipe[1] != -1)
+				close(cmd->prev_fdpipe[1]);
 		}
-		if (builtin_check(data, cmd->tab[0]) == 1)
+
+		if (builtin_check(data, cmd->tab[0]) == 1 && cmd->fdout != -1)
 		{
 			// printf("builtin\n");
 			go_to_right_builtin(data, cmd->index);
 		}
 		else
 		{
-			if (cmd->path == NULL)
+			if (cmd->path == NULL && data->error_alrdy_displayed == 0)
 			{
 				data->exit_code = 127;
-				if (access(cmd->value, F_OK) == 0)
-					printf("%s: Is a directory\n", cmd->value);
-				else
-					printf("%s: command not found\n", cmd->value);
+				if (data->error_alrdy_displayed == 0)
+					write(2," command not found\n",19);
+				// else if (access(cmd->value, F_OK) == 0)
+				// 	write(2," Is a directory\n",16);
+
+				
+				// printf("exit code : %d\n", data->exit_code);
 			}
-			else
+			else if (cmd->fdin != -1 && cmd->fdout != -1)
 			{
-				// printf("exec exec\n");
+				// printf("exec exec %s\n", cmd->value);
 				execve(cmd->path, cmd->tab, data->envp);
+				data->error_alrdy_displayed = 1;
 			}
 		}
 		exit(data->exit_code);
 	}
 	if (cmd->prev_fdpipe)
 	{
-		close(cmd->prev_fdpipe[0]);
-		close(cmd->prev_fdpipe[1]);
+		if (cmd->prev_fdpipe[0] != -1)
+			close(cmd->prev_fdpipe[0]);
+		if (cmd->prev_fdpipe[1] != -1)
+			close(cmd->prev_fdpipe[1]);
 		free(cmd->prev_fdpipe);
 		cmd->prev_fdpipe = NULL;
 	}
+	// if (cmd->fdin)
+	// 	close(cmd->fdin);
+	
+	cmd_temp = cmd;
+	// printf("temp : %s\n", cmd_temp->value);
+	while (cmd->next && cmd->next->type == IN_OUT_FILENAME && cmd->next->end == 0 && cmd->next->redirect_in_before == 1)
+	{
+		// printf("loop\n");
+		cmd = cmd->next;
+	}
+	// printf("### %s\n", cmd->value);
 	if (cmd->next && cmd->next->type != IN_OUT_FILENAME)
 	{
+		// printf("prevvv %s\n", cmd->next->value);
 		cmd->next->prev_fdpipe = malloc(2 * sizeof(int));
-		cmd->next->prev_fdpipe[0] = cmd->fdpipe[0];
-		cmd->next->prev_fdpipe[1] = cmd->fdpipe[1];
+		cmd->next->prev_fdpipe[0] = cmd_temp->fdpipe[0];
+		cmd->next->prev_fdpipe[1] = cmd_temp->fdpipe[1];
+		if (cmd_temp->fdpipe[1] != -1)
+			close(cmd_temp->fdpipe[1]);
 	}
 	else
 	{
-		close(cmd->fdpipe[0]);
-		close(cmd->fdpipe[1]);
+		if (cmd_temp->fdpipe[0] != -1)
+			close(cmd_temp->fdpipe[0]);
+		if (cmd_temp->fdpipe[1] != -1)
+			close(cmd_temp->fdpipe[1]);
+		
 	}
-
-	// close(cmd->prev_fdpipe[0]);
-	// close(cmd->prev_fdpipe[1]);
-
 	return ;
 }
 
@@ -110,22 +135,61 @@ void wait_p(t_data *data)
 
 	cpy_cmd = data->commands;
 	j = 0;
-	while (cpy_cmd && cpy_cmd->type == IN_OUT_FILENAME)
+	// while (cpy_cmd && cpy_cmd->type == IN_OUT_FILENAME)
+	// {
+	// 	cpy_cmd = cpy_cmd->next;
+	// }
+	while (cpy_cmd && j < data->nb_of_commands)
 	{
-		cpy_cmd = cpy_cmd->next;
-	}
-	while (j < data->nb_of_commands)
-	{
-		if (cpy_cmd->pid > 0 && cpy_cmd->fdin != -1)
+		if (cpy_cmd->type !=IN_OUT_FILENAME)
 		{
+			// printf("wait %s\n", cpy_cmd->value);
 			waitpid(cpy_cmd->pid, &status, 0);
-			if (WIFEXITED(status))
+			if ((cpy_cmd->fdout >= 0 || cpy_cmd->fdout == -99) && WIFEXITED(status))
 				data->exit_code = WEXITSTATUS(status);
+			j++;
 		}
 		cpy_cmd = cpy_cmd->next;
-		j++;
 	}
 	return ;
+}
+
+void	check_fdout_between(t_data *data, t_cmd *cmd)
+{
+	int fd;
+
+	if (cmd->red_out == 1 && cmd->outfile)
+	{
+		if (cmd->red_append == 0)
+		{
+			// printf("crashing %s\n", cmd->value);
+			fd = open(cmd->value, open(cmd->value,O_TRUNC, 0700));
+			close(fd);
+		}
+	}
+	else if (cmd->red_out == 0 && cmd->deleted == 0)
+	{
+		excve_apply(data, cmd, NULL);
+	}
+	return ;
+}
+
+void	ft_check_extra(t_data *data, t_cmd *cmd)
+{
+	if (cmd->first == 1 && cmd->next == NULL)
+	{
+		// if (cmd->value[0] == '$' && !cmd->value[1])
+		// {
+		// 	printf("");
+		// 	data->exit_code = 127;
+		// 	return ;
+		// }
+		// if (access(cmd->value, F_OK) == 0)
+		// {
+			
+		// }
+	}
+	check_fdout_between(data, cmd);
 }
 
 void	real_exec(t_data *data)
@@ -135,20 +199,17 @@ void	real_exec(t_data *data)
 
 	cpy_cmd = data->commands;
 	i = 0;
-	while (cpy_cmd && cpy_cmd->type == IN_OUT_FILENAME)
-	{
-		cpy_cmd = cpy_cmd->next;
-	}
 	// pipe(cpy_cmd->fdpipe);
 	while (cpy_cmd && i < data->nb_of_commands)
 	{
-		if (cpy_cmd->type != IN_OUT_FILENAME)
+		if (cpy_cmd->type != IN_OUT_FILENAME || cpy_cmd->red_out == 1)
 		{
 			// go_to_right_builtin(data, cpy_cmd->index);
-			excve_apply(data, cpy_cmd);
+			// excve_apply(data, cpy_cmd);
+			ft_check_extra(data, cpy_cmd);
 			i++;
 		}
-		// printf("here\n");
+		// printf("here %s\n", cpy_cmd->value);
 		cpy_cmd  = cpy_cmd->next;
 	}
 	wait_p(data);

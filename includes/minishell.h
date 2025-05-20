@@ -70,9 +70,12 @@ typedef struct s_cmd
 	int red_append;
 	int red_out;
 	int here_doc;
+	int end;
+	int first;
 	int check_fdout;
 	int check_fdin;
 	int redirect_in_before;
+	int deleted;
 	struct s_cmd *next;
 	t_token_type type;
 }				t_cmd;
@@ -85,6 +88,7 @@ typedef struct t_data
 	char **envp;
 	int		exit_code;
 	int	nb_of_commands;
+	int error_alrdy_displayed;
 	t_env	*env;
 	t_token	*tokens;
 	t_cmd	*commands;
@@ -95,7 +99,7 @@ typedef struct t_data
 t_token	*builtin(t_data *data, t_token *token, char *commands);
 void	ft_unset(t_env *env, t_token *token);
 void	display_env(t_env *env);
-void	ft_export(t_env *env, t_token *token);
+void	ft_export(t_data *data, t_env *env, t_token *token);
 void	ft_cd(t_data *data, t_env *env, t_token *token);
 void	ft_exit(t_data *data, t_token *token);
 void	ft_echo(t_data *data, t_env *env, t_token *token);
@@ -105,7 +109,7 @@ int	builtin_check(t_data *data, char *commands);
 void	go_to_right_builtin(t_data *data, int i);
 char *cd_root(void);
 void cd_error(t_data *data, t_token *token);
-void go_into_specific_dr(t_env *env, char *current, char *path);
+void go_into_specific_dr(t_data *data, t_env *env, char *current, char *path);
 void absolute_path(t_env *env, char *path);
 
 // Export
@@ -132,6 +136,7 @@ char	*ft_strchr(const char *s, int c);
 int		ft_isdigit(int c);
 char	*ft_itoa(int n);
 void	ft_free_tab(char **tab);
+int	ft_check_type(t_token *token);
 
 // Free
 
@@ -152,6 +157,7 @@ void fdin_after(t_data *data, t_cmd *cmd);
 void fdin_before(t_data *data, t_cmd *cmd);
 char **ft_join_tab(char **tab, char *value, char *value_app);
 char *ft_join_free(char *s1, char *s2);
+void	fd_error(t_data *data);
 
 // Init
 

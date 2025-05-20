@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:42:48 by njard             #+#    #+#             */
 /*   Updated: 2025/05/17 18:21:06 by naankour         ###   ########.fr       */
@@ -19,7 +19,7 @@ t_token	*builtin_second(t_data *data, t_token *token, char *commands)
 	arg = NULL;
 	if (ft_strcmp(commands, "export") == 0)
 	{
-		ft_export(data->env, token);
+		ft_export(data, data->env, token);
 		return (free(arg), token->next);
 	}
 	if (ft_strcmp(commands, "cd") == 0)
@@ -106,8 +106,10 @@ int	builtin_check(t_data *data, char *commands)
 
 	arg = NULL;
 
+	// printf("buiiii '%s'\n", commands);
 	if (ft_strcmp(commands, "echo") == 0)
 	{
+		// printf("echoi\n");
 		return (1);
 	}
 	if (ft_strcmp(commands, "unset") == 0)
@@ -116,7 +118,7 @@ int	builtin_check(t_data *data, char *commands)
 	}
 	if (ft_strcmp(commands, "env") == 0)
 	{
-		return (2);
+		return (1);
 	}
 	if (ft_strcmp(commands, "exit") == 0)
 	{
