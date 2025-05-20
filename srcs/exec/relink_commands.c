@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:22:15 by njard             #+#    #+#             */
-/*   Updated: 2025/05/20 15:36:38 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 15:22:52 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void	rest_tab(t_token *token, t_cmd *cpy_cmd)
 	cmd = cpy_cmd;
 	while (cmd)
 	{
-		if (cmd->tab == NULL) 
+		if (cmd->tab == NULL)
 			cmd->tab = ft_join_tab(cmd->tab, NULL, cmd->value);
 		cmd = cmd->next;
 	}
@@ -219,7 +219,6 @@ void	relink_commands(t_token *cpy_token, t_cmd *cpy_cmd)
 		// 	printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->value);
 		if (token->next && cmd && cmd->next && token->type != REDIRECT_OUT && token->type != REDIRECT_APPEND &&token->type != HERE_DOC  &&  token->type != PIPE && token->type != REDIRECT_IN && cmd->next && cmd->type != IN_OUT_FILENAME && ft_check_type(token->next) == 0)
 		{
-			// printf("join\n");
 			put_tab(cmd, cmd->next);
 			// token = token->next;
 		}

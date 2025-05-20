@@ -2,7 +2,7 @@
 
 NAME = minishell
 CC = cc
-FLAGS = -g3
+FLAGS = -g3 #-fsanitize=address,leak
 LIBS = -lreadline
 RM = rm -rf
 
@@ -39,6 +39,7 @@ SRCS = srcs/main.c\
 	srcs/parsing/token_word.c\
 	srcs/parsing/check_syntax.c\
 	srcs/parsing/expander.c\
+	srcs/parsing/merge_tokens.c\
 
 OBJS = ${SRCS:.c=.o}
 

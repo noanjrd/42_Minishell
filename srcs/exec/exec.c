@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/20 15:54:26 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/16 15:22:00 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 		}
 		else if (cmd->path != NULL && cmd->next && cmd->next->end == 0)
 		{
-			printf("normal %s\n", cmd->value);
+			// printf("normal\n");
 			dup2(cmd->fdpipe[1], STDOUT_FILENO);
 		}
 		if (cmd->fdpipe[0] != -1)

@@ -1,0 +1,14 @@
+	srcs/utils/ft_from_libft.c\
+	srcs/utils/ft_from_libft2.c\
+	srcs/utils/ft_from_libft3.c\
+	srcs/builtins/builtin.c\
+	srcs/builtins/env.c\
+	srcs/builtins/pwd.c\
+	srcs/builtins/export2.c\
+	srcs/builtins/export3.c\
+	srcs/builtins/unset.c\
+	srcs/builtins/cd.c\
+	srcs/builtins/cd2.c\
+	srcs/builtins/echo.c\
+	srcs/builtins/export.c\
+	srcs/builtins/exit.c\
