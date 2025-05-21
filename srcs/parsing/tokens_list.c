@@ -40,7 +40,7 @@ t_token *create_token(t_token_type type, char *value)
 
 	token->type = type;
 	token->value = ft_strdup(value);
-	printf("token value = %s while create\n", token->value);
+	// printf("token value = %s while create\n", token->value);
 	if (!token->value)
 	{
 		free(token);
@@ -80,7 +80,7 @@ void	free_token_list(t_token *head)
 		head = head->next;
 		if (temp->value)
 		{
-			printf("token value = %s while free\n", temp->value);
+			// printf("token value = %s while free\n", temp->value);
 			free(temp->value);
 		}
 		free(temp);

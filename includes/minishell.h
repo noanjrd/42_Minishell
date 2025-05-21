@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/19 15:20:33 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/21 11:40:25 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ typedef struct t_data
 
 // Builtins
 
-t_token	*builtin(t_data *data, t_token *token, char *commands);
 void	ft_unset(t_env *env, t_token *token);
 void	display_env(t_env *env);
 void	ft_export(t_data *data, t_env *env, t_token *token);
@@ -106,7 +105,7 @@ void	ft_echo(t_data *data, t_env *env, t_token *token);
 void	ft_pwd(t_env *env);
 t_token	*update_echo_struct(t_token *token);
 int	builtin_check(t_data *data, char *commands);
-void	go_to_right_builtin(t_data *data, int i);
+void	go_to_right_builtin(t_data *data, t_cmd *cmd, int i);
 char *cd_root(void);
 void cd_error(t_data *data, t_token *token);
 void go_into_specific_dr(t_data *data, t_env *env, char *current, char *path);

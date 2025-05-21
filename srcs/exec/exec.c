@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 15:22:00 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:57:43 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 	if (builtin_check(data, cmd->tab[0]) == 2)
 	{
 		// printf("builtin1\n");
-		go_to_right_builtin(data, cmd->index);
+		go_to_right_builtin(data, cmd, cmd->index);
 		return ;
 	}
 	cmd->fdpipe[0] = -1;
@@ -59,11 +59,12 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 			if (cmd->prev_fdpipe[1] != -1)
 				close(cmd->prev_fdpipe[1]);
 		}
-
 		if (builtin_check(data, cmd->tab[0]) == 1 && cmd->fdout != -1)
 		{
-			// printf("builtin\n");
-			go_to_right_builtin(data, cmd->index);
+			// printf("builtin %s\n", cmd->value);
+			// printf("%d\n", data->exit_code);
+			go_to_right_builtin(data, cmd, cmd->index);
+
 		}
 		else
 		{
@@ -85,8 +86,13 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 				data->error_alrdy_displayed = 1;
 			}
 		}
+
+
 		exit(data->exit_code);
 	}
+	// printf("%d\n", data->exit_code);
+	if (cmd->check_fdin == -1 || cmd->check_fdout == -1)
+		data->exit_code = 1;
 	if (cmd->prev_fdpipe)
 	{
 		if (cmd->prev_fdpipe[0] != -1)
@@ -145,10 +151,12 @@ void wait_p(t_data *data)
 		{
 			// printf("wait %s\n", cpy_cmd->value);
 			waitpid(cpy_cmd->pid, &status, 0);
-			if ((cpy_cmd->fdout >= 0 || cpy_cmd->fdout == -99) && WIFEXITED(status))
+			if (((cpy_cmd->check_fdout != -1) && (cpy_cmd->check_fdin != -1)) && WIFEXITED(status))
 				data->exit_code = WEXITSTATUS(status);
 			j++;
 		}
+		if (cpy_cmd->red_out == 1)
+			j++;
 		cpy_cmd = cpy_cmd->next;
 	}
 	return ;

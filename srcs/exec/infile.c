@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:18:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 15:22:20 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:55:53 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,16 @@ void	fd_error(t_data *data)
 	{
 		if (cpy_cmd->type == IN_OUT_FILENAME)
 		{
-			fd = open(cpy_cmd->value, O_RDONLY);
-			// printf("@@@@@ %s\n", cpy_cmd->value);
+			if (cpy_cmd->red_out == 0)
+			{
+				// printf("la\n");
+				fd = open(cpy_cmd->value, O_RDONLY);
+			}
+			else
+			{
+				fd = open(cpy_cmd->value, O_WRONLY| O_CREAT, 0700);
+				// printf("@@@@@ %s\n", cpy_cmd->value);
+			}
 			if (fd < 0)
 			{
 				cpy_cmd->check_fdin = -1;
@@ -63,6 +71,8 @@ void fdin_before(t_data *data, t_cmd *cmd)
 	// printf("+++++%s\n", cpy_cmd->value);
 	// cmd->outfile = ft_copy(cpy_cmd->outfile);
 	// cmd->fdout = cpy_cmd->fdout;
+	
+		cpy_cmd = cmd;
 	if (cmd->fdout > 0)
 		cmd->check_fdout = 1;
 	if (cpy_cmd->here_doc == 1)
@@ -72,9 +82,16 @@ void fdin_before(t_data *data, t_cmd *cmd)
 	}
 	else
 	{
-		free(cmd->infile);
-		cmd->infile = ft_copy(cpy_cmd->value);
-		cmd->fdin = open(cpy_cmd->value ,O_RDONLY, 0700);
+		if (ft_strcmp(cmd->value, cpy_cmd->value) != 0)
+		{
+			free(cmd->infile);
+			cmd->infile = ft_copy(cpy_cmd->value);
+			cmd->fdin = open(cpy_cmd->value ,O_RDONLY, 0700);
+		}
+		else
+		{
+			cmd->fdin = open(cmd->infile ,O_RDONLY, 0700);
+		}
 		if (cmd->fdin > 0)
 				cmd->check_fdin = 1;
 	}

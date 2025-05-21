@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/20 13:08:41 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/21 14:58:56 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ void	rest_ofthesteps_three(t_token *token, t_cmd *cmd)
 	cpy_token = token;
 	while (cpy_token)
 	{
-		if (cpy_cmd && cpy_token->next && cpy_token->next->next && cpy_cmd->type != IN_OUT_FILENAME && (cpy_token->next->type == REDIRECT_IN || cpy_token->next->type == HERE_DOC))
+		if (cpy_cmd && cpy_token->next && cpy_token->next->next && cpy_cmd->type != IN_OUT_FILENAME 
+			&& (cpy_token->next->type == REDIRECT_IN || cpy_token->next->type == HERE_DOC || cpy_token->next->type == REDIRECT_OUT || cpy_token->next->type == REDIRECT_APPEND))
 		{
 			cpy_cmd->next->redirect_in_before = 1;
 			cpy_cmd->infile = ft_copy(cpy_token->next->next->value);
-			cpy_cmd->outfile = ft_copy(cpy_cmd->next->outfile);
 			// printf("$$%s\n", cpy_cmd->value);
 			cpy_cmd = cpy_cmd->next;
 			cpy_token = cpy_token->next;

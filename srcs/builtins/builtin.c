@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:42:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/17 18:21:06 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/21 11:45:36 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_token	*builtin(t_data *data, t_token *token, char *commands)
 
 	arg = NULL;
 
-	// printf("builtin???\n");
+	// printf("builtin??? %s\n", token->value);
 	if (ft_strcmp(commands, "echo") == 0)
 	{
 		ft_echo(data, data->env, token);
@@ -65,10 +65,9 @@ t_token	*builtin(t_data *data, t_token *token, char *commands)
 	return(builtin_second(data, token, commands));
 }
 
-void	go_to_right_builtin(t_data *data, int i)
+void	go_to_right_builtin(t_data *data, t_cmd *cmd, int i)
 {
 	t_token *cpy_token;
-
 	cpy_token = data->tokens;
 	while (cpy_token)
 	{

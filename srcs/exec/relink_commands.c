@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:22:15 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 15:22:52 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:05:56 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ void ft_check_echo_plus(t_token *token, t_cmd *cmd)
 	t_cmd *temp_cmd;
 	t_token *cpy_token;
 	t_token *temp;
+	t_token *temp2;
 
 	// printf("here\n");
 	temp_cmd = NULL;
@@ -134,9 +135,12 @@ void ft_check_echo_plus(t_token *token, t_cmd *cmd)
 		if (token->type == WORD)
 		{
 			temp = cpy_token;
+			temp2 = cpy_token;
 			while (cpy_token && ft_check_type(cpy_token) == 0)
 			{
 				cpy_token = cpy_token->next;
+				if (temp2->next && ft_check_type(temp2->next) == 0)
+					temp2 = temp2->next;
 				// printf("loop\n");
 			}
 			if (!cpy_token || !cpy_token->next || cpy_token->type == PIPE || !cpy_token->next->next)
@@ -168,7 +172,9 @@ void ft_check_echo_plus(t_token *token, t_cmd *cmd)
 					}
 					// printf("cmd ancient %s\n", find_cmd_index(temp, cmd)->value);
 					put_tab_recompose(find_cmd_index(temp, cmd),find_cmd_index(cpy_token, cmd));
-					temp->next = cpy_token;
+					// printf("%s\n", temp2->value);
+					temp2->next = cpy_token;
+					temp2 = temp2->next;
 					cpy_token = cpy_token->next;
 				}
 			}
