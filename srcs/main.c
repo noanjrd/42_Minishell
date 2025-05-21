@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/20 19:16:43 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:09:14 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,3 +136,5 @@ int main(int argc, char **argv, char **envp)
 	// free_env(env);
 	return(0);
 }
+
+// exit sans rien apres exit avec code 127

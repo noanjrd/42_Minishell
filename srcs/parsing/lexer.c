@@ -18,6 +18,24 @@ void	skip_spaces(char *line, int *i)
 		(*i)++;
 }
 
+t_token	*handle_symbol2(char *line, int *i)
+{
+	t_token	*token;
+
+	token = NULL;
+	if (line[*i] == '>')
+	{
+		token = create_token(REDIRECT_OUT, ">");
+		(*i)++;
+	}
+	else if (line[*i] == '|')
+	{
+		token = create_token(PIPE, "|");
+		(*i)++;
+	}
+	return (token);
+}
+
 t_token	*handle_symbol(char *line, int *i)
 {
 	t_token	*token;
@@ -38,33 +56,25 @@ t_token	*handle_symbol(char *line, int *i)
 		token = create_token(REDIRECT_IN, "<");
 		(*i)++;
 	}
-	else if (line[*i] == '>')
-	{
-		token = create_token(REDIRECT_OUT, ">");
-		(*i)++;
-	}
-	else if (line[*i] == '|')
-	{
-		token = create_token(PIPE, "|");
-		(*i)++;
-	}
-	return(token);
+	else
+		token = handle_symbol2(line, i);
+	return (token);
 }
 
-t_token *lexer(char *line)
+t_token	*lexer(char *line)
 {
-	int i = 0;
+	int		i;
+	t_token	*head;
+	t_token	*token;
 
-	t_token *head;
-	t_token *token;
-
+	i = 0;
 	head = NULL;
 	token = NULL;
 	while (line[i])
 	{
 		skip_spaces(line, &i);
 		if (line[i] == '\0')
-			break;
+			break ;
 		token = NULL;
 		if (is_symbol(line[i]))
 			token = handle_symbol(line, &i);
@@ -74,15 +84,10 @@ t_token *lexer(char *line)
 		{
 			// printf("Lexer error near '%.10s'\n", line + i);
 			free_token_list(head);
-			return NULL;
+			return (NULL);
 		}
 		add_token(&head, token);
 	}
 	// print_tokens(head);
-	return head;
+	return (head);
 }
-
-
-
-
-

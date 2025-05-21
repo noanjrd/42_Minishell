@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/20 19:55:05 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:53:15 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ typedef struct s_token
 	int			has_space;
 	struct s_token	*next;
 }					t_token;
+
+typedef struct s_str
+{
+	char	*str;
+	int		i;
+}				t_str;
 
 typedef struct s_cmd
 {
@@ -105,19 +111,19 @@ void	ft_exit(t_data *data, t_token *token);
 void	ft_echo(t_data *data, t_env *env, t_token *token);
 void	ft_pwd(t_env *env);
 t_token	*update_echo_struct(t_token *token);
-int	builtin_check(t_data *data, char *commands);
+int		builtin_check(t_data *data, char *commands);
 void	go_to_right_builtin(t_data *data, int i);
-char *cd_root(void);
-void cd_error(t_data *data, t_token *token);
-void go_into_specific_dr(t_data *data, t_env *env, char *current, char *path);
-void absolute_path(t_env *env, char *path);
+char	*cd_root(void);
+void	cd_error(t_data *data, t_token *token);
+void	go_into_specific_dr(t_data *data, t_env *env, char *current, char *path);
+void	absolute_path(t_env *env, char *path);
 
 // Export
 
 void	export_merge(t_env *env, char *name, char *value);
-int	check_plus(char *export);
+int		check_plus(char *export);
 void	create_export(t_env *env, char *name, char *value);
-int check_alrdy_exist(t_env *env, char *name, char *value, char *export);
+int		check_alrdy_exist(t_env *env, char *name, char *value, char *export);
 void	display_export(t_env *env);
 
 // Utils
@@ -136,13 +142,14 @@ char	*ft_strchr(const char *s, int c);
 int		ft_isdigit(int c);
 char	*ft_itoa(int n);
 void	ft_free_tab(char **tab);
-int	ft_check_type(t_token *token);
+int		ft_check_type(t_token *token);
 
-// Free
+// FREE
 
 void	free_env(t_env *env);
 void	free_data(t_data *data);
-void free_cmd(t_cmd *cmd);
+void	free_cmd(t_cmd *cmd);
+void	free_token_list(t_token *head);
 
 // Execution
 
@@ -153,10 +160,10 @@ void	relink_commands(t_token *token, t_cmd *cmd);
 void	check_path_exist(t_data *data, t_cmd *cmd);
 void	real_exec(t_data *data);
 void	fdin_check(t_data *data, t_cmd *cpy_cmd);
-void fdin_after(t_data *data, t_cmd *cmd);
-void fdin_before(t_data *data, t_cmd *cmd);
-char **ft_join_tab(char **tab, char *value, char *value_app);
-char *ft_join_free(char *s1, char *s2);
+void	fdin_after(t_data *data, t_cmd *cmd);
+void	fdin_before(t_data *data, t_cmd *cmd);
+char	**ft_join_tab(char **tab, char *value, char *value_app);
+char	*ft_join_free(char *s1, char *s2);
 void	fd_error(t_data *data);
 
 // Init
@@ -168,19 +175,29 @@ void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd);
 
 // PARSING
 
+t_token	*lexer(char *line);
+void	skip_spaces(char *line, int *i);
+int		is_symbol(char c);
+t_token	*handle_symbol(char *line, int *i);
+t_token	*handle_symbol2(char *line, int *i);
+t_token	*create_token_word(char *line, int *index);
+int		is_space(char c);
 t_token	*create_token(t_token_type type, char *value);
 void	add_token(t_token **head, t_token *new);
-void	print_tokens(t_token *head);
-t_token	*lexer(char *line);
-int		is_space(char c);
-int	is_symbol(char c);
 int		ft_check_syntax_errors(t_token *token);
-t_token	*create_token_word(char *line, int *index);
+void	print_tokens(t_token *head);
+
+// EXPANDER
+
 void	expander(t_token *token, t_data	*data);
-int	ft_exit_code(char *final_buffer, int exit_code, int j);
-void	get_variable_value(t_token *token);
-void	free_token_list(t_token *head);
 char	*new_token_value(char *str, t_data	*data);
+char	*ft_malloc_final_buffer(char *str, t_env *env);
+int		get_token_lenght(char *str, t_env *env);
+int		ft_handle_dollar(t_str *src, char *final_buffer, int j, t_data *data);
+int		ft_exit_code(char *final_buffer, int exit_code, int j);
+int		ft_var_value(t_str *s, char *final_buffer, int j, t_env *env);
+void	remove_token(t_token **token, t_token **current);
+
 void	merge_tokens(t_token	**token);
 void	reassign_index(t_token *tokens);
 
