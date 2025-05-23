@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:18:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/21 14:55:53 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/23 10:06:39 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void fdin_before(t_data *data, t_cmd *cmd)
 	// cmd->outfile = ft_copy(cpy_cmd->outfile);
 	// cmd->fdout = cpy_cmd->fdout;
 	
-		cpy_cmd = cmd;
+	// cpy_cmd = cmd;
 	if (cmd->fdout > 0)
 		cmd->check_fdout = 1;
 	if (cpy_cmd->here_doc == 1)

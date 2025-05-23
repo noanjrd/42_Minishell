@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:22:15 by njard             #+#    #+#             */
-/*   Updated: 2025/05/21 12:05:56 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/23 10:18:32 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,7 @@ void	relink_commands(t_token *cpy_token, t_cmd *cpy_cmd)
 		// 	printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->value);
 		if (token->next && cmd && cmd->next && token->type != REDIRECT_OUT && token->type != REDIRECT_APPEND &&token->type != HERE_DOC  &&  token->type != PIPE && token->type != REDIRECT_IN && cmd->next && cmd->type != IN_OUT_FILENAME && ft_check_type(token->next) == 0)
 		{
+			// printf("join\n");
 			put_tab(cmd, cmd->next);
 			// token = token->next;
 		}
@@ -254,11 +255,13 @@ void	relink_commands(t_token *cpy_token, t_cmd *cpy_cmd)
 		// }
 		if (token && cmd->next && (ft_check_type(token) == 1))
 		{
-			cmd = cmd->next;
+			while (token->next->index != cmd->index)
+				cmd = cmd->next;
 			if (token->next->type == REDIRECT_OUT || token->next->type == REDIRECT_APPEND)
 			{
 				cmd = cmd->next;
 				token = token->next->next;
+				// continue;
 			}
 			// printf("nddd %s\n", cmd->value);
 			// token = token->next;

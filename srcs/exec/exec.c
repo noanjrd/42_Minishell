@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/21 14:57:43 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/23 11:26:18 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 		}
 		else if (cmd->path != NULL && cmd->next && cmd->next->end == 0)
 		{
-			// printf("normal\n");
+			// printf("normal %s\n", cmd->value);
 			dup2(cmd->fdpipe[1], STDOUT_FILENO);
 		}
 		if (cmd->fdpipe[0] != -1)
@@ -115,12 +115,12 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 	// printf("### %s\n", cmd->value);
 	if (cmd->next && cmd->next->type != IN_OUT_FILENAME)
 	{
-		// printf("prevvv %s\n", cmd->next->value);
+		// printf("prevvv %s, next %s\n",cmd_temp->value, cmd->next->value);
 		cmd->next->prev_fdpipe = malloc(2 * sizeof(int));
 		cmd->next->prev_fdpipe[0] = cmd_temp->fdpipe[0];
 		cmd->next->prev_fdpipe[1] = cmd_temp->fdpipe[1];
-		if (cmd_temp->fdpipe[1] != -1)
-			close(cmd_temp->fdpipe[1]);
+		// if (cmd_temp->fdpipe[1] != -1)
+		// 	close(cmd_temp->fdpipe[1]);
 	}
 	else
 	{
@@ -184,18 +184,30 @@ void	check_fdout_between(t_data *data, t_cmd *cmd)
 
 void	ft_check_extra(t_data *data, t_cmd *cmd)
 {
-	if (cmd->first == 1 && cmd->next == NULL)
+	int fd;
+	if (cmd->first == 1 && cmd->next == NULL 
+		&& (cmd->value[0] == '.' || cmd->value[0] == '/' ))
 	{
-		// if (cmd->value[0] == '$' && !cmd->value[1])
-		// {
-		// 	printf("");
-		// 	data->exit_code = 127;
-		// 	return ;
-		// }
-		// if (access(cmd->value, F_OK) == 0)
-		// {
-			
-		// }
+		
+		if (access(cmd->value, F_OK) == 0)
+		{
+			fd = open(cmd->value, O_RDONLY);
+			if (fd < 0)
+			{
+				perror("Error");
+			}
+			else
+				write(2, " Is a directory\n",17);
+			close(fd);
+			data->exit_code = 126;
+			return ;
+		}
+		else
+		{
+			data->exit_code = 127;
+			write(2, " No such file or directory\n",28);
+			return ;
+		}
 	}
 	check_fdout_between(data, cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/21 14:56:08 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/23 11:00:01 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void printf_cmd(t_cmd *cmd)
 	while (current)
 	{
 		i = 0;
-		printf("val=%s, in=%s, out=%s, fdin=%d, fdout=%d, i=%d, here=%d, appd=%d, path=%s ,",
+		printf("val=%s, in=%s, out=%s, fdin=%d, fdout=%d, i=%d, here=%d, appd=%d, path=%s, end=%d, ",
 			current->value,
 			current->infile ? current->infile : "NULL",
 			current->outfile ? current->outfile : "NULL",
@@ -29,7 +29,8 @@ void printf_cmd(t_cmd *cmd)
 			current->index,
 			current->here_doc,
 			current->red_append,
-		current->path);
+		current->path,
+	current->end);
 		printf("tab = ");
 		if (current->tab)
 		{
