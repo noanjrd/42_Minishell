@@ -6,11 +6,26 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:18:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/23 10:06:39 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/23 14:52:39 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	stop_all_out_before(t_cmd *cmd, t_cmd *target)
+{
+	t_cmd *cpy_cmd;
+
+	cpy_cmd = cmd;
+
+	while (cpy_cmd->index != target->index)
+	{
+		cpy_cmd->fdout = -1;
+		cpy_cmd->check_fdout = -1;
+		cpy_cmd = cpy_cmd->next;
+	}
+	return ;
+}
 
 void	fd_error(t_data *data)
 {
@@ -38,6 +53,7 @@ void	fd_error(t_data *data)
 			{
 				cpy_cmd->check_fdin = -1;
 				cpy_cmd->check_fdout = -1;
+				stop_all_out_before(data->commands,cpy_cmd);
 			}
 			if (fd < 0 && data->error_alrdy_displayed == 0)
 			{

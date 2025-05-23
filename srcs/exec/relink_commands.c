@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:22:15 by njard             #+#    #+#             */
-/*   Updated: 2025/05/23 10:18:32 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/23 14:08:11 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,11 +253,11 @@ void	relink_commands(t_token *cpy_token, t_cmd *cpy_cmd)
 		// 	token = token->next;
 		// 	continue;
 		// }
-		if (token && cmd->next && (ft_check_type(token) == 1))
+		if (token && token->next && cmd &&cmd->next && (ft_check_type(token) == 1))
 		{
-			while (token->next->index != cmd->index)
+			while (token->next && cmd->next && token->next->index != cmd->index)
 				cmd = cmd->next;
-			if (token->next->type == REDIRECT_OUT || token->next->type == REDIRECT_APPEND)
+			if (token->next->next && token->next->type == REDIRECT_OUT || token->next->type == REDIRECT_APPEND)
 			{
 				cmd = cmd->next;
 				token = token->next->next;

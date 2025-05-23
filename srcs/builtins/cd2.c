@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd2.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:34:00 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 15:20:54 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/23 14:58:07 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void go_into_specific_dr(t_data *data, t_env *env, char *current, char *path)
 	else
 	{
 		path++;
-		write(2," no such file or directory\n",28);
+		write(2," No such file or directory\n",28);
 		data->exit_code = 1;
 		path--;
 		free(path);
@@ -76,7 +76,7 @@ void absolute_path(t_env *env, char *path)
 	else
 	{
 		// path++;
-		write(2," no such file or directory\n",28);
+		write(2," No such file or directory\n",28);
 		// path--;
 		free(path);
 		free(temp);
