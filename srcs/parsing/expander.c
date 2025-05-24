@@ -32,6 +32,7 @@ int	get_token_lenght(char *str, t_env *env)
 			value = ft_copy(ft_search_value(env, name));
 			if (value)
 				len = len + ft_strlen(value);
+			free (value);
 		}
 		else
 		{
@@ -39,7 +40,6 @@ int	get_token_lenght(char *str, t_env *env)
 			str++;
 		}
 	}
-	free (value);
 	return (len);
 }
 
@@ -126,58 +126,74 @@ char	*new_token_value(char *str, t_data	*data)
 	return (final_buffer);
 }
 
-void	remove_token(t_token **token, t_token **current)
+static int needs_expansion(t_token *token)
 {
-	t_token	*remove;
-	t_token	*prev;
+	if (!token || !token->value)
+		return (0);
+	if (((token->type == WORD) || (token->type == DOUBLE_QUOTES))
+	&& ft_strchr(token->value, '$'))
+		return (1);
+	return (0);
+}
 
-	if (!token || !*token || !current || !*current)
-		return ;
-	remove = *current;
-	if (remove == *token)
+static void	expand_token(t_token *token, t_data *data)
+{
+	char	*new_value;
+
+	new_value = new_token_value(token->value, data);
+	if (!new_value)
 	{
-		*token = remove->next;
-		*current = *token;
+		free(token->value);
+		token->value = NULL;
+		return ;
+	}
+	if (new_value && new_value[0] == '\0' && token->type == WORD)
+	{
+		free(new_value);
+		free(token->value);
+		token->value = NULL;
 	}
 	else
 	{
-		prev = *token;
-		while (prev && prev->next != remove)
-			prev = prev->next;
-		if (prev)
-		{
-			prev->next = remove->next;
-			*current = remove->next;
-		}
+		free(token->value);
+		token->value = new_value;
 	}
-	free(remove->value);
-	free(remove);
 }
 
-void	expander(t_token *token, t_data *data)
+static t_token	*remove_token(t_token *token, t_token *prev, t_token *to_remove)
 {
-	t_token	*current;
-	char	*new_value;
+	if (!prev)
+		token = to_remove->next;
+	else
+		prev->next = to_remove->next;
+	free(to_remove->value);
+	free(to_remove);
+	return (token);
+}
+
+t_token *expander(t_token *token, t_data *data)
+{
+	t_token *current;
+	t_token *prev;
+	t_token *next;
 
 	current = token;
+	prev = NULL;
 	while (current)
 	{
-		if (((current->type == WORD) || (current->type == DOUBLE_QUOTES))
-			&& ft_strchr(current->value, '$'))
+		if (needs_expansion(current) == 1)
 		{
-			new_value = new_token_value(current->value, data);
-			if (new_value && new_value[0] == '\0' && current->type == WORD)
+			expand_token(current, data);
+			if (current->value == NULL)
 			{
-				free(new_value);
-				remove_token(&token, &current);
-				continue ;
-			}
-			else if (new_value)
-			{
-				free(current->value);
-				current->value = new_value;
+				next = current->next;
+				token = remove_token(token, prev, current);
+				current = next;
+				continue;
 			}
 		}
+		prev = current;
 		current = current->next;
 	}
+	return token;
 }

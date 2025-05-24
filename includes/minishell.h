@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/21 17:53:15 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/24 19:50:16 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ extern int index_t;
 #include <readline/history.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+#include <limits.h>
 
 typedef struct	t_env
 {
@@ -189,15 +190,17 @@ void	print_tokens(t_token *head);
 
 // EXPANDER
 
-void	expander(t_token *token, t_data	*data);
+t_token *expander(t_token *token, t_data *data);
+// void	expander(t_token *token, t_data	*data);
 char	*new_token_value(char *str, t_data	*data);
 char	*ft_malloc_final_buffer(char *str, t_env *env);
 int		get_token_lenght(char *str, t_env *env);
 int		ft_handle_dollar(t_str *src, char *final_buffer, int j, t_data *data);
 int		ft_exit_code(char *final_buffer, int exit_code, int j);
 int		ft_var_value(t_str *s, char *final_buffer, int j, t_env *env);
-void	remove_token(t_token **token, t_token **current);
+// void	remove_token(t_token **token, t_token **current);
 
+// void	merge_tokens(t_token	*token);
 void	merge_tokens(t_token	**token);
 void	reassign_index(t_token *tokens);
 
