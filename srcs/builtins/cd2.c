@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:34:00 by njard             #+#    #+#             */
-/*   Updated: 2025/05/23 14:58:07 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/25 15:04:59 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,21 @@ void	cd_error(t_data *data, t_token *token)
 	return ;
 }
 
+void	ft_putstr_error(char *str, int space)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		write(2,&str[i],1);
+		i++;
+	}
+	if (space == 1)
+		write(2,"\n",1);
+	return ;
+}
+
 void go_into_specific_dr(t_data *data, t_env *env, char *current, char *path)
 {
 	char *new_path;
@@ -51,9 +66,11 @@ void go_into_specific_dr(t_data *data, t_env *env, char *current, char *path)
 	else
 	{
 		path++;
-		write(2," No such file or directory\n",28);
-		data->exit_code = 1;
+		write(2,"cd: ",4);
+		ft_putstr_error(path, 0);
+		write(2,": No such file or directory\n",29);
 		path--;
+		data->exit_code = 1;
 		free(path);
 		free(new_path);
 	}
@@ -75,9 +92,11 @@ void absolute_path(t_env *env, char *path)
 	}
 	else
 	{
-		// path++;
-		write(2," No such file or directory\n",28);
-		// path--;
+		path++;
+		write(2,"cd: ",4);
+		ft_putstr_error(path, 0);
+		write(2,": No such file or directory\n",29);
+		path--;
 		free(path);
 		free(temp);
 	}

@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/25 11:03:01 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/25 14:46:31 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,12 @@ void	ft_readline(t_data *data)
 	char *pwd;
 	char *tmp;
 
+	
 	while(1)
 	{
-		tmp = ft_join(COLOR_PINK,ft_search_value(data->env, "PWD"));
+		tmp = NULL;
+		if (data->env)
+			tmp = ft_join(COLOR_PINK,ft_search_value(data->env, "PWD"));
 		pwd = ft_join(tmp,"\001\033[38;5;198m\002$\001\033[38;5;205m\002 ");
 		free(tmp);
 		data->line = readline(pwd);

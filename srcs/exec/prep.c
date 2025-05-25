@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/25 10:31:52 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/25 14:41:35 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ void	details_before_exec(t_data *data)
 	t_cmd *cpy_cmd;
 	char *value_temp;
 
-	
-	check_path_exist(data, data->commands);
+	if (data->env)
+		check_path_exist(data, data->commands);
 	// printf_cmd(data->commands);
 	number_of_commands(data);
 	real_exec(data);
@@ -103,23 +103,9 @@ void	exec_fdout(t_data *data)
 	t_token *cpy_token;
 	t_cmd *cpy_cmd;
 
-
 	fd_error(data, 0);
 	open_fdout(data, data->tokens, data->commands);
 	cpy_cmd = data->commands;
-	// while (cpy_token)
-	// {
-	// 	if (cpy_token->next && (cpy_token->next->type == REDIRECT_OUT
-	// 		|| cpy_token->next->type == REDIRECT_APPEND))
-	// 		open_fdout(data, cpy_token, cpy_cmd);
-	// 	if (cpy_token->type == PIPE
-	// 		|| cpy_token->type == REDIRECT_OUT
-	// 		|| cpy_token->type == REDIRECT_APPEND
-	// 		|| cpy_token->type == REDIRECT_IN || cpy_token->type == HERE_DOC)
-	// 		cpy_cmd = cpy_cmd->next;
-	// 	cpy_token = cpy_token->next;
-	// }
-	// printf_cmd(data->commands);
 	exec_fdin(data);
 }
 

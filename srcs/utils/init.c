@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:35:47 by njard             #+#    #+#             */
-/*   Updated: 2025/05/25 11:01:58 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/25 14:45:47 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	init_data(t_data *data, t_env *env, char **envp)
 	data->fd_here_doc = -99;
 	data->nb_of_commands = 0;
 	data->error_alrdy_displayed = 0;
-	initalising_path(data);
+	if (data->env)
+		initalising_path(data);
 }
 
 static char	*get_name(char *envp)
@@ -76,11 +77,8 @@ t_env	*env_init(t_env *env, char **envp)
 	t_env	 *current;
 	int i;
 
-	if (envp[0] ==0 )
-	{
-		printf("pas d enev\n");
+	if (envp[0] == 0)
 		return (NULL);
-	}
 	i = 0;
 	head = env;
 	env->name = get_name(envp[i]);
