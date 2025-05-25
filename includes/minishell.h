@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/21 11:40:25 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/25 11:24:01 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ typedef struct t_data
 
 void	ft_unset(t_env *env, t_token *token);
 void	display_env(t_env *env);
-void	ft_export(t_data *data, t_env *env, t_token *token);
 void	ft_cd(t_data *data, t_env *env, t_token *token);
 void	ft_exit(t_data *data, t_token *token);
 void	ft_echo(t_data *data, t_env *env, t_token *token);
@@ -113,11 +112,13 @@ void absolute_path(t_env *env, char *path);
 
 // Export
 
+void	ft_export(t_data *data, t_env *env, t_token *token);
 void	export_merge(t_env *env, char *name, char *value);
 int	check_plus(char *export);
 void	create_export(t_env *env, char *name, char *value);
 int check_alrdy_exist(t_env *env, char *name, char *value, char *export);
 void	display_export(t_env *env);
+int	check_valid_name(char *name, int check);
 
 // Utils
 
@@ -151,12 +152,11 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd);
 void	relink_commands(t_token *token, t_cmd *cmd);
 void	check_path_exist(t_data *data, t_cmd *cmd);
 void	real_exec(t_data *data);
-void	fdin_check(t_data *data, t_cmd *cpy_cmd);
 void fdin_after(t_data *data, t_cmd *cmd);
 void fdin_before(t_data *data, t_cmd *cmd);
 char **ft_join_tab(char **tab, char *value, char *value_app);
 char *ft_join_free(char *s1, char *s2);
-void	fd_error(t_data *data);
+void	fd_error(t_data *data, int fd);
 
 // Init
 
@@ -164,6 +164,7 @@ t_env	*env_init(t_env *env, char **envp);
 void	initalising_path(t_data *data);
 void	init_data(t_data *data, t_env *env, char **envp);
 void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd);
+void	rest_ofthesteps(t_token *token, t_cmd *cmd);
 
 // PARSING
 

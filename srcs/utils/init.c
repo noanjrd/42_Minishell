@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:35:47 by njard             #+#    #+#             */
-/*   Updated: 2025/05/17 10:58:06 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/25 11:01:58 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,13 @@ t_env	*env_init(t_env *env, char **envp)
 {
 	t_env	*head;
 	t_env	 *current;
-	// t_env *temp;
 	int i;
 
+	if (envp[0] ==0 )
+	{
+		printf("pas d enev\n");
+		return (NULL);
+	}
 	i = 0;
 	head = env;
 	env->name = get_name(envp[i]);

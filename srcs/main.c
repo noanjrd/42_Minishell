@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/23 14:56:18 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/25 11:03:01 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ int main(int argc, char **argv, char **envp)
 	// 	// printf_cmd(data->commands);
 	// 	exec(data);
 	// }
-	free_data(data);
+	// free_data(data);
 	// free_token_list(data->tokens);
 	// free_env(env);
 	return(0);

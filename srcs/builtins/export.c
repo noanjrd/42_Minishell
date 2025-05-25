@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/20 15:49:50 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/25 10:52:36 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,56 +67,37 @@ static char *get_value_export(char *export)
 	return (value);
 }
 
-static int	check_valid_name(char *name)
-{
-	int i;
-	int check;
-
-	check = 0;
-	i = 0;
-	while (name[i])
-	{
-		if (!(name[i] >= '0' && name[i] <= '9'))
-		{
-			check = 1;
-			break;
-		}
-		i++;
-	}
-	if (check == 0)
-		return (1);
-	i = 0;
-	while (name[i])
-	{
-		if (!(name[i] >= '0' && name[i] <= '9')
-			&& !(name[i] >= 'a' && name[i] <= 'z')
-			&& !(name[i] >= 'A' && name[i] <= 'Z') && name[i] != '_')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-void export_launch(t_data *data, t_env *env, char *export)
+t_token *export_launch(t_data *data, t_env *env, t_token *token,char *export)
 {
 	char *name;
 	char *value;
 
 	name = get_name_export(export);
-	if (!name || check_valid_name(name) == 1)
+	if (!name || check_valid_name(name, 0) == 1)
 	{
 		write(2," not a valid identifier\n",24);
 		data->exit_code = 1;
-		return ;
+		return (token->next);
 	}
 	value = get_value_export(export);
 	if (check_alrdy_exist(env, name, value, export) == 1)
 	{
 		free(name);
-		return ;
+		return (token->next);
 	}
 	create_export(env, name, value);
-	return ;
+	return (token->next);
+}
+
+static int	ft_condition(t_token *token)
+{
+	if (token->next->type 
+		!= WORD && token->next->type != SINGLE_QUOTES 
+		&& token->next->type != DOUBLE_QUOTES)
+	{
+		return (1);
+	}
+	return (0);
 }
 
 void ft_export(t_data *data, t_env *env, t_token *token)
@@ -131,22 +112,19 @@ void ft_export(t_data *data, t_env *env, t_token *token)
 		token_copy = token_copy->next;
 	}
 	token_copy = token;
-	if (!token_copy->next || (token_copy->next->type != WORD && token_copy->next->type != SINGLE_QUOTES && token_copy->type != DOUBLE_QUOTES))
-	{
+	if (!token_copy->next || ft_condition(token_copy) == 1)
 		return (display_export(env));
-	}
 	token_copy = token_copy->next;
-	
 	if (token_copy->next && token_copy->value[0] == '=')
 	{
 		write(2," not a valid identifier\n",24);
 		data->exit_code = 1;
 		return ;
 	}
-	while (token_copy && (token_copy->type == WORD || token_copy->type == SINGLE_QUOTES || token_copy->type == DOUBLE_QUOTES))
+	while (token_copy && (token_copy->type == WORD 
+			|| token_copy->type == SINGLE_QUOTES 
+			|| token_copy->type == DOUBLE_QUOTES))
 	{
-		export_launch(data, env, token_copy->value);
-		token_copy = token_copy->next;
+		token_copy = export_launch(data, env, token_copy,token_copy->value);
 	}
-	return ;
 }

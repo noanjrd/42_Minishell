@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:14:21 by njard             #+#    #+#             */
-/*   Updated: 2025/05/23 14:51:34 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/25 10:25:22 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,7 @@ void	reach_furthest_fd(t_cmd *cmd, t_token *token)
 			cmd->check_fdout = 1;
 		free(cmd->outfile);
 		cmd->outfile = ft_copy(cpy_cmd->value);
-		// printf("cmd_out reach furthest: %s\n", cmd->outfile);
-		// printf("cmd_value reach furthest: %s\n", cmd->value);
-		// printf("copy_value reach furthest: %s\n", cpy_cmd->value);
 	}
-	// cmd = cmd->next;
-	// token = token->next;
 	return ;
 }
 
@@ -66,12 +61,6 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd)
 				cpy_token = cpy_token->next;
 				continue;
 			}
-			if (cpy_cmd->next->red_append == 1)
-				cpy_cmd->fdout = open(cpy_cmd->value,O_WRONLY | O_CREAT | O_APPEND, 0700);
-			if (cpy_cmd->next->red_append == 0)
-				cpy_cmd->fdout = open(cpy_cmd->value,O_WRONLY | O_CREAT, 0700);
-			if (cpy_cmd->fdout > 0)
-				cpy_cmd->check_fdout = 1;
 		}
 		if (cpy_cmd->next && ft_check_type(cpy_token) == 1)
 			cpy_cmd = cpy_cmd->next;

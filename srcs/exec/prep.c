@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/23 14:53:06 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/25 10:31:52 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	number_of_commands(t_data *data)
 	return ;
 }
 
-void	exec_builtin(t_data *data)
+void	details_before_exec(t_data *data)
 {
 	t_token *cpy_token;
 	t_cmd *cpy_cmd;
@@ -95,7 +95,7 @@ void	exec_fdin(t_data *data)
 			cpy_cmd = cpy_cmd->next;
 		cpy_token = cpy_token->next;
 	}
-	exec_builtin(data);
+	details_before_exec(data);
 }
 
 void	exec_fdout(t_data *data)
@@ -104,7 +104,7 @@ void	exec_fdout(t_data *data)
 	t_cmd *cpy_cmd;
 
 
-	fd_error(data);
+	fd_error(data, 0);
 	open_fdout(data, data->tokens, data->commands);
 	cpy_cmd = data->commands;
 	// while (cpy_token)
