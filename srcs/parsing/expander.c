@@ -14,10 +14,10 @@
 
 int	get_token_lenght(char *str, t_env *env)
 {
-	int		len;
 	int		i;
-	char	name[128];
+	int		len;
 	char	*value;
+	char	name[128];
 
 	len = 0;
 	while (*str)
@@ -32,6 +32,7 @@ int	get_token_lenght(char *str, t_env *env)
 			value = ft_copy(ft_search_value(env, name));
 			if (value)
 				len = len + ft_strlen(value);
+			free (value);
 		}
 		else
 		{
@@ -39,200 +40,160 @@ int	get_token_lenght(char *str, t_env *env)
 			str++;
 		}
 	}
-	free (value);
 	return (len);
+}
+
+char	*ft_malloc_final_buffer(char *str, t_env *env)
+{
+	char	*final_buffer;
+
+	final_buffer = malloc (get_token_lenght(str, env) + 1);
+	if (!final_buffer)
+		return (NULL);
+	return (final_buffer);
+}
+
+int	ft_exit_code(char *final_buffer, int exit_code, int j)
+{
+	char	*str_exit_code;
+	int		k;
+
+	str_exit_code = ft_itoa(exit_code);
+	k = 0;
+	while (str_exit_code[k])
+		final_buffer[j++] = str_exit_code[k++];
+	free(str_exit_code);
+	return (j);
+}
+
+int	ft_var_value(t_str *s, char *final_buffer, int j, t_env *env)
+{
+	char	name[128];
+	int		name_len;
+	char	*value;
+	int		k;
+
+	s->i++;
+	name_len = 0;
+	while (ft_isalnum(s->str[s->i]) || s->str[s->i] == '_')
+		name[name_len++] = s->str[s->i++];
+	name[name_len] = '\0';
+	value = ft_copy(ft_search_value(env, name));
+	if (!value)
+		value = ft_copy("");
+	k = 0;
+	while (value[k])
+		final_buffer[j++] = value[k++];
+	free(value);
+	return (j);
+}
+
+int	ft_handle_dollar(t_str *src, char *final_buffer, int j, t_data *data)
+{
+	if (src->str[src->i] == '$' && src->str[src->i + 1] == '?')
+	{
+		j = ft_exit_code(final_buffer, data->exit_code, j);
+		src->i += 2;
+	}
+	else if ((src->str[src->i] == '$') && ((src->str[src->i + 1] == '\0')
+			|| (src->str[src->i + 1] == ' ')
+			|| (!ft_isalnum(src->str[src->i + 1]))))
+		final_buffer[j++] = src->str[src->i++];
+	else if (src->str[src->i] == '$' && ft_isdigit(src->str[src->i + 1]))
+		src->i += 2;
+	else if ((src->str[src->i] == '$' && src->str[src->i + 1] != '$')
+		|| src->str[src->i] == 34)
+		j = ft_var_value(src, final_buffer, j, data->env);
+	else
+		final_buffer[j++] = src->str[src->i++];
+	return (j);
 }
 
 char	*new_token_value(char *str, t_data	*data)
 {
-	int		i;
-	char	name[128];
-	int		name_len;
-	char	*value;
+	t_str	src;
 	char	*final_buffer;
 	int		j;
-	int		k;
-	char	*str_exit_code;
 
-	final_buffer = malloc(get_token_lenght(str, data->env) + 1);
+	final_buffer = ft_malloc_final_buffer(str, data->env);
 	if (!final_buffer)
 		return (NULL);
-	i = 0;
+	src = (t_str){str, 0};
 	j = 0;
-	while (str[i])
-	{
-		if (str[i] == '$' && str[i + 1] == '?')
-		{
-			str_exit_code = ft_itoa(data->exit_code);
-			k = 0;
-			while (str_exit_code[k])
-				final_buffer[j++] = str_exit_code[k++];
-			free(str_exit_code);
-			i += 2;
-		}
-		else if ((str[i] == '$') && ((str[i + 1] == '\0') || (str[i + 1] == ' ') || (!ft_isalnum(str[i + 1]))))
-			final_buffer[j++] = str[i++];
-		else if (str[i] == '$' && ft_isdigit(str[i + 1]))
-			i += 2;
-		else if ((str[i] == '$' && str[i + 1] != '$') || str[i] == 34)
-		{
-			// printf("%c\n", str[i]);
-			i++;
-			name_len = 0;
-			while (ft_isalnum(str[i]) || str[i] == '_')
-				name[name_len++] = str[i++];
-			name[name_len] = '\0';
-			value = ft_copy(ft_search_value(data->env, name));
-			// printf("%s\n", value);
-			if (!value)
-				value = ft_copy("");
-
-			k = 0;
-			while (value[k])
-				final_buffer[j++] = value[k++];
-			free(value);
-		}
-		else
-			final_buffer[j++] = str[i++];
-	}
+	while (str[src.i])
+		j = ft_handle_dollar(&src, final_buffer, j, data);
 	final_buffer[j] = '\0';
 	return (final_buffer);
 }
 
-void remove_token(t_token **token, t_token **current)
+static int needs_expansion(t_token *token)
 {
-	t_token *remove;
-	t_token *prev;
+	if (!token || !token->value)
+		return (0);
+	if (((token->type == WORD) || (token->type == DOUBLE_QUOTES))
+	&& ft_strchr(token->value, '$'))
+		return (1);
+	return (0);
+}
 
-	if (!token || !*token || !current || !*current)
-		return;
-	remove = *current; // je garde le token a supprimer current est deja sur le token a supp
-	if (remove == *token) // sil est en tete de liste
+static void	expand_token(t_token *token, t_data *data)
+{
+	char	*new_value;
+
+	new_value = new_token_value(token->value, data);
+	if (!new_value)
 	{
-		*token = remove->next; //mise a jour de la tete
-		*current = *token; // mise a jour du token current pour quil soit sur la tete
+		free(token->value);
+		token->value = NULL;
+		return ;
+	}
+	if (new_value && new_value[0] == '\0' && token->type == WORD)
+	{
+		free(new_value);
+		free(token->value);
+		token->value = NULL;
 	}
 	else
 	{
-		prev = *token; // si pas la tete on a besoin du token precedent celui a supp pour reco la liste
-		while (prev && prev->next != remove) // on parcout la liste et on sarrete quand le suivant est celui a supp
-			prev = prev->next;
-		if (prev)
-		{
-			prev->next = remove->next; //connecter le token juste avant celui supp avec celui qui le suit
-			*current = remove->next;// mise a jour du token current sur celui suivamt le supp
-		}
+		free(token->value);
+		token->value = new_value;
 	}
-	free(remove->value);
-	free(remove);
 }
 
-void	expander(t_token *token, t_data *data)
+static t_token	*remove_token(t_token *token, t_token *prev, t_token *to_remove)
 {
-	t_token	*current = token;
-	t_token	*next;
-	char	*new_value;
+	if (!prev)
+		token = to_remove->next;
+	else
+		prev->next = to_remove->next;
+	free(to_remove->value);
+	free(to_remove);
+	return (token);
+}
 
+t_token *expander(t_token *token, t_data *data)
+{
+	t_token *current;
+	t_token *prev;
+	t_token *next;
+
+	current = token;
+	prev = NULL;
 	while (current)
 	{
-		next = current->next;
-
-		if (((current->type == WORD) || (current->type == DOUBLE_QUOTES)) && ft_strchr(current->value, '$'))
+		if (needs_expansion(current) == 1)
 		{
-			new_value = new_token_value(current->value, data);
-			if (new_value && new_value[0] == '\0' && current->type == WORD)
+			expand_token(current, data);
+			if (current->value == NULL)
 			{
-				// arrive ici current est egal au token a supprimer
-				free(new_value);
-				remove_token(&token, &current); //ici current est deja mis a jour
+				next = current->next;
+				token = remove_token(token, prev, current);
+				current = next;
 				continue;
 			}
-			else if (new_value)
-			{
-				free(current->value);
-				current->value = new_value;
-			}
 		}
-		current = next;
+		prev = current;
+		current = current->next;
 	}
+	return token;
 }
-
-// void	expander(t_token *token, t_data	*data)
-// {
-// 	t_token	*current;
-// 	char	*new_value;
-
-// 	current = token;
-// 	while (current)
-// 	{
-// 		if (((current->type == WORD) || (current->type == DOUBLE_QUOTES)) && ft_strchr(current->value, '$'))
-// 		{
-// 			new_value = new_token_value(current->value, data);
-// 			if (new_value && new_value[0] == '\0' && current->type == WORD)
-// 			{
-// 					remove_token(&token, &current);
-// 					continue;
-// 			}
-// 			else if (new_value)
-// 			{
-// 				free(current->value);
-// 				current->value = new_value;
-// 			}
-
-// 		}
-// 		// printf("Token apres expansion: %s\n", current->value);
-// 		current = current->next;
-// 	}
-// }
-// void	expander(t_token *token, t_data	*data)
-// {
-// 	t_token	*current;
-// 	char	*new_value;
-
-// 	current = token;
-// 	while (current)
-// 	{
-// 		if (((current->type == WORD) || (current->type == DOUBLE_QUOTES)) && ft_strchr(current->value, '$'))
-// 		{
-// 			new_value = new_token_value(current->value, data);
-// 			if (new_value)
-// 			{
-// 				free(current->value);
-// 				current->value = new_value;
-// 			}
-// 		}
-// 		// printf("Token apres expansion: %s\n", current->value);
-// 		current = current->next;
-// 	}
-// }
-
-// test : echo "exit_code ->$? user ->$USER home -> $HOME" erreur car affiche ->$USER et pas ->naankour autre erreur $? doit afficher exit_code
-// echo $?HELLO doit afficher exit_code suivi de HELLO
-// echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<" doit afficher le $ aussi
-// echo $?HELLO
-
-// $USER$USER oooook mais doit afficher "naankournaankour :command not found"
-// $$USER oooook mais doit afficher "$naankour :command not found"
-
-// $ tout seul doit afficher quoi ?
-// $132 oooookkkk mais pas chiffre negatif
-// echo "$$USER" ooookkkkk
-// echo "$USER"oooooookkkk
-// echo "$$USER\$USER""$USER" ooookkkk
-// echo $USER "$USER$USER" $USER "$USER -n $USERecho $USER"$USER $USER" $USER" not ok manque un espace entre deux token par exemple echo "coucou" coucou cest bon okokokokokok
-// Pre$USERPost
-//Some$NOT_SETvalue
-
-// naankour@c1r3p4:~/Documents/Minishellbis$ echo $1
-// naankour@c1r3p4:~/Documents/Minishellbis$ echo $123
-// 23
-// naankour@c1r3p4:~/Documents/Minishellbis$ echo $dfjkslkgfjsw
-// naankour@c1r3p4:~/Documents/Minishellbis$ echo $658
-// 58
-
-
-// naankour@c2r11p1:~/minimerge2$ echo "$dawdaw" hello
-//  hello
-// naankour@c2r11p1:~/minimerge2$ echo $dawdaw hello
-// hello
-// naankour@c2r11p1:~/minimerge2$ echo $dawdaw hello

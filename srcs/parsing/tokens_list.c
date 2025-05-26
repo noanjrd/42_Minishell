@@ -32,12 +32,13 @@ char	*ft_strdup(char *src)
 	return (dest);
 }
 
-t_token *create_token(t_token_type type, char *value)
+t_token	*create_token(t_token_type type, char *value)
 {
-	t_token *token = malloc(sizeof(t_token));
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
-
 	token->type = type;
 	token->value = ft_strdup(value);
 	// printf("token value = %s while create\n", token->value);
@@ -68,6 +69,7 @@ void	add_token(t_token **head, t_token *new)
 		current->next = new;
 	}
 }
+
 void	free_token_list(t_token *head)
 {
 	t_token	*temp;
