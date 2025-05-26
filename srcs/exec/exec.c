@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/26 11:34:44 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/26 11:49:08 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,7 @@ void	ft_check_extra(t_data *data, t_cmd *cmd)
 				perror("Error");
 			}
 			else
-				write(2, " Is a directory\n",17);
+				write(2, " Is a directory\n",16);
 			close(fd);
 			cmd->check_fdin = -1;
 			data->exit_code = 126;
@@ -240,7 +240,7 @@ void	ft_check_extra(t_data *data, t_cmd *cmd)
 		{
 			data->exit_code = 127;
 			cmd->check_fdin = -1;
-			write(2, " No such file or directory\n",28);
+			write(2, " No such file or directory\n",27);
 			return ;
 		}
 	}

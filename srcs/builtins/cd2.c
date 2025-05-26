@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:34:00 by njard             #+#    #+#             */
-/*   Updated: 2025/05/25 15:04:59 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/26 11:51:20 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void go_into_specific_dr(t_data *data, t_env *env, char *current, char *path)
 		path++;
 		write(2,"cd: ",4);
 		ft_putstr_error(path, 0);
-		write(2,": No such file or directory\n",29);
+		write(2,": No such file or directory\n",28);
 		path--;
 		data->exit_code = 1;
 		free(path);
@@ -95,7 +95,7 @@ void absolute_path(t_env *env, char *path)
 		path++;
 		write(2,"cd: ",4);
 		ft_putstr_error(path, 0);
-		write(2,": No such file or directory\n",29);
+		write(2,": No such file or directory\n",28);
 		path--;
 		free(path);
 		free(temp);
