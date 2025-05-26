@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:39:25 by njard             #+#    #+#             */
-/*   Updated: 2025/05/17 13:51:41 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/26 11:02:11 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void free_cmd(t_cmd *cmd)
 		free(cmd->outfile);
 		if (cmd->fdpipe)
 			free(cmd->fdpipe);
+		if (cmd->prev_fdpipe)
+			free(cmd->prev_fdpipe);
 		if (cmd->path)
 			free(cmd->path);
 		if (cmd->fdin > 0)

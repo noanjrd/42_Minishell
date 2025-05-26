@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:01:46 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 14:02:25 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/25 10:52:46 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,32 @@ void	create_export(t_env *env, char *name, char *value)
 	}
 	temp->next = new;
 	return ;
+}
+
+int	check_valid_name(char *name, int check)
+{
+	int i;
+
+	i = 0;
+	while (name[i])
+	{
+		if (!(name[i] >= '0' && name[i] <= '9'))
+		{
+			check = 1;
+			break;
+		}
+		i++;
+	}
+	if (check == 0)
+		return (1);
+	i = 0;
+	while (name[i])
+	{
+		if (!(name[i] >= '0' && name[i] <= '9')
+			&& !(name[i] >= 'a' && name[i] <= 'z')
+			&& !(name[i] >= 'A' && name[i] <= 'Z') && name[i] != '_')
+			return (1);
+		i++;
+	}
+	return (0);
 }

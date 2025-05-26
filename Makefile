@@ -10,6 +10,7 @@ SRCS = srcs/main.c\
 	srcs/utils/init.c\
 	srcs/utils/utils.c\
 	srcs/utils/create_commands.c\
+	srcs/utils/create_commands2.c\
 	srcs/utils/free.c\
 	srcs/utils/ft_from_libft.c\
 	srcs/utils/ft_from_libft2.c\

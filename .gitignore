@@ -4,6 +4,8 @@ out2
 out
 out3
 outfile
+outfile01
+outfile1
 temp
 cat
 minishell
@@ -11,3 +13,8 @@ infile
 a.out
 file_perm
 minishell_tester
+123
+missing
+caca
+infile
+outfile 

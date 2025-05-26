@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
 /*   Updated: 2025/05/24 20:05:21 by naankour         ###   ########.fr       */
@@ -20,7 +20,7 @@ static void printf_cmd(t_cmd *cmd)
 	t_cmd *current = cmd;
 	while (current)
 	{
-		printf("value = %s, infile = %s, outfile = %s, type=%d,here_doc=%d, red_in_avant=%d, red=%d, appnd=%d, end=%d\n",
+		printf("value = %s, infile = %s, outfile = %s, type=%d,here_doc=%d, red_in_avant=%d, red=%d, appnd=%d, end=%d, first=%d, \n",
 			current->value,
 			current->infile ? current->infile : "NULL",
 			current->outfile ? current->outfile : "NULL",
@@ -29,7 +29,8 @@ static void printf_cmd(t_cmd *cmd)
 		current->redirect_in_before,
 	current->red_out,
 	current->red_append,
-current->end);
+current->end,
+		current->first);
 		current = current->next;
 	}
 	printf("---------------------------\n");
@@ -59,7 +60,9 @@ void	ft_readline(t_data *data)
 
 	while(1)
 	{
-		tmp = ft_join(COLOR_PINK,ft_search_value(data->env, "PWD"));
+		tmp = NULL;
+		if (data->env)
+			tmp = ft_join(COLOR_PINK,ft_search_value(data->env, "PWD"));
 		pwd = ft_join(tmp,"\001\033[38;5;198m\002$\001\033[38;5;205m\002 ");
 		free(tmp);
 		data->line = readline(pwd);
@@ -101,29 +104,30 @@ int main(int argc, char **argv, char **envp)
 	init_data(data, env, envp);
 	ft_readline(data);
 
-	// if (argc >= 2)
-	// {
-	// 	data->tokens = lexer(argv[1]);
-	// 	expander(data->tokens, data);
-	// 	make_commands(data,NULL, NULL, NULL);
-	// 	printf_cmd(data->commands);
-	// 	exec(data);
-	// 	free_token_list(data->tokens);
-	// 	free_cmd(data->commands);
-	// 	free_readline_data(data);
-	// 	// printf("%d\n", data->exit_code);
-	// }
-	// if (argc >= 3)
-	// {
-	// 	data->tokens = lexer(argv[2]);
-	// 	expander(data->tokens, data);
-	// 	make_commands(data,NULL, NULL, NULL);
-	// 	// printf_cmd(data->commands);
-	// 	exec(data);
-	// 	free_token_list(data->tokens);
-	// 	free_cmd(data->commands);
-	// 	free_readline_data(data);
-	// }
+	if (argc >= 2)
+	{
+		data->tokens = lexer(argv[1]);
+		print_tokens(data->tokens);
+		expander(data->tokens, data);
+		make_commands(data,NULL, NULL, NULL);
+		printf_cmd(data->commands);
+		exec(data);
+		free_token_list(data->tokens);
+		free_cmd(data->commands);
+		free_readline_data(data);
+		// printf("%d\n", data->exit_code);
+	}
+	if (argc >= 3)
+	{
+		data->tokens = lexer(argv[2]);
+		expander(data->tokens, data);
+		make_commands(data,NULL, NULL, NULL);
+		// printf_cmd(data->commands);
+		exec(data);
+		free_token_list(data->tokens);
+		free_cmd(data->commands);
+		free_readline_data(data);
+	}
 	// if (argc >= 4)
 	// {
 	// 	data->tokens = lexer(argv[3]);

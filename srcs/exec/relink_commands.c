@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:22:15 by njard             #+#    #+#             */
-/*   Updated: 2025/05/16 15:22:52 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/25 11:19:21 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,6 @@ void	put_tab_recompose(t_cmd *cmd, t_cmd *cpy_cmd)
 	free(cmd->infile);
 	cmd->infile = NULL;
 	cpy_cmd->deleted = 1;
-	// if (cpy_cmd->infile)
-	// 	cmd->infile = ft_copy(cpy_cmd->infile);
-	// temp = cpy_cmd->next;
-	// free(cpy_cmd->infile);
-	// free(cpy_cmd->value);
-	// free(cpy_cmd->tab);
-	// free(cpy_cmd->fdpipe);
-	// free(cpy_cmd->outfile);
-	// free(cpy_cmd);
-	// cmd->next = temp;
 	return ;
 }
 
@@ -124,6 +114,7 @@ void ft_check_echo_plus(t_token *token, t_cmd *cmd)
 	t_cmd *temp_cmd;
 	t_token *cpy_token;
 	t_token *temp;
+	t_token *temp2;
 
 	// printf("here\n");
 	temp_cmd = NULL;
@@ -134,9 +125,12 @@ void ft_check_echo_plus(t_token *token, t_cmd *cmd)
 		if (token->type == WORD)
 		{
 			temp = cpy_token;
+			temp2 = cpy_token;
 			while (cpy_token && ft_check_type(cpy_token) == 0)
 			{
 				cpy_token = cpy_token->next;
+				if (temp2->next && ft_check_type(temp2->next) == 0)
+					temp2 = temp2->next;
 				// printf("loop\n");
 			}
 			if (!cpy_token || !cpy_token->next || cpy_token->type == PIPE || !cpy_token->next->next)
@@ -168,7 +162,9 @@ void ft_check_echo_plus(t_token *token, t_cmd *cmd)
 					}
 					// printf("cmd ancient %s\n", find_cmd_index(temp, cmd)->value);
 					put_tab_recompose(find_cmd_index(temp, cmd),find_cmd_index(cpy_token, cmd));
-					temp->next = cpy_token;
+					// printf("%s\n", temp2->value);
+					temp2->next = cpy_token;
+					temp2 = temp2->next;
 					cpy_token = cpy_token->next;
 				}
 			}
@@ -219,40 +215,19 @@ void	relink_commands(t_token *cpy_token, t_cmd *cpy_cmd)
 		// 	printf("token=%s, cmd=%s, cpy=%s\n",token->value, cmd->value, cmd->value);
 		if (token->next && cmd && cmd->next && token->type != REDIRECT_OUT && token->type != REDIRECT_APPEND &&token->type != HERE_DOC  &&  token->type != PIPE && token->type != REDIRECT_IN && cmd->next && cmd->type != IN_OUT_FILENAME && ft_check_type(token->next) == 0)
 		{
+			// printf("join\n");
 			put_tab(cmd, cmd->next);
 			// token = token->next;
 		}
-		// else if (!token->next && cmd && cmd->next && token->type != REDIRECT_OUT && token->type != REDIRECT_APPEND &&token->type != HERE_DOC  &&  token->type != PIPE && token->type != REDIRECT_IN && cmd->next && cmd->type != IN_OUT_FILENAME) 
-		// {
-		// 	put_tab(cmd, cmd->next);
-			
-		// 	// token = token->next;
-		// }
-		// else if (cmd->tab == NULL)
-		// 	cmd->tab = ft_join_tab(cmd->tab, NULL, cmd->value);
-		// else
-
-		// printf("next %s\n", cmd->value);
-		// if (token->next && (token->next->type == REDIRECT_OUT || token->next->type == REDIRECT_APPEND))
-		// {
-		// 	if (cmd->next)
-		// 		cmd = cmd->next;
-		// }
-		// if (token->next && token->next->type == PIPE)
-		// {
-		// 	// printf("idkkk %s\n", cmd->value);
-		// 	cmd = cmd->next;
-		// 	token = token->next;
-		// 	token = token->next;
-		// 	continue;
-		// }
-		if (token && cmd->next && (ft_check_type(token) == 1))
+		if (token && token->next && cmd &&cmd->next && (ft_check_type(token) == 1))
 		{
-			cmd = cmd->next;
-			if (token->next->type == REDIRECT_OUT || token->next->type == REDIRECT_APPEND)
+			while (token->next && cmd->next && token->next->index != cmd->index)
+				cmd = cmd->next;
+			if (token->next->next && token->next->type == REDIRECT_OUT || token->next->type == REDIRECT_APPEND)
 			{
 				cmd = cmd->next;
 				token = token->next->next;
+				// continue;
 			}
 			// printf("nddd %s\n", cmd->value);
 			// token = token->next;

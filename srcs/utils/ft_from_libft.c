@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_from_libft.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:28:00 by njard             #+#    #+#             */
-/*   Updated: 2025/05/09 16:18:52 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/25 14:35:05 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char *ft_join(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	while(s1[i])
+	while(s1 && s1[i])
 		i++;
 	while(s2[j])
 		j++;
@@ -65,7 +65,7 @@ char *ft_join(char *s1, char *s2)
 		return(NULL);
 	i = 0;
 	j = 0;
-	while(s1[i])
+	while(s1 && s1[i])
 	{
 		new_string[i] = s1[i];
 		i++;
