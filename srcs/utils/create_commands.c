@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/25 14:46:56 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/26 10:54:02 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	assign_value(t_cmd *new_cmd, t_token *cpy_token, int i)
 	new_cmd->fdout = -99;
 	new_cmd->fdin = -99;
 	new_cmd->check_fdout = 0;
+	new_cmd->check_fdin = 0;
 	new_cmd->here_doc = 0;
 	new_cmd->red_append = 0;
 	new_cmd->deleted = 0;
@@ -37,7 +38,6 @@ void	assign_value(t_cmd *new_cmd, t_token *cpy_token, int i)
 	new_cmd->outfile = NULL;
 	new_cmd->next = NULL;
 	new_cmd->red_out = 0;
-	return ;
 }
 
 void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd)
@@ -51,6 +51,7 @@ void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd)
 	i = 0;
 	out = 0;
 	fdin = NULL;
+	appnd = 0;
 	cpy_token = data->tokens;
 	while (cpy_token)
 	{

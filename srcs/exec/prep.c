@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/25 14:41:35 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/26 11:34:19 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	exec_fdout(t_data *data)
 	fd_error(data, 0);
 	open_fdout(data, data->tokens, data->commands);
 	cpy_cmd = data->commands;
-	exec_fdin(data);
+ 	exec_fdin(data);
 }
 
 void	exec(t_data *data)

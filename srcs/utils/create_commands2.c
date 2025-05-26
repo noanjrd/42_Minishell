@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/25 11:23:48 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/26 10:40:54 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	rest_ofthesteps_five(t_token *token, t_cmd *cmd)
 	cpy_cmd = cmd;
 	while (cpy_cmd)
 	{
-		if (cpy_cmd->next && cpy_cmd->redirect_in_before == 1 && cpy_cmd->next->infile)
-			cpy_cmd->end = 1;
+		// if (cpy_cmd->next && cpy_cmd->redirect_in_before == 1 && cpy_cmd->next->infile)
+		// 	cpy_cmd->end = 1;
 		if (!cpy_cmd->next && cpy_cmd->type == IN_OUT_FILENAME)
 			cpy_cmd->end = 1;
 		cpy_cmd = cpy_cmd->next;
