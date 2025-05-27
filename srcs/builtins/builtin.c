@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:42:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/21 11:45:36 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/27 16:34:04 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	builtin_check(t_data *data, char *commands)
 	}
 	if (ft_strcmp(commands, "exit") == 0)
 	{
-		return (1);
+		return (2);
 	}
 	return(builtin_second_check(data, commands));
 }

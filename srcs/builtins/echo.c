@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:25:03 by njard             #+#    #+#             */
-/*   Updated: 2025/05/20 19:16:19 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:01:51 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_token *update_echo_struct(t_token *token)
 {
-	while (token && (token->type == WORD 
-		|| token->type == SINGLE_QUOTES 
+	while (token && (token->type == WORD
+		|| token->type == SINGLE_QUOTES
 		|| token->type == DOUBLE_QUOTES))
 		token = token->next;
 	return (token);
@@ -23,9 +23,9 @@ t_token *update_echo_struct(t_token *token)
 
 static int ft_condition(t_token *copy_token)
 {
-	if (copy_token->next && 
-		(copy_token->next->type == WORD 
-			|| copy_token->next->type == SINGLE_QUOTES 
+	if (copy_token->next &&
+		(copy_token->next->type == WORD
+			|| copy_token->next->type == SINGLE_QUOTES
 			|| copy_token->next->type == DOUBLE_QUOTES))
 		return (1);
 	return (0);

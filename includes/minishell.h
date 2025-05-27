@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/26 13:57:54 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:20:29 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 extern int index_t;
-extern int exit_code;
+// extern int exit_code;
 
 #include <unistd.h>
 #include <stdio.h>
@@ -94,14 +94,14 @@ typedef struct t_data
 	char	**paths_system;
 	int		fd_here_doc;
 	char	*line;
-	char **envp;
+	char	**envp;
 	int		exit_code;
-	int	nb_of_commands;
-	int error_alrdy_displayed;
+	int		nb_of_commands;
+	int		error_alrdy_displayed;
 	t_env	*env;
 	t_token	*tokens;
 	t_cmd	*commands;
-}				t_data;
+}							t_data;
 
 
 // Builtins
@@ -113,12 +113,12 @@ void	ft_exit(t_data *data, t_token *token);
 void	ft_echo(t_data *data, t_env *env, t_token *token);
 void	ft_pwd(t_env *env);
 t_token	*update_echo_struct(t_token *token);
-int	builtin_check(t_data *data, char *commands);
+int		builtin_check(t_data *data, char *commands);
 void	go_to_right_builtin(t_data *data, t_cmd *cmd, int i);
-char *cd_root(void);
-void cd_error(t_data *data, t_token *token);
-void go_into_specific_dr(t_data *data, t_env *env, char *current, char *path);
-void absolute_path(t_env *env, char *path);
+char	*cd_root(void);
+void	cd_error(t_data *data, t_token *token);
+void	go_into_specific_dr(t_data *data, t_env *env, char *current, char *path);
+void	absolute_path(t_env *env, char *path);
 
 // Export
 
@@ -128,7 +128,7 @@ int		check_plus(char *export);
 void	create_export(t_env *env, char *name, char *value);
 int		check_alrdy_exist(t_env *env, char *name, char *value, char *export);
 void	display_export(t_env *env);
-int	check_valid_name(char *name, int check);
+int		check_valid_name(char *name, int check);
 
 // Utils
 
@@ -154,6 +154,7 @@ void	free_env(t_env *env);
 void	free_data(t_data *data);
 void	free_cmd(t_cmd *cmd);
 void	free_token_list(t_token *head);
+void	free_readline_data(t_data *data);
 
 // Execution
 
@@ -163,10 +164,10 @@ void	open_fdout(t_data *data, t_token *token, t_cmd *cmd);
 void	relink_commands(t_token *token, t_cmd *cmd);
 void	check_path_exist(t_data *data, t_cmd *cmd);
 void	real_exec(t_data *data);
-void fdin_after(t_data *data, t_cmd *cmd);
-void fdin_before(t_data *data, t_cmd *cmd);
-char **ft_join_tab(char **tab, char *value, char *value_app);
-char *ft_join_free(char *s1, char *s2);
+void	fdin_after(t_data *data, t_cmd *cmd);
+void	fdin_before(t_data *data, t_cmd *cmd);
+char	**ft_join_tab(char **tab, char *value, char *value_app);
+char	*ft_join_free(char *s1, char *s2);
 void	fd_error(t_data *data, int fd);
 
 // Init
@@ -194,16 +195,12 @@ void	print_tokens(t_token *head);
 // EXPANDER
 
 t_token *expander(t_token *token, t_data *data);
-// void	expander(t_token *token, t_data	*data);
 char	*new_token_value(char *str, t_data	*data);
-char	*ft_malloc_final_buffer(char *str, t_env *env);
-int		get_token_lenght(char *str, t_env *env);
+char	*ft_malloc_final_buffer(char *str, t_env *env, int exit_code);
+int		get_token_length(char *str, t_env *env, int exit_code);
 int		ft_handle_dollar(t_str *src, char *final_buffer, int j, t_data *data);
 int		ft_exit_code(char *final_buffer, int exit_code, int j);
 int		ft_var_value(t_str *s, char *final_buffer, int j, t_env *env);
-// void	remove_token(t_token **token, t_token **current);
-
-// void	merge_tokens(t_token	*token);
 void	merge_tokens(t_token	**token);
 void	reassign_index(t_token *tokens);
 
