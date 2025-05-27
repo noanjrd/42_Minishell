@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:39:25 by njard             #+#    #+#             */
-/*   Updated: 2025/05/26 11:02:11 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/26 14:17:10 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void free_data(t_data *data)
 		}
 		free(data->paths_system);
 	}
-	free(data->line);
+	// free(data->line);
 	free_env(data->env);
 	if (data->fd_here_doc > 0)
 	{
@@ -106,5 +106,7 @@ void	free_env(t_env *env)
 		free(env);
 		env = temp;
 	}
+
+	env = NULL;
 	return ;
 }

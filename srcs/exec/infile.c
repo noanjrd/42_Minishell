@@ -6,14 +6,15 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:18:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/25 11:28:43 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/26 13:46:52 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	stop_all_out_before(t_cmd *cmd, t_cmd *target)
+void	stop_all_out_before_after(t_cmd *cmd, t_cmd *target)
 {
+	int fd;
 	t_cmd *cpy_cmd;
 
 	cpy_cmd = cmd;
@@ -23,6 +24,15 @@ void	stop_all_out_before(t_cmd *cmd, t_cmd *target)
 	{
 		cpy_cmd->fdout = -1;
 		cpy_cmd->check_fdout = -1;
+		cpy_cmd = cpy_cmd->next;
+		if (cpy_cmd->red_append == 0 && cpy_cmd->check_fdout != -1)
+			fd = open(cpy_cmd->value, O_TRUNC, 0700);
+	}
+	cpy_cmd = target;
+	while (cpy_cmd && cpy_cmd->red_out == 1)
+	{
+		// printf("%s\n", cpy_cmd->value);
+		cpy_cmd-> check_fdout = -1;
 		cpy_cmd = cpy_cmd->next;
 	}
 	return ;
@@ -41,17 +51,21 @@ void	fd_error(t_data *data, int fd)
 		{
 			if (cpy_cmd->red_out == 0)
 				fd = open(cpy_cmd->value, O_RDONLY);
-			else
+			else if (data->error_alrdy_displayed == 0)
 				fd = open(cpy_cmd->value, O_WRONLY| O_CREAT, 0700);
-			if (fd < 0)
-				stop_all_out_before(data->commands,cpy_cmd);
+			// if (fd != -1)
+			// 	close(fd);
 			if (fd < 0 && data->error_alrdy_displayed == 0)
 			{
 				data->exit_code = 1;
 				data->error_alrdy_displayed = 1;
+				// printf("%s\n", cpy_cmd->value);
 				perror("Error");
 			}
-			close(fd);
+			if (fd < 0)
+				stop_all_out_before_after(data->commands,cpy_cmd);
+			if (fd >= 0)
+				close(fd);
 		}
 		cpy_cmd = cpy_cmd->next;
 	}

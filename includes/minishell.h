@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/24 19:50:16 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/27 11:40:36 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 extern int index_t;
+extern int exit_code;
 
 #include <unistd.h>
 #include <stdio.h>
@@ -23,6 +24,7 @@ extern int index_t;
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <limits.h>
+#include <signal.h>
 
 typedef struct	t_env
 {
@@ -100,6 +102,7 @@ typedef struct t_data
 	t_token	*tokens;
 	t_cmd	*commands;
 }				t_data;
+
 
 // Builtins
 
