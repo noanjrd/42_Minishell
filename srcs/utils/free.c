@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:39:25 by njard             #+#    #+#             */
-/*   Updated: 2025/05/26 11:02:11 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/26 13:03:38 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void free_data(t_data *data)
 		}
 		free(data->paths_system);
 	}
-	free(data->line);
+	// if (data->line)
+	// 	free(data->line);
 	free_env(data->env);
 	if (data->fd_here_doc > 0)
 	{
