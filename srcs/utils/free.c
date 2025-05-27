@@ -107,5 +107,7 @@ void	free_env(t_env *env)
 		free(env);
 		env = temp;
 	}
+
+	env = NULL;
 	return ;
 }

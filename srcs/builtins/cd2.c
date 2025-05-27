@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:34:00 by njard             #+#    #+#             */
-/*   Updated: 2025/05/26 11:51:20 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/26 14:12:01 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void absolute_path(t_env *env, char *path)
 	char *temp;
 
 	temp = getcwd(NULL, 0);
-	// printf("%s\n", path);
+	printf("%s\n", path);
 	if (access(path, F_OK) == 0)
 	{
 		chdir(path);

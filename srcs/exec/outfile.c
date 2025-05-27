@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:14:21 by njard             #+#    #+#             */
-/*   Updated: 2025/05/26 10:52:23 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/26 12:29:07 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ void	reach_furthest_fd(t_cmd *cmd, t_token *token)
 	{
 		cpy_cmd = cpy_cmd->next;
 	}
-	// printf(",,,,,%s\n", cpy_cmd->value);
+	// printf(",,,,,%s, %d\n", cpy_cmd->value, cpy_cmd->check_fdout);
 	if (cpy_cmd->red_out == 1 && cpy_cmd->check_fdout >= 0)
 	{
+		// printf("%s\n", cmd->value);
 		if (cpy_cmd->red_append == 1)
 			cmd->fdout = open(cpy_cmd->value,O_WRONLY | O_CREAT | O_APPEND, 0700);
 		if (cpy_cmd->red_append == 0)

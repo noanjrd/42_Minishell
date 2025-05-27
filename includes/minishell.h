@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 extern int index_t;
+extern int exit_code;
 
 #include <unistd.h>
 #include <stdio.h>
@@ -23,6 +24,7 @@ extern int index_t;
 #include <fcntl.h>
 #include <sys/wait.h>
 #include <limits.h>
+#include <signal.h>
 
 typedef struct	t_env
 {
@@ -100,6 +102,7 @@ typedef struct t_data
 	t_token	*tokens;
 	t_cmd	*commands;
 }				t_data;
+
 
 // Builtins
 

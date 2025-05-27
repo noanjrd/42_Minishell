@@ -6,40 +6,86 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/26 11:49:08 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/27 11:20:31 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// This function frees the memory allocated for the environment.
+// void	free_env_exec(t_env *env)
+// {
+// 	t_env *temp;
+
+// 	temp = env;
+// 	while(temp)
+// 	{
+// 		temp = env->next;
+// 		if (ft_strcmp(temp->name, "PWD") != 0)
+// 		{
+// 			free(env->name);
+// 			free(env->value);
+// 			free(env);
+// 		}
+// 		env = temp;
+// 	}
+// 	return ;
+// }
+
+// This function frees the memory allocated for data.
+// void free_data_exec(t_data *data)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	// printf("free\n");
+// 	if (data->paths_system)
+// 	{
+// 		while (data->paths_system[i])
+// 		{
+// 			free(data->paths_system[i]);
+// 			i++;
+// 		}
+// 		free(data->paths_system);
+// 	}
+// 	// free(data->line);
+// 	free_env_exec(data->env);
+// 	if (data->fd_here_doc > 0)
+// 	{
+// 		close(data->fd_here_doc);
+// 		unlink("temp");
+// 	}
+// 	clear_history();
+// 	free(data);
+// 	return ;
+// }
+
+static void	ft_sigitn(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(1,"\n",1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		// rl_redisplay();
+	}
+	return ;
+}
+
 void ft_error(t_data *data, t_cmd *cmd)
 {
-	// int  i = 0;
-	
-	// free(cmd->value);
-	// free(cmd->infile);
-	// free(cmd->outfile);
-	// if (cmd->fdpipe)
-	// 	free(cmd->fdpipe);
-	// if (cmd->prev_fdpipe)
-	// 	free(cmd->prev_fdpipe);
-	// if (cmd->path)
-	// 	free(cmd->path);
-	// if (cmd->fdin > 0)
-	// 	close(cmd->fdin);
-	// if (cmd->fdout > 0)
-	// 	close(cmd->fdout);
-	// if (cmd->tab)
-	// {
-	// 	while (cmd->tab[i])
-	// 	{
-	// 		free(cmd->tab[i]);
-	// 		i++;
-	// 	}
-	// 	free(cmd->tab);
-	// }
-	// free(cmd);
-	// exit(data->exit_code);
+	int exitc;
+
+	exitc = data->exit_code;
+	if (data->tokens)
+	{
+		free_token_list(data->tokens);
+		data->tokens = NULL;
+	}
+	free_cmd(data->commands);
+	// free_readline_data(data);
+	free_data(data);
+	exit(exitc);
 	return ;
 }
 
@@ -56,6 +102,7 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 	cmd->fdpipe[1] = -1;
 	pipe(cmd->fdpipe);
 	cmd->pid = fork();
+	signal(SIGINT ,ft_sigitn);
 	// printf("la< %s\n", cmd->value);
 	if (cmd->pid == 0 && builtin_check(data, cmd->tab[0]) != 2)
 	{
@@ -120,8 +167,8 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 			}
 		}
 		// free();
-		exit(data->exit_code);
-		// ft_error(data, cmd);
+		// exit(data->exit_code);
+		ft_error(data, cmd);
 	}
 	// printf("%d\n", data->exit_code);
 	if (cmd->check_fdin == -1 || cmd->check_fdout == -1)
