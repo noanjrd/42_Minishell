@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:21:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/26 13:38:36 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/28 10:34:11 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ char	*ft_copy(char *string)
 	char *copied_string;
 
 	if (!string)
+	{
 		return (NULL);
+	}
 	i = 0;
-	while(string[i])
+	while(string && string[i])
 	{
 		i++;
 	}
@@ -63,7 +65,7 @@ char	*ft_copy(char *string)
 	if (!copied_string)
 		return (NULL);
 	i = 0;
-	while(string[i])
+	while(string && string[i])
 	{
 		copied_string[i] = string[i];
 		i++;

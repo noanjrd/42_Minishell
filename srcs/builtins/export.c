@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/26 10:30:56 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/28 10:28:51 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static char *get_name_export(char *export)
 	{
 		i++;
 	}
-	if (export[i - 1] == '+')
+	if (i >= 1 && export[i - 1] == '+')
 		i--;
-	if (export[i - 1] == '-')
+	if (i >= 1 && export[i - 1] == '-')
 		return (NULL);
 	name = malloc(sizeof(char) * (i + 1));
 	if (!name)
@@ -77,6 +77,7 @@ t_token *export_launch(t_data *data, t_env *env, t_token *token,char *export)
 	{
 		write(2," not a valid identifier\n",24);
 		data->exit_code = 1;
+		free(name);
 		return (token->next);
 	}
 	value = get_value_export(export);
