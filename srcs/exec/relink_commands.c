@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:22:15 by njard             #+#    #+#             */
-/*   Updated: 2025/05/25 11:19:21 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/28 10:56:43 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,17 +108,23 @@ t_cmd *find_cmd_index(t_token *token, t_cmd *cmd)
 	return (cpy_cmd);
 }
 
-void ft_check_echo_plus(t_token *token, t_cmd *cmd)
+void ft_free_single_token(t_token *tok)
 {
-	t_cmd *cpy_cmd;
+    if (!tok)
+        return;
+	free(tok->value);
+    free(tok);
+}// void ft_free_single_token(t_token *tok); // Assurez-vous qu'elle est définie
+
+
+void ft_check_echo_plus(t_token *token, t_cmd *cmd, t_token *node_to_delete)
+{
 	t_cmd *temp_cmd;
 	t_token *cpy_token;
 	t_token *temp;
 	t_token *temp2;
 
-	// printf("here\n");
 	temp_cmd = NULL;
-	cpy_cmd = cmd;
 	cpy_token = token;
 	while (cpy_token)
 	{
@@ -131,52 +137,55 @@ void ft_check_echo_plus(t_token *token, t_cmd *cmd)
 				cpy_token = cpy_token->next;
 				if (temp2->next && ft_check_type(temp2->next) == 0)
 					temp2 = temp2->next;
-				// printf("loop\n");
 			}
 			if (!cpy_token || !cpy_token->next || cpy_token->type == PIPE || !cpy_token->next->next)
 			{
 				if (cpy_token && cpy_token->next)
 					cpy_token = cpy_token->next;
-				continue ;
+				continue ; 
 			}
 			else
-				cpy_token = cpy_token->next->next;
-			while (cpy_token &&  ft_check_type(cpy_token) == 0)
 			{
-				// printf("token %s\n", cpy_token->value);
+				cpy_token = cpy_token->next->next;
+			}
+			while (cpy_token && ft_check_type(cpy_token) == 0)
+			{
 				temp_cmd = find_cmd_index(cpy_token, cmd);
 				if (!temp_cmd)
 				{
-					// printf("ERROR: no matching cmd for token index %s\n", cpy_token->value);
 					cpy_token = cpy_token->next;
 					continue;
 				}
 				else
 				{
-					// printf("cmd %s\n", temp_cmd->value);
-					// temp_cmd->deleted = 1;
 					if (!find_cmd_index(temp, cmd))
 					{
 						cpy_token = cpy_token->next;
 						continue ;
 					}
-					// printf("cmd ancient %s\n", find_cmd_index(temp, cmd)->value);
-					put_tab_recompose(find_cmd_index(temp, cmd),find_cmd_index(cpy_token, cmd));
-					// printf("%s\n", temp2->value);
-					temp2->next = cpy_token;
-					temp2 = temp2->next;
-					cpy_token = cpy_token->next;
+					put_tab_recompose(find_cmd_index(temp, cmd), find_cmd_index(cpy_token, cmd));
+					node_to_delete = temp2->next;
+                    while (node_to_delete && node_to_delete != cpy_token)
+                    {
+                        t_token *next_to_delete = node_to_delete->next;
+                        ft_free_single_token(node_to_delete);
+                        node_to_delete = next_to_delete;
+                    }
+					temp2->next = cpy_token; 
+
+					temp2 = temp2->next; 
+                    if (temp2)
+                        cpy_token = temp2->next;
+                    else
+                        cpy_token = NULL; 
 				}
 			}
-			// printf("next2\n");
 		}
-		else
+		else 
 		{
-			// printf("next\n");
-			cpy_token = cpy_token->next;
+			cpy_token = cpy_token->next; 
 		}
 	}
-	return ;
 }
 
 void	rest_tab(t_token *token, t_cmd *cpy_cmd)
@@ -190,7 +199,7 @@ void	rest_tab(t_token *token, t_cmd *cpy_cmd)
 			cmd->tab = ft_join_tab(cmd->tab, NULL, cmd->value);
 		cmd = cmd->next;
 	}
-	ft_check_echo_plus(token, cpy_cmd);
+	ft_check_echo_plus(token, cpy_cmd, NULL);
 	// printf_cmd2(cpy_cmd);
 	return ;
 }
