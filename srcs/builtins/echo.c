@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:25:03 by njard             #+#    #+#             */
-/*   Updated: 2025/05/27 16:01:51 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:31:09 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,30 @@ static int ft_condition(t_token *copy_token)
 
 t_token	*ft_check_n(t_token *copy_token, int *n)
 {
+	int i;
+
+	i = 0;
 	while (copy_token && (copy_token->type ==  WORD || copy_token->type ==  SINGLE_QUOTES || copy_token->type ==  DOUBLE_QUOTES))
 	{
 		if (copy_token->value[0] == '-' && copy_token->value[1] == 'n')
-			*n = 1;
+		{
+			i = 1;
+			while (copy_token->value[i] && copy_token->value[i] == 'n')
+			{
+				i++;
+			}
+			if (copy_token->value[i] == 0)
+				*n = 1;
+			else
+				break;
+		}
 		else
 			break;
 		copy_token = copy_token->next;
 	}
 	return (copy_token);
 }
-void	ft_echo(t_data *data, t_env *env, t_token *token)
+void	ft_echo(t_data *data, t_token *token)
 {
 	t_token	*copy_token;
 	int	n;
@@ -57,8 +70,10 @@ void	ft_echo(t_data *data, t_env *env, t_token *token)
 	}
 	copy_token = copy_token->next;
 	copy_token = ft_check_n(copy_token, &n);
+	// printf("## %s\n", copy_token->value);
 	while (copy_token && (copy_token->type == WORD || copy_token->type == SINGLE_QUOTES || copy_token->type == DOUBLE_QUOTES))
 	{
+		// printf("## %s\n", copy_token->value);
 		if (copy_token->value)
 			printf("%s", copy_token->value);
 		if (ft_condition(copy_token) == 1)

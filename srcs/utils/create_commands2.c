@@ -6,13 +6,13 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/26 10:40:54 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/28 11:42:51 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	rest_ofthesteps_five(t_token *token, t_cmd *cmd)
+void	rest_ofthesteps_five(t_cmd *cmd)
 {
 	t_cmd	*cpy_cmd;
 
@@ -28,7 +28,7 @@ void	rest_ofthesteps_five(t_token *token, t_cmd *cmd)
 	return ;
 }
 
-void	rest_ofthesteps_four(t_token *token, t_cmd *cmd, int check)
+void	rest_ofthesteps_four(t_cmd *cmd, int check)
 {
 	t_cmd	*cpy_cmd;
 	t_cmd *temp;
@@ -54,7 +54,7 @@ void	rest_ofthesteps_four(t_token *token, t_cmd *cmd, int check)
 		}
 		cpy_cmd = cpy_cmd->next;
 	}
-	rest_ofthesteps_five(token, cmd);
+	rest_ofthesteps_five(cmd);
 }
 
 void	rest_ofthesteps_three(t_token *token, t_cmd *cmd)
@@ -86,7 +86,7 @@ void	rest_ofthesteps_three(t_token *token, t_cmd *cmd)
 			cpy_cmd = cpy_cmd->next;
 		cpy_token = cpy_token->next;
 	}
-	rest_ofthesteps_four(token, cmd, 0);
+	rest_ofthesteps_four(cmd, 0);
 }
 
 void	rest_ofthesteps_two(t_token *token, t_cmd *cmd)
@@ -100,8 +100,8 @@ void	rest_ofthesteps_two(t_token *token, t_cmd *cmd)
 		cpy_cmd->first = 1;
 	while (cpy_token)
 	{
-		if (cpy_cmd && cpy_token->type == REDIRECT_IN 
-			|| cpy_token->type == HERE_DOC)
+		if (cpy_cmd && (cpy_token->type == REDIRECT_IN
+			|| cpy_token->type == HERE_DOC))
 		{
 			cpy_cmd->type = IN_OUT_FILENAME;
 		}

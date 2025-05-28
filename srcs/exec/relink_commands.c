@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 14:22:15 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 10:56:43 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/28 11:48:10 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,11 @@ t_cmd *find_cmd_index(t_token *token, t_cmd *cmd)
 
 void ft_free_single_token(t_token *tok)
 {
-    if (!tok)
-        return;
+	if (!tok)
+		return;
 	free(tok->value);
-    free(tok);
-}// void ft_free_single_token(t_token *tok); // Assurez-vous qu'elle est définie
+	free(tok);
+}
 
 
 void ft_check_echo_plus(t_token *token, t_cmd *cmd, t_token *node_to_delete)
@@ -232,7 +232,7 @@ void	relink_commands(t_token *cpy_token, t_cmd *cpy_cmd)
 		{
 			while (token->next && cmd->next && token->next->index != cmd->index)
 				cmd = cmd->next;
-			if (token->next->next && token->next->type == REDIRECT_OUT || token->next->type == REDIRECT_APPEND)
+			if (token->next->next && (token->next->type == REDIRECT_OUT || token->next->type == REDIRECT_APPEND))
 			{
 				cmd = cmd->next;
 				token = token->next->next;

@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 10:51:44 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/28 12:30:18 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,6 @@ void	number_of_commands(t_data *data)
 
 void	details_before_exec(t_data *data)
 {
-	t_token *cpy_token;
-	t_cmd *cpy_cmd;
-	char *value_temp;
-
 	if (data->env)
 		check_path_exist(data, data->commands);
 	// printf_cmd(data->commands);
@@ -100,11 +96,10 @@ void	exec_fdin(t_data *data)
 
 void	exec_fdout(t_data *data)
 {
-	t_token *cpy_token;
 	t_cmd *cpy_cmd;
 
 	fd_error(data, 0);
-	open_fdout(data, data->tokens, data->commands);
+	open_fdout(data->tokens, data->commands);
 	cpy_cmd = data->commands;
  	exec_fdin(data);
 }

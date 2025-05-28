@@ -1,8 +1,8 @@
-# enlever le relink et mettre les flags
+# enlever le relink
 
 NAME = minishell
-CC = cc
-FLAGS = -g3 #-fsanitize=address,leak
+CC = cc -Wall -Wextra -Werror
+FLAGS = -g3 -fsanitize=address,leak
 LIBS = -lreadline
 RM = rm -rf
 

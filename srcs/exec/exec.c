@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/27 16:26:26 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:53:57 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	ft_sigitn(int sig)
 	return ;
 }
 
-void ft_error(t_data *data, t_cmd *cmd)
+void ft_error(t_data *data)
 {
 	int exitc;
 
@@ -40,13 +40,34 @@ void ft_error(t_data *data, t_cmd *cmd)
 	exit(exitc);
 	return ;
 }
-
+void printf_error_beginning(t_cmd *cmd, int error)
+{
+	if (error == 1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->value, 2);
+		ft_putstr_fd(": Is a directory\n", 2);
+	}
+	if (error == 2)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->value, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+	}
+	if (error == 3)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->value, 2);
+		ft_putstr_fd(": command not found\n", 2);
+	}
+	return ;
+}
 void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 {
-	if (builtin_check(data, cmd->tab[0]) == 2)
+	if (builtin_check(cmd->tab[0]) == 2)
 	{
 		// printf("builtin1\n");
-		go_to_right_builtin(data, cmd, cmd->index);
+		go_to_right_builtin(data, cmd->index);
 		cmd->check_fdin = -1;
 		return ;
 	}
@@ -56,7 +77,7 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 	cmd->pid = fork();
 	signal(SIGINT ,ft_sigitn);
 	// printf("la< %s\n", cmd->value);
-	if (cmd->pid == 0 && builtin_check(data, cmd->tab[0]) != 2)
+	if (cmd->pid == 0 && builtin_check(cmd->tab[0]) != 2)
 	{
 		if (cmd->fdin != -99 && cmd->check_fdin == 1)
 		{
@@ -91,11 +112,11 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 				close(cmd->prev_fdpipe[1]);
 			// free(cmd->prev_fdpipe);
 		}
-		if (builtin_check(data, cmd->tab[0]) == 1 && cmd->fdout != -1)
+		if (builtin_check(cmd->tab[0]) == 1 && cmd->fdout != -1)
 		{
 			// printf("builtin %s\n", cmd->value);
 			// printf("%d\n", data->exit_code);
-			go_to_right_builtin(data, cmd, cmd->index);
+			go_to_right_builtin(data, cmd->index);
 
 		}
 		else
@@ -104,7 +125,10 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 			{
 				data->exit_code = 127;
 				if (data->error_alrdy_displayed == 0)
-					write(2," command not found\n",19);
+				{
+					printf_error_beginning(cmd, 3);	
+					ft_error(data);
+				}
 				// else if (access(cmd->value, F_OK) == 0)
 				// 	write(2," Is a directory\n",16);
 
@@ -120,7 +144,7 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 		}
 		// free();
 		// exit(data->exit_code);
-		ft_error(data, cmd);
+		ft_error(data);
 	}
 	// printf("%d\n", data->exit_code);
 	if (cmd->check_fdin == -1 || cmd->check_fdout == -1)
@@ -228,18 +252,17 @@ void	ft_check_extra(t_data *data, t_cmd *cmd)
 				perror("Error");
 			}
 			else
-				write(2, " Is a directory\n",16);
+				printf_error_beginning(cmd, 1);
 			close(fd);
 			cmd->check_fdin = -1;
 			data->exit_code = 126;
-			// printf("%d\n", data->exit_code);
 			return ;
 		}
 		else
 		{
 			data->exit_code = 127;
 			cmd->check_fdin = -1;
-			write(2, " No such file or directory\n",27);
+			printf_error_beginning(cmd, 2);
 			return ;
 		}
 	}

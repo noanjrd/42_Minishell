@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:42:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/27 16:34:04 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/28 12:07:12 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_token	*builtin_second(t_data *data, t_token *token, char *commands)
 	}
 	if (ft_strcmp(commands, "pwd") == 0)
 	{
-		ft_pwd(data->env);
+		ft_pwd();
 		return (free(arg), token->next);
 	}
 	return (token->next);
@@ -45,7 +45,7 @@ t_token	*builtin(t_data *data, t_token *token, char *commands)
 	// printf("builtin??? %s\n", token->value);
 	if (ft_strcmp(commands, "echo") == 0)
 	{
-		ft_echo(data, data->env, token);
+		ft_echo(data, token);
 		return (free(arg), update_echo_struct(token));
 	}
 	if (ft_strcmp(commands, "unset") == 0)
@@ -65,7 +65,7 @@ t_token	*builtin(t_data *data, t_token *token, char *commands)
 	return(builtin_second(data, token, commands));
 }
 
-void	go_to_right_builtin(t_data *data, t_cmd *cmd, int i)
+void	go_to_right_builtin(t_data *data, int i)
 {
 	t_token *cpy_token;
 	cpy_token = data->tokens;
@@ -75,11 +75,12 @@ void	go_to_right_builtin(t_data *data, t_cmd *cmd, int i)
 			break;
 		cpy_token = cpy_token->next;
 	}
+	// printf("%s\n", cpy_token->value);
 	builtin(data, cpy_token, cpy_token->value);
 	return ;
 }
 
-int	builtin_second_check(t_data *data, char *commands)
+int	builtin_second_check(char *commands)
 {
 	char *arg;
 
@@ -90,7 +91,7 @@ int	builtin_second_check(t_data *data, char *commands)
 	}
 	if (ft_strcmp(commands, "cd") == 0)
 	{
-		return (1);
+		return (2);
 	}
 	if (ft_strcmp(commands, "pwd") == 0)
 	{
@@ -99,7 +100,7 @@ int	builtin_second_check(t_data *data, char *commands)
 	return (0);
 }
 
-int	builtin_check(t_data *data, char *commands)
+int	builtin_check(char *commands)
 {
 	char *arg;
 
@@ -123,5 +124,5 @@ int	builtin_check(t_data *data, char *commands)
 	{
 		return (2);
 	}
-	return(builtin_second_check(data, commands));
+	return(builtin_second_check(commands));
 }

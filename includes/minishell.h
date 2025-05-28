@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/27 19:20:29 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/28 11:48:36 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-extern int index_t;
 // extern int exit_code;
 
 #include <unistd.h>
@@ -110,13 +109,13 @@ void	ft_unset(t_env *env, t_token *token);
 void	display_env(t_env *env);
 void	ft_cd(t_data *data, t_env *env, t_token *token);
 void	ft_exit(t_data *data, t_token *token);
-void	ft_echo(t_data *data, t_env *env, t_token *token);
-void	ft_pwd(t_env *env);
+void	ft_echo(t_data *data, t_token *token);
+void	ft_pwd(void);
 t_token	*update_echo_struct(t_token *token);
-int		builtin_check(t_data *data, char *commands);
-void	go_to_right_builtin(t_data *data, t_cmd *cmd, int i);
+int		builtin_check(char *commands);
+void	go_to_right_builtin(t_data *data, int i);
 char	*cd_root(void);
-void	cd_error(t_data *data, t_token *token);
+void	cd_error(t_data *data);
 void	go_into_specific_dr(t_data *data, t_env *env, char *current, char *path);
 void	absolute_path(t_env *env, char *path);
 
@@ -147,6 +146,7 @@ int		ft_isdigit(int c);
 char	*ft_itoa(int n);
 void	ft_free_tab(char **tab);
 int		ft_check_type(t_token *token);
+void	ft_putstr_fd(char *s, int fd);
 
 // FREE
 
@@ -160,7 +160,7 @@ void	free_readline_data(t_data *data);
 
 void	exec(t_data *data);
 void	here_doc(t_token *token, t_data *data);
-void	open_fdout(t_data *data, t_token *token, t_cmd *cmd);
+void	open_fdout(t_token *token, t_cmd *cmd);
 void	relink_commands(t_token *token, t_cmd *cmd);
 void	check_path_exist(t_data *data, t_cmd *cmd);
 void	real_exec(t_data *data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd2.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:34:00 by njard             #+#    #+#             */
-/*   Updated: 2025/05/27 16:34:26 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/28 11:45:09 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char *cd_root(void)
 {
 	char *path;
 
+	printf("la\n");
 	path = malloc(2 * sizeof(char));
 	if (!path)
 		return (NULL);
@@ -24,7 +25,7 @@ char *cd_root(void)
 	return (path);
 }
 
-void	cd_error(t_data *data, t_token *token)
+void	cd_error(t_data *data)
 {
 	write(2," too many arguments\n",20);
 	data->exit_code = 1;
@@ -72,6 +73,7 @@ void go_into_specific_dr(t_data *data, t_env *env, char *current, char *path)
 		path--;
 		data->exit_code = 1;
 		free(path);
+		free(temp);
 		free(new_path);
 	}
 	return ;
@@ -82,11 +84,12 @@ void absolute_path(t_env *env, char *path)
 	char *temp;
 
 	temp = getcwd(NULL, 0);
-	printf("%s\n", path);
+	// printf("%s\n", path);
 	if (access(path, F_OK) == 0)
 	{
+		// printf("%s\n", path);
 		chdir(path);
-		change_value(env, "PWD", path);
+		change_value(env, "PWD", ft_copy(path));
 		change_value(env, "OLDPWD", temp);
 		return ;
 	}

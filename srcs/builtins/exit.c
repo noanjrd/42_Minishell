@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:45:35 by njard             #+#    #+#             */
-/*   Updated: 2025/05/27 18:47:36 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/28 11:46:07 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	ft_putstr_fd(char *s, int fd)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		i++;
-	}
-	write(fd, s, i);
-}
 
 static int	check_num(char *str)
 {
@@ -62,8 +50,8 @@ int	ft_atoll(char *str, long long *result)
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if ( sign == 1 && num > ((LLONG_MAX - (str[i] - '0')) / 10)
-			|| (sign == -1 && -num < (LLONG_MIN + (str[i] - '0')) / 10))
+		if ( sign == 1 && (num > ((LLONG_MAX - (str[i] - '0')) / 10)
+			|| (sign == -1 && -num < (LLONG_MIN + (str[i] - '0')) / 10)))
 			return (0);
 		num = num * 10 + (str[i] - '0');
 		i++;

@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:32:25 by njard             #+#    #+#             */
-/*   Updated: 2025/05/25 14:56:57 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/28 12:07:31 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char *resolve_oldpwd(t_env *env)
 char *resolve_cd_path(t_data *data, t_env *env, t_token *token, char *temp)
 {
     if (token && token->next && token->next->type == WORD)
-        return cd_error(data, token), NULL;
+        return cd_error(data), NULL;
 
     if (!token || token->type != WORD || ft_strcmp(token->value, "~") == 0)
         return ft_copy(ft_search_value(env, "HOME"));
@@ -66,7 +66,7 @@ char *resolve_cd_path(t_data *data, t_env *env, t_token *token, char *temp)
         return cd_root();
 
     if (token->value[0] == '/')
-        return absolute_path(env, token->value), NULL;
+        return (absolute_path(env, token->value), NULL);
 
     if (ft_strcmp(token->value, "..") == 0)
         return go_back_cd(temp);
@@ -82,7 +82,10 @@ void ft_cd(t_data *data, t_env *env, t_token *token)
 	temp = ft_copy(ft_search_value(env, "PWD"));
     path = resolve_cd_path(data, env, token, temp);
     if (!path)
+	{
+		free(temp);
         return;
+	}
     change_value(env, "OLDPWD", temp);
     chdir(path);
     change_value(env, "PWD", path);

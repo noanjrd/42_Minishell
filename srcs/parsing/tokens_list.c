@@ -49,7 +49,7 @@ t_token	*create_token(t_token_type type, char *value)
 	}
 	token->has_space = 0;
 	token->next = NULL;
-	token->index = index_t++;
+	// token->index = index_t++;
 	return (token);
 }
 

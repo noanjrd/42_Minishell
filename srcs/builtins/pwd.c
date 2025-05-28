@@ -6,13 +6,13 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 14:08:50 by njard             #+#    #+#             */
-/*   Updated: 2025/04/08 14:17:01 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/28 11:44:29 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_pwd(t_env *env)
+void	ft_pwd(void)
 {
 	char *get_pwd;
 
