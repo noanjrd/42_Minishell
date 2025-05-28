@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 11:48:36 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/28 14:44:30 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ t_token	*create_token_word(char *line, int *index);
 int		is_space(char c);
 t_token	*create_token(t_token_type type, char *value);
 void	add_token(t_token **head, t_token *new);
-int		ft_check_syntax_errors(t_token *token);
+int		ft_check_syntax_errors(t_data *data, t_token *token);
 void	print_tokens(t_token *head);
 
 // EXPANDER

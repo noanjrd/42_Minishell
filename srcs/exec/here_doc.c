@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:23:27 by njard             #+#    #+#             */
-/*   Updated: 2025/05/15 10:21:52 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/28 14:50:11 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,6 @@ void	here_doc_start(char *stop, t_data *data)
 
 void	here_doc(t_token *token, t_data *data)
 {
-	if (token->next && !(token->next->type == WORD
-		|| token->next->type == SINGLE_QUOTES
-		|| token->next->type == DOUBLE_QUOTES))
-	{
-		printf("syntax error near unexpected token `%s'\n", token->next->value);
-		data->exit_code = 2;
-		return;
-	}
-	if (!token->next)
-	{
-		printf("syntax error near unexpected token `newline'\n");
-		data->exit_code = 2;
-		return ;
-	}
 	here_doc_start(token->next->value, data);
 	// free(stop);
 	return ;

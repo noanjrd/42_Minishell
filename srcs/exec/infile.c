@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:18:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/26 13:46:52 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/28 14:33:44 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	fd_error(t_data *data, int fd)
 	cpy_token = data->tokens;
 	while (cpy_cmd)
 	{
-		if (cpy_cmd->type == IN_OUT_FILENAME)
+		if (cpy_cmd->type == IN_OUT_FILENAME && cpy_cmd->here_doc == 0)
 		{
 			if (cpy_cmd->red_out == 0)
 				fd = open(cpy_cmd->value, O_RDONLY);
