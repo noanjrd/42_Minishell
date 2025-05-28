@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 14:49:19 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/28 16:56:24 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void	ft_readline(t_data *data)
 			continue;
 		}
 		data->tokens = expander(data->tokens, data);
+		// print_tokens(data->tokens);
 		if (data->tokens)
 			merge_tokens(&data->tokens);
 		reassign_index(data->tokens);
@@ -136,60 +137,60 @@ int main(int argc, char **argv, char **envp)
 	data = malloc(sizeof(t_data));
 	env = malloc(sizeof(t_env));
 	init_data(data, env, envp);
-	// ft_readline(data);
+	ft_readline(data);
 
-	if (argc >= 2)
-	{
-		data->tokens = lexer(argv[1]);
-		// print_tokens(data->tokens);
-		if (ft_check_syntax_errors(data, data->tokens) == 0)
-		{
-			data->tokens = expander(data->tokens, data);
-			if (data->tokens)
-				merge_tokens(&data->tokens);
-			// print_tokens(data->tokens);
-			reassign_index(data->tokens);
-			make_commands(data, NULL, NULL, NULL);
-			// printf_cmd(data->commands);
-			exec(data);
-			if (data->tokens)
-			{
-				free_token_list(data->tokens);
-				data->tokens = NULL;
-			}
-			free_cmd(data->commands);
-			free_readline_data(data);
-		}
-		else
-		{
-			if (data->tokens)
-			{
-				free_token_list(data->tokens);
-				data->tokens = NULL;
-			}
-		}
-	}
-	if (argc >= 3)
-	{
-		data->tokens = lexer(argv[2]);
-		// print_tokens(data->tokens);
-		data->tokens = expander(data->tokens, data);
-		// print_tokens(data->tokens);
-		if (data->tokens)
-			merge_tokens(&data->tokens);
-		// print_tokens(data->tokens);
-		reassign_index(data->tokens);
-		make_commands(data, NULL, NULL, NULL);
-		// printf_cmd(data->commands);
-		exec(data);
-		if (data->tokens)
-		{
-			free_token_list(data->tokens);
-			data->tokens = NULL;
-		}
-		free_cmd(data->commands);
-		free_readline_data(data);
-	}
+	// if (argc >= 2)
+	// {
+	// 	data->tokens = lexer(argv[1]);
+	// 	// print_tokens(data->tokens);
+	// 	if (ft_check_syntax_errors(data, data->tokens) == 0)
+	// 	{
+	// 		data->tokens = expander(data->tokens, data);
+	// 		if (data->tokens)
+	// 			merge_tokens(&data->tokens);
+	// 		// print_tokens(data->tokens);
+	// 		reassign_index(data->tokens);
+	// 		make_commands(data, NULL, NULL, NULL);
+	// 		// printf_cmd(data->commands);
+	// 		exec(data);
+	// 		if (data->tokens)
+	// 		{
+	// 			free_token_list(data->tokens);
+	// 			data->tokens = NULL;
+	// 		}
+	// 		free_cmd(data->commands);
+	// 		free_readline_data(data);
+	// 	}
+	// 	else
+	// 	{
+	// 		if (data->tokens)
+	// 		{
+	// 			free_token_list(data->tokens);
+	// 			data->tokens = NULL;
+	// 		}
+	// 	}
+	// }
+	// if (argc >= 3)
+	// {
+	// 	data->tokens = lexer(argv[2]);
+	// 	// print_tokens(data->tokens);
+	// 	data->tokens = expander(data->tokens, data);
+	// 	// print_tokens(data->tokens);
+	// 	if (data->tokens)
+	// 		merge_tokens(&data->tokens);
+	// 	// print_tokens(data->tokens);
+	// 	reassign_index(data->tokens);
+	// 	make_commands(data, NULL, NULL, NULL);
+	// 	// printf_cmd(data->commands);
+	// 	exec(data);
+	// 	if (data->tokens)
+	// 	{
+	// 		free_token_list(data->tokens);
+	// 		data->tokens = NULL;
+	// 	}
+	// 	free_cmd(data->commands);
+	// 	free_readline_data(data);
+	// }
 	// if (argc >= 4)
 	// {
 	// 	data->tokens = lexer(argv[3]);

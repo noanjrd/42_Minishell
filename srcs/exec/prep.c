@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 14:42:48 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/28 14:56:03 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	details_before_exec(t_data *data)
 {
 	if (data->env)
 		check_path_exist(data, data->commands);
-	printf_cmd(data->commands);
+	// printf_cmd(data->commands);
 	number_of_commands(data);
 	real_exec(data);
 }
