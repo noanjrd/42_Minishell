@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 12:53:57 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/28 16:12:05 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	ft_sigitn(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		// rl_redisplay();
+		exit_code_signal = 130;
 	}
 	return ;
 }

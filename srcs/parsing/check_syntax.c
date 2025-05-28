@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	ft_check_syntax_errors(t_data *data, t_token *token)
+int	ft_check_syntax_errors(t_token *token)
 {
 	t_token	*curr;
 
@@ -35,6 +35,5 @@ int	ft_check_syntax_errors(t_data *data, t_token *token)
 			return (printf("syntax error near unexpected token ´||'\n"), 1);
 		curr = curr->next;
 	}
-	data->exit_code = 2;
 	return (0);
 }

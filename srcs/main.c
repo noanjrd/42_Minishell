@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 14:49:19 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/28 16:11:08 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,11 @@ void	ft_readline(t_data *data)
 	{
 		signal(SIGINT ,ft_sigitn);
 		signal(SIGQUIT ,ft_sigitn);
+		if (exit_code_signal != 0)
+		{
+			data->exit_code = exit_code_signal;
+			exit_code_signal = 0;
+		}
 		tmp = NULL;
 		if (data->env)
 			tmp = ft_join(COLOR_PINK,ft_search_value(data->env, "PWD"));
@@ -100,8 +105,9 @@ void	ft_readline(t_data *data)
 		add_history(data->line);
 		data->tokens = lexer(data->line);
 		free(data->line);
-		if (ft_check_syntax_errors(data, data->tokens))
+		if (ft_check_syntax_errors(data->tokens))
 		{
+			data->exit_code = 2;
 			if (data->tokens)
 			{
 				free_token_list(data->tokens);
@@ -126,6 +132,8 @@ void	ft_readline(t_data *data)
 	}
 }
 
+int exit_code_signal = 0;
+
 int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
@@ -136,13 +144,13 @@ int main(int argc, char **argv, char **envp)
 	data = malloc(sizeof(t_data));
 	env = malloc(sizeof(t_env));
 	init_data(data, env, envp);
-	// ft_readline(data);
+	ft_readline(data);
 
 	if (argc >= 2)
 	{
 		data->tokens = lexer(argv[1]);
 		// print_tokens(data->tokens);
-		if (ft_check_syntax_errors(data, data->tokens) == 0)
+		if (ft_check_syntax_errors(data->tokens) == 0)
 		{
 			data->tokens = expander(data->tokens, data);
 			if (data->tokens)
