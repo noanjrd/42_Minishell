@@ -82,7 +82,6 @@ t_token	*lexer(char *line)
 			token = create_token_word(line, &i);
 		if (!token)
 		{
-			// printf("Lexer error near '%.10s'\n", line + i);
 			free_token_list(head);
 			return (NULL);
 		}

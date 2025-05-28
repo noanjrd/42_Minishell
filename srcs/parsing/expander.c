@@ -12,27 +12,54 @@
 
 #include "../../includes/minishell.h"
 
-int	get_token_lenght(char *str, t_env *env)
+static int	handle_exit_code(char **str, int exit_code, int *len)
 {
-	int		i;
-	int		len;
+	char	*exit_code_str;
+
+	exit_code_str = ft_itoa(exit_code);
+	*len += ft_strlen(exit_code_str);
+	free(exit_code_str);
+	(*str)++;
+	return (0);
+}
+
+static int	handle_env_var(char **str, t_env *env, int *len)
+{
+	char	*name;
 	char	*value;
-	char	name[128];
+	int		i;
+
+	name = malloc(ft_strlen(*str) + 1);
+	if (!name)
+		return (1);
+	i = 0;
+	while (ft_isalnum(**str) || **str == '_')
+		name[i++] = *(*str)++;
+	name[i] = '\0';
+	value = ft_copy(ft_search_value(env, name));
+	if (value)
+		*len += ft_strlen(value);
+	free(value);
+	free(name);
+	return (0);
+}
+
+int	get_token_length(char *str, t_env *env, int exit_code)
+{
+	int		len;
 
 	len = 0;
 	while (*str)
 	{
-		i = 0;
 		if (*str == '$')
 		{
 			str++;
-			while (ft_isalnum(*str) || *str == '_')
-				name[i++] = *str++;
-			name[i] = '\0';
-			value = ft_copy(ft_search_value(env, name));
-			if (value)
-				len = len + ft_strlen(value);
-			free (value);
+			if (*str == '?')
+				handle_exit_code(&str, exit_code, &len);
+			else if (*str == '\0' || *str == ' ' || !ft_isalnum(*str))
+				len++;
+			else
+				handle_env_var(&str, env, &len);
 		}
 		else
 		{
@@ -43,11 +70,11 @@ int	get_token_lenght(char *str, t_env *env)
 	return (len);
 }
 
-char	*ft_malloc_final_buffer(char *str, t_env *env)
+char	*ft_malloc_final_buffer(char *str, t_env *env, int exit_code)
 {
 	char	*final_buffer;
 
-	final_buffer = malloc (get_token_lenght(str, env) + 1);
+	final_buffer = malloc (get_token_length(str, env, exit_code) + 1);
 	if (!final_buffer)
 		return (NULL);
 	return (final_buffer);
@@ -115,7 +142,7 @@ char	*new_token_value(char *str, t_data	*data)
 	char	*final_buffer;
 	int		j;
 
-	final_buffer = ft_malloc_final_buffer(str, data->env);
+	final_buffer = ft_malloc_final_buffer(str, data->env, data->exit_code);
 	if (!final_buffer)
 		return (NULL);
 	src = (t_str){str, 0};

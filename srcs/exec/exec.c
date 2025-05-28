@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 10:57:15 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/27 16:26:26 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 				// else if (access(cmd->value, F_OK) == 0)
 				// 	write(2," Is a directory\n",16);
 
-				
+
 				// printf("exit code : %d\n", data->exit_code);
 			}
 			else if (cmd->fdin != -1 && cmd->fdout != -1)
@@ -136,7 +136,7 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 	}
 	// if (cmd->fdin)
 	// 	close(cmd->fdin);
-	
+
 	cmd_temp = cmd;
 	// printf("temp : %s\n", cmd_temp->value);
 	while (cmd->next && cmd->next->type == IN_OUT_FILENAME && cmd->next->end == 0 && cmd->next->redirect_in_before == 1)
@@ -181,7 +181,7 @@ void wait_p(t_data *data)
 		if (cpy_cmd->type !=IN_OUT_FILENAME)
 		{
 			// printf("wait %s\n", cpy_cmd->value);
-			waitpid(cpy_cmd->pid, &status, 0); 
+			waitpid(cpy_cmd->pid, &status, 0);
 			if (((cpy_cmd->check_fdout != -1) && (cpy_cmd->check_fdin != -1)) && WIFEXITED(status))
 				data->exit_code = WEXITSTATUS(status);
 			j++;
@@ -216,7 +216,7 @@ void	check_fdout_between(t_data *data, t_cmd *cmd)
 void	ft_check_extra(t_data *data, t_cmd *cmd)
 {
 	int fd;
-	if (cmd->first == 1 && cmd->next == NULL 
+	if (cmd->first == 1 && cmd->next == NULL
 		&& (cmd->value[0] == '.' || cmd->value[0] == '/' ))
 	{
 		// printf("here\n");
