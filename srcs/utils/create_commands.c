@@ -6,11 +6,62 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/26 10:54:02 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/29 13:29:34 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+
+void	rest_ofthesteps(t_token *token, t_cmd *cmd)
+{
+	t_token *cpy_token;
+	t_cmd	*cpy_cmd;
+
+	cpy_cmd = cmd;
+	cpy_token = token;
+	while (cpy_token)
+	{
+		if (cpy_token->type == HERE_DOC)
+		{
+			cpy_cmd->here_doc = 1;
+		}
+		if (cpy_cmd->next 
+			&& ft_strcmp(cpy_token->value, cpy_cmd->value) == 0)
+		{
+			cpy_cmd = cpy_cmd->next;
+		}
+		cpy_token = cpy_token->next;
+	}
+	rest_ofthesteps_two(token, cmd);
+	cpy_cmd = cmd;
+	cpy_token = token;
+	return ;
+}
+
+
+void	rest_ofthesteps_minus_one(t_data *data)
+{
+	t_token	*cpy_token;
+	t_cmd	*cpy_cmd;
+
+	cpy_token = data->tokens;
+	cpy_cmd = data->commands;
+	while (cpy_token)
+	{
+		if (cpy_token && (cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND))
+		{
+			cpy_cmd->type = IN_OUT_FILENAME;
+			cpy_cmd->red_out = 1;
+			if (cpy_token->type == REDIRECT_APPEND)
+				cpy_cmd->red_append = 1;
+		}
+		if (ft_strcmp(cpy_token->value, cpy_cmd->value) == 0)
+			cpy_cmd = cpy_cmd->next;
+		cpy_token = cpy_token->next;
+	}
+	rest_ofthesteps(data->tokens, data->commands);
+}
 
 void	assign_value(t_cmd *new_cmd, t_token *cpy_token, int i)
 {
@@ -44,52 +95,27 @@ void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd)
 {
 	t_token *cpy_token;
 	char *fdin;
-	int appnd;
-	int out;
-	int i;
 
-	i = 0;
-	out = 0;
 	fdin = NULL;
-	appnd = 0;
 	cpy_token = data->tokens;
 	while (cpy_token)
 	{
-		if (cpy_token && (cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND))
-		{
-			out = 1;
-			if (cpy_token->type == REDIRECT_APPEND)
-				appnd = 1;
-		}
-			if (cpy_token->type == WORD || cpy_token->type == SINGLE_QUOTES || cpy_token->type == DOUBLE_QUOTES)
+		if (cpy_token->type == WORD || cpy_token->type == SINGLE_QUOTES || cpy_token->type == DOUBLE_QUOTES)
 		{
 			new_cmd = malloc(sizeof(t_cmd));
 			if (!new_cmd)
 				return;
-			assign_value(new_cmd, cpy_token, i);
-			if (out == 1)
-			{
-				if (appnd == 1)
-					new_cmd->red_append = 1;
-				appnd = 0;
-				new_cmd->type = IN_OUT_FILENAME;
-				new_cmd->red_out = 1;
-				out = 0;
-			}
+			assign_value(new_cmd, cpy_token, cpy_token->index);
 			if (!head)
 				head = new_cmd;
 			else
 				current->next = new_cmd;
 			current = new_cmd;
 		}
-		if (cpy_token->next && (cpy_token->next->type == REDIRECT_APPEND || cpy_token->next->type == REDIRECT_OUT))
-		{
-			if (current)
+		if (current && cpy_token->next && (cpy_token->next->type == REDIRECT_APPEND || cpy_token->next->type == REDIRECT_OUT))
 				current->outfile = ft_copy(cpy_token->next->next->value);
-		}
-		i++;
 		cpy_token = cpy_token->next;
 	}
 	data->commands = head;
-	rest_ofthesteps(data->tokens, head);
+	rest_ofthesteps_minus_one(data);
 }

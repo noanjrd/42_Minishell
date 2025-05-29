@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:14:21 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 12:04:02 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/29 13:42:05 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,16 @@ void	reach_furthest_fd(t_cmd *cmd, t_token *token)
 
 	cpy_token = token;
 	cpy_cmd = cmd;
-	// printf("!!!!!%s\n", cmd->value);
-	while ((cpy_cmd->next && cpy_cmd->next->next && cpy_cmd->next->deleted == 1) || (cpy_cmd && cpy_cmd->check_fdin != -1 
+	while ((cpy_cmd->next && cpy_cmd->next->next 
+		&& cpy_cmd->next->deleted == 1) || 
+		(cpy_cmd && cpy_cmd->check_fdin != -1 
 		&& cpy_cmd->check_fdout != -1 && (cpy_cmd->outfile 
 		|| (cpy_cmd->next && cpy_cmd->next->redirect_in_before == 1))))
 	{
 		cpy_cmd = cpy_cmd->next;
 	}
-	// printf(",,,,,%s, %d\n", cpy_cmd->value, cpy_cmd->check_fdout);
 	if (cpy_cmd->red_out == 1 && cpy_cmd->check_fdout >= 0)
 	{
-		// printf("%s\n", cmd->value);
 		if (cpy_cmd->red_append == 1)
 			cmd->fdout = open(cpy_cmd->value,O_WRONLY | O_CREAT | O_APPEND, 0700);
 		if (cpy_cmd->red_append == 0)
@@ -53,10 +52,8 @@ void	open_fdout(t_token *token, t_cmd *cmd)
 	{
 		if ((cpy_cmd->outfile && cpy_cmd->redirect_in_before == 0) || (cpy_cmd->next && cpy_cmd->next->redirect_in_before == 1))
 		{
-			// printf("ddddoutcmd: %s\n", cpy_cmd->value);
 			if (cpy_cmd->type == WORD )
 			{
-				// printf("outcmd: %s\n", cpy_cmd->value);
 				reach_furthest_fd(cpy_cmd, cpy_token);
 				cpy_cmd = cpy_cmd->next;
 				cpy_token = cpy_token->next;

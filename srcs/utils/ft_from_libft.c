@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:28:00 by njard             #+#    #+#             */
-/*   Updated: 2025/05/25 14:35:05 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/29 13:57:09 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	ft_isalnum(int c)
 		return (1);
 	return (0);
 }
+
 int	ft_strlen(char *string)
 {
 	int i;

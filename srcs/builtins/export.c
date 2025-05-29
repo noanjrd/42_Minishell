@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 10:28:51 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/29 13:34:17 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ void ft_export(t_data *data, t_env *env, t_token *token)
 	{
 		write(2," not a valid identifier\n",24);
 		data->exit_code = 1;
-		
 		return ;
 	}
 	while (token_copy && (token_copy->type == WORD 

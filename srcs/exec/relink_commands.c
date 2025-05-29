@@ -1,58 +1,56 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   relink_commands.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 14:22:15 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 11:48:10 by njard            ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   relink_commands.c								  :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: njard <njard@student.42.fr>				+#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2025/05/12 14:22:15 by njard			 #+#	#+#			 */
+/*   Updated: 2025/05/29 11:19:29 by njard			###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void printf_cmd2(t_cmd *cmd)
-{
-	t_cmd *current = cmd;
-	int i = 0;
+// void printf_cmd2(t_cmd *cmd)
+// {
+// 	t_cmd *current = cmd;
+// 	int i = 0;
 
-	while (current)
-	{
-		i = 0;
-		printf("val=%s, in=%s, out=%s, fdin=%d, fdout=%d, i=%d, here=%d, appd=%d, path=%s , deleted=%d ",
-			current->value,
-			current->infile ? current->infile : "NULL",
-			current->outfile ? current->outfile : "NULL",
-			current->fdin,
-			current->fdout,
-			current->index,
-			current->here_doc,
-			current->red_append,
-		current->path,
-	current->deleted);
-		printf("tab = ");
-		if (current->tab)
-		{
-			while (current->tab && current->tab[i])
-			{
-				printf("| %s", current->tab[i]);
-				i++;
-			}
-		}
-		printf("\n");
-		current = current->next;
-	}
-	printf("--------------------------------------------\n");
-	return ;
-}
+// 	while (current)
+// 	{
+// 		i = 0;
+// 		printf("val=%s, in=%s, out=%s, fdin=%d, fdout=%d, i=%d, here=%d, appd=%d, path=%s , deleted=%d ",
+// 			current->value,
+// 			current->infile ? current->infile : "NULL",
+// 			current->outfile ? current->outfile : "NULL",
+// 			current->fdin,
+// 			current->fdout,
+// 			current->index,
+// 			current->here_doc,
+// 			current->red_append,
+// 		current->path,
+// 	current->deleted);
+// 		printf("tab = ");
+// 		if (current->tab)
+// 		{
+// 			while (current->tab && current->tab[i])
+// 			{
+// 				printf("| %s", current->tab[i]);
+// 				i++;
+// 			}
+// 		}
+// 		printf("\n");
+// 		current = current->next;
+// 	}
+// 	printf("--------------------------------------------\n");
+// 	return ;
+// }
 
 void	put_tab(t_cmd *cmd, t_cmd *cpy_cmd)
 {
 	t_cmd	*temp;
 
-	// if (cpy_cmd->value[0] == '$')
-	// 	return ;
 	temp = NULL;
 	cmd->red_append = cpy_cmd->red_append;
 	cmd->fdout = cpy_cmd->fdout;
@@ -76,8 +74,6 @@ void	put_tab_recompose(t_cmd *cmd, t_cmd *cpy_cmd)
 {
 	t_cmd	*temp;
 
-	// if (cpy_cmd->value[0] == '$')
-	// 	return ;
 	temp = NULL;
 	cmd->red_append = cpy_cmd->red_append;
 	if (cpy_cmd->outfile)
@@ -87,7 +83,6 @@ void	put_tab_recompose(t_cmd *cmd, t_cmd *cpy_cmd)
 	}
 	cmd->fdout = cpy_cmd->fdout;
 	cmd->next->end = 1;
-	// cmd->outfile = ft_copy(cpy_cmd->outfile);
 	cmd->tab = ft_join_tab(cmd->tab, cmd->value, cpy_cmd->value);
 	cmd->value = ft_join_free(cmd->value, cpy_cmd->value);
 	free(cmd->infile);
@@ -165,26 +160,24 @@ void ft_check_echo_plus(t_token *token, t_cmd *cmd, t_token *node_to_delete)
 					}
 					put_tab_recompose(find_cmd_index(temp, cmd), find_cmd_index(cpy_token, cmd));
 					node_to_delete = temp2->next;
-                    while (node_to_delete && node_to_delete != cpy_token)
-                    {
-                        t_token *next_to_delete = node_to_delete->next;
-                        ft_free_single_token(node_to_delete);
-                        node_to_delete = next_to_delete;
-                    }
+					while (node_to_delete && node_to_delete != cpy_token)
+					{
+						t_token *next_to_delete = node_to_delete->next;
+						ft_free_single_token(node_to_delete);
+						node_to_delete = next_to_delete;
+					}
 					temp2->next = cpy_token; 
 
 					temp2 = temp2->next; 
-                    if (temp2)
-                        cpy_token = temp2->next;
-                    else
-                        cpy_token = NULL; 
+					if (temp2)
+						cpy_token = temp2->next;
+					else
+						cpy_token = NULL; 
 				}
 			}
 		}
-		else 
-		{
+		else
 			cpy_token = cpy_token->next; 
-		}
 	}
 }
 
@@ -200,7 +193,6 @@ void	rest_tab(t_token *token, t_cmd *cpy_cmd)
 		cmd = cmd->next;
 	}
 	ft_check_echo_plus(token, cpy_cmd, NULL);
-	// printf_cmd2(cpy_cmd);
 	return ;
 }
 
@@ -228,7 +220,7 @@ void	relink_commands(t_token *cpy_token, t_cmd *cpy_cmd)
 			put_tab(cmd, cmd->next);
 			// token = token->next;
 		}
-		if (token && token->next && cmd &&cmd->next && (ft_check_type(token) == 1))
+		if (token && token->next && cmd && cmd->next && (ft_check_type(token) == 1))
 		{
 			while (token->next && cmd->next && token->next->index != cmd->index)
 				cmd = cmd->next;
@@ -248,3 +240,7 @@ void	relink_commands(t_token *cpy_token, t_cmd *cpy_cmd)
 	}
 	rest_tab(cpy_token, cpy_cmd);
 }
+
+
+// regarder le cas '< out ls | < infile cat -e'
+//cat -e est decolé

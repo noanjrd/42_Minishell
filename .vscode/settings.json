@@ -19,7 +19,8 @@
         "string": "c",
         "string_view": "c",
         "span": "c",
-        "signal.h": "c"
+        "signal.h": "c",
+        "stat.h": "c"
     },
     "makefile.configureOnOpen": false
 }

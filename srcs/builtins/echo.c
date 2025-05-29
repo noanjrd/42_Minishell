@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 11:25:03 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 12:31:09 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/29 13:33:57 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ t_token	*ft_check_n(t_token *copy_token, int *n)
 	int i;
 
 	i = 0;
-	while (copy_token && (copy_token->type ==  WORD || copy_token->type ==  SINGLE_QUOTES || copy_token->type ==  DOUBLE_QUOTES))
+	while (copy_token && (copy_token->type ==  WORD 
+		|| copy_token->type ==  SINGLE_QUOTES 
+		|| copy_token->type ==  DOUBLE_QUOTES))
 	{
 		if (copy_token->value[0] == '-' && copy_token->value[1] == 'n')
 		{
@@ -70,10 +72,8 @@ void	ft_echo(t_data *data, t_token *token)
 	}
 	copy_token = copy_token->next;
 	copy_token = ft_check_n(copy_token, &n);
-	// printf("## %s\n", copy_token->value);
 	while (copy_token && (copy_token->type == WORD || copy_token->type == SINGLE_QUOTES || copy_token->type == DOUBLE_QUOTES))
 	{
-		// printf("## %s\n", copy_token->value);
 		if (copy_token->value)
 			printf("%s", copy_token->value);
 		if (ft_condition(copy_token) == 1)

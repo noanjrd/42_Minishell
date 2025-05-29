@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 16:11:08 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/29 15:42:54 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 // 	t_cmd *current = cmd;
 // 	while (current)
 // 	{
-// 		printf("value = %s, infile = %s, outfile = %s, type=%d,here_doc=%d, red_in_avant=%d, red=%d, appnd=%d, end=%d, first=%d, \n",
+// 		printf("value = %s, index=%d infile = %s, outfile = %s, type=%d,here_doc=%d, red_in_avant=%d, red=%d, appnd=%d, end=%d, first=%d, \n",
 // 			current->value,
+// 			current->index,
 // 			current->infile ? current->infile : "NULL",
 // 			current->outfile ? current->outfile : "NULL",
 // 			current->type,
@@ -60,21 +61,10 @@ static void	ft_sigitn(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		exit_code_signal = 130;
 	}
 	return ;
 }
-
-// void	ft_signals(void)
-// {
-// 	struct sigaction sa;
-
-// 	sa.sa_handler = ft_handler;
-// 	sigemptyset(&sa.sa_mask);
-// 	sa.sa_flags = SA_RESTART;
-
-// 	sigaction(SIGINT, &sa, NULL);
-// 	sigaction(SIGQUIT, &(struct sigaction){.sa_handler = SIG_IGN}, NULL);
-// }
 
 void	ft_readline(t_data *data)
 {
@@ -85,11 +75,6 @@ void	ft_readline(t_data *data)
 	{
 		signal(SIGINT ,ft_sigitn);
 		signal(SIGQUIT ,ft_sigitn);
-		if (exit_code_signal != 0)
-		{
-			data->exit_code = exit_code_signal;
-			exit_code_signal = 0;
-		}
 		tmp = NULL;
 		if (data->env)
 			tmp = ft_join(COLOR_PINK,ft_search_value(data->env, "PWD"));
@@ -101,8 +86,16 @@ void	ft_readline(t_data *data)
 			free(pwd);
 			return ;
 		}
+		if (exit_code_signal != 0)
+		{
+			data->exit_code = exit_code_signal;
+			exit_code_signal = 0;
+		}
 		free(pwd);
-		add_history(data->line);
+		if (data->line && *data->line) // Check if data->line is not NULL and not an empty string
+		{
+			add_history(data->line);
+		}
 		data->tokens = lexer(data->line);
 		free(data->line);
 		if (ft_check_syntax_errors(data->tokens))
@@ -120,7 +113,9 @@ void	ft_readline(t_data *data)
 			merge_tokens(&data->tokens);
 		reassign_index(data->tokens);
 		// print_tokens(data->tokens);
+
 		make_commands(data, NULL, NULL, NULL);
+		// printf_cmd(data->commands);
 		exec(data);
 		if (data->tokens)
 		{
@@ -136,87 +131,71 @@ int exit_code_signal = 0;
 
 int main(int argc, char **argv, char **envp)
 {
-	(void)argc;
-	(void)argv;
 	t_env	*env;
 	t_data *data;
+	int exit_c;
 
+	(void)argv;
+	(void)argc;
+	exit_c = 0;
 	data = malloc(sizeof(t_data));
 	env = malloc(sizeof(t_env));
 	init_data(data, env, envp);
 	ft_readline(data);
 
-	if (argc >= 2)
-	{
-		data->tokens = lexer(argv[1]);
-		// print_tokens(data->tokens);
-		if (ft_check_syntax_errors(data->tokens) == 0)
-		{
-			data->tokens = expander(data->tokens, data);
-			if (data->tokens)
-				merge_tokens(&data->tokens);
-			// print_tokens(data->tokens);
-			reassign_index(data->tokens);
-			make_commands(data, NULL, NULL, NULL);
-			// printf_cmd(data->commands);
-			exec(data);
-			if (data->tokens)
-			{
-				free_token_list(data->tokens);
-				data->tokens = NULL;
-			}
-			free_cmd(data->commands);
-			free_readline_data(data);
-		}
-		else
-		{
-			if (data->tokens)
-			{
-				free_token_list(data->tokens);
-				data->tokens = NULL;
-			}
-		}
-	}
-	if (argc >= 3)
-	{
-		data->tokens = lexer(argv[2]);
-		// print_tokens(data->tokens);
-		data->tokens = expander(data->tokens, data);
-		// print_tokens(data->tokens);
-		if (data->tokens)
-			merge_tokens(&data->tokens);
-		// print_tokens(data->tokens);
-		reassign_index(data->tokens);
-		make_commands(data, NULL, NULL, NULL);
-		// printf_cmd(data->commands);
-		exec(data);
-		if (data->tokens)
-		{
-			free_token_list(data->tokens);
-			data->tokens = NULL;
-		}
-		free_cmd(data->commands);
-		free_readline_data(data);
-	}
-	// if (argc >= 4)
+	// if (argc >= 2)
 	// {
-	// 	data->tokens = lexer(argv[3]);
-	// 	make_commands(data,NULL, NULL, NULL);
+	// 	data->tokens = lexer(argv[1]);
+	// 	// print_tokens(data->tokens);
+	// 	if (ft_check_syntax_errors(data->tokens) == 0)
+	// 	{
+	// 		data->tokens = expander(data->tokens, data);
+	// 		if (data->tokens)
+	// 			merge_tokens(&data->tokens);
+	// 		// print_tokens(data->tokens);
+	// 		reassign_index(data->tokens);
+	// 		make_commands(data, NULL, NULL, NULL);
+	// 		// printf_cmd(data->commands);
+	// 		exec(data);
+	// 		if (data->tokens)
+	// 		{
+	// 			free_token_list(data->tokens);
+	// 			data->tokens = NULL;
+	// 		}
+	// 		free_cmd(data->commands);
+	// 		free_readline_data(data);
+	// 	}
+	// 	else
+	// 	{
+	// 		if (data->tokens)
+	// 		{
+	// 			free_token_list(data->tokens);
+	// 			data->tokens = NULL;
+	// 		}
+	// 	}
+	// }
+	// if (argc >= 3)
+	// {
+	// 	data->tokens = lexer(argv[2]);
+	// 	// print_tokens(data->tokens);
+	// 	data->tokens = expander(data->tokens, data);
+	// 	// print_tokens(data->tokens);
+	// 	if (data->tokens)
+	// 		merge_tokens(&data->tokens);
+	// 	// print_tokens(data->tokens);
+	// 	reassign_index(data->tokens);
+	// 	make_commands(data, NULL, NULL, NULL);
 	// 	// printf_cmd(data->commands);
 	// 	exec(data);
+	// 	if (data->tokens)
+	// 	{
+	// 		free_token_list(data->tokens);
+	// 		data->tokens = NULL;
+	// 	}
+	// 	free_cmd(data->commands);
 	// 	free_readline_data(data);
 	// }
-	// if (argc >= 5)
-	// {
-	// 	data->tokens = lexer(argv[4]);
-	// 	make_commands(data,NULL, NULL, NULL);
-	// 	// printf_cmd(data->commands);
-	// 	exec(data);
-	// }
+	exit_c = data->exit_code;
 	free_data(data);
-	// free_token_list(data->tokens);
-	// free_env(env);
-	return(0);
+	return(exit_c);
 }
-
-// exit sans rien apres exit avec code 127

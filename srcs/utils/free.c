@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:39:25 by njard             #+#    #+#             */
-/*   Updated: 2025/05/27 18:34:27 by naankour         ###   ########.fr       */
+/*   Updated: 2025/05/29 13:57:02 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void free_cmd(t_cmd *cmd)
 	temp = cmd;
 	while(temp)
 	{
-		i = 0;
 		temp = cmd->next;
 		free(cmd->value);
 		free(cmd->infile);
@@ -52,6 +51,7 @@ void free_cmd(t_cmd *cmd)
 			close(cmd->fdout);
 		if (cmd->tab)
 		{
+			i = 0;
 			while (cmd->tab[i])
 			{
 				free(cmd->tab[i]);
@@ -70,7 +70,6 @@ void free_data(t_data *data)
 	int i;
 
 	i = 0;
-	// printf("free\n");
 	if (data->paths_system)
 	{
 		while (data->paths_system[i])
