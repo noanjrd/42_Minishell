@@ -72,9 +72,6 @@ void	put_tab(t_cmd *cmd, t_cmd *cpy_cmd)
 
 void	put_tab_recompose(t_cmd *cmd, t_cmd *cpy_cmd)
 {
-	t_cmd	*temp;
-
-	temp = NULL;
 	cmd->red_append = cpy_cmd->red_append;
 	if (cpy_cmd->outfile)
 	{
@@ -220,19 +217,44 @@ void	relink_commands(t_token *cpy_token, t_cmd *cpy_cmd)
 			put_tab(cmd, cmd->next);
 			// token = token->next;
 		}
+		// if (token->next && cmd->next && ft_strcmp(token->value, cmd->value) == 0)
+		// {
+		// 	while (token->next && ft_check_type(token) != 0)
+		// 	{
+		// 		token = token->next;
+		// 		// if (token->type == REDIRECT_OUT || token->type == REDIRECT_APPEND)
+		// 		// 	cmd = cmd->next;
+		// 	}
+		// 	// token = token->next;
+		// 	cmd = cmd->next;
+		// }
+
 		if (token && token->next && cmd && cmd->next && (ft_check_type(token) == 1))
 		{
-			while (token->next && cmd->next && token->next->index != cmd->index)
-				cmd = cmd->next;
-			if (token->next->next && (token->next->type == REDIRECT_OUT || token->next->type == REDIRECT_APPEND))
+			// printf("        while %s, %s\n", token->value, cmd->value );
+			while (token->next && ft_check_type(token) != 0)
 			{
-				cmd = cmd->next;
-				token = token->next->next;
-				// continue;
+				token = token->next;
+				if (token->type == REDIRECT_OUT || token->type == REDIRECT_APPEND || token->type == REDIRECT_IN ||  token->type == HERE_DOC)
+				{
+					cmd = cmd->next;
+				}
 			}
-			// printf("nddd %s\n", cmd->value);
-			// token = token->next;
-			// continue;
+			// printf("        while suite %s, %s\n", token->value, cmd->value );
+
+			// while (token->next && cmd->next && token->next->index != cmd->index)
+			if (token->index != cmd->index)
+				cmd = cmd->next;
+			continue;
+		}
+		if (cmd->next && ft_strcmp(token->value, cmd->value) == 0)
+		{
+			cmd = cmd->next;
+			while (token->next && token->index != cmd->index)
+			{
+				token = token->next;
+			}
+			continue;
 		}
 		// if (cmd->type != IN_OUT_FILENAME || (cmd->next && cmd->next->type == IN_OUT_FILENAME))
 		token = token->next;
@@ -242,5 +264,8 @@ void	relink_commands(t_token *cpy_token, t_cmd *cpy_cmd)
 }
 
 
-// regarder le cas '< out ls | < infile cat -e'
+// < infile ls | < infile cat -e
 //cat -e est decolé
+// echo hi >>out >outfile01 | echo bye
+// ls <123 <456 hi | echo 42
+// echo hi | >outfile echo bye >infile

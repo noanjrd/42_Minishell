@@ -2,7 +2,7 @@
 
 NAME = minishell
 CC = cc -Wall -Wextra -Werror
-FLAGS = -g3 -fsanitize=address,leak
+FLAGS = -g3 #-fsanitize=address,leak
 LIBS = -lreadline
 RM = rm -rf
 

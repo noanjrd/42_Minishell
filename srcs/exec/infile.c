@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:18:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/29 13:32:02 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/31 14:33:44 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	stop_all_out_before_after(t_cmd *cmd, t_cmd *target)
 	int fd;
 	t_cmd *cpy_cmd;
 
+	(void)fd;
 	cpy_cmd = cmd;
 	target->check_fdin = -1;
 	target->check_fdout = -1;
@@ -39,11 +40,9 @@ void	stop_all_out_before_after(t_cmd *cmd, t_cmd *target)
 
 void	fd_error(t_data *data, int fd)
 {
-	t_token *cpy_token;
 	t_cmd *cpy_cmd;
 
 	cpy_cmd = data->commands;
-	cpy_token = data->tokens;
 	while (cpy_cmd)
 	{
 		if (cpy_cmd->type == IN_OUT_FILENAME 

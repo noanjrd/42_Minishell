@@ -6,46 +6,46 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/29 15:43:10 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/31 15:45:03 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// void printf_cmd(t_cmd *cmd)
-// {
-// 	t_cmd *current = cmd;
-// 	int i = 0;
+void printf_cmd(t_cmd *cmd)
+{
+	t_cmd *current = cmd;
+	int i = 0;
 
-// 	while (current)
-// 	{
-// 		i = 0;
-// 		printf("val=%s, in=%s, out=%s, fdin=%d, fdout=%d, i=%d, here=%d, appd=%d, path=%s, end=%d, ",
-// 			current->value,
-// 			current->infile ? current->infile : "NULL",
-// 			current->outfile ? current->outfile : "NULL",
-// 			current->fdin,
-// 			current->fdout,
-// 			current->index,
-// 			current->here_doc,
-// 			current->red_append,
-// 		current->path,
-// 	current->end);
-// 		printf("tab = ");
-// 		if (current->tab)
-// 		{
-// 			while (current->tab && current->tab[i])
-// 			{
-// 				printf("| %s", current->tab[i]);
-// 				i++;
-// 			}
-// 		}
-// 		printf("\n");
-// 		current = current->next;
-// 	}
-// 	printf("--------------------------------------------\n");
-// 	return ;
-// }
+	while (current)
+	{
+		i = 0;
+		printf("val=%s, in=%s, out=%s, fdin=%d, fdout=%d, i=%d, here=%d, appd=%d, path=%s, end=%d, ",
+			current->value,
+			current->infile ? current->infile : "NULL",
+			current->outfile ? current->outfile : "NULL",
+			current->fdin,
+			current->fdout,
+			current->index,
+			current->here_doc,
+			current->red_append,
+		current->path,
+	current->end);
+		printf("tab = ");
+		if (current->tab)
+		{
+			while (current->tab && current->tab[i])
+			{
+				printf("| %s", current->tab[i]);
+				i++;
+			}
+		}
+		printf("\n");
+		current = current->next;
+	}
+	printf("--------------------------------------------\n");
+	return ;
+}
 
 void	number_of_commands(t_data *data)
 {
@@ -100,11 +100,8 @@ void	exec_fdin(t_data *data)
 
 void	exec_fdout(t_data *data)
 {
-	t_cmd *cpy_cmd;
-
 	fd_error(data, 0);
 	open_fdout(data->tokens, data->commands);
-	cpy_cmd = data->commands;
  	exec_fdin(data);
 }
 

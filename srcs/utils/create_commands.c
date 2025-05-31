@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/29 13:29:34 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/31 14:31:19 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,7 @@ void	assign_value(t_cmd *new_cmd, t_token *cpy_token, int i)
 void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd)
 {
 	t_token *cpy_token;
-	char *fdin;
 
-	fdin = NULL;
 	cpy_token = data->tokens;
 	while (cpy_token)
 	{

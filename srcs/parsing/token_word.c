@@ -12,8 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-int index_t = 0;
-
 int	is_space(char c)
 {
 	if (c == ' ')
@@ -23,9 +21,6 @@ int	is_space(char c)
 
 int	is_symbol(char c)
 {
-	int	i;
-
-	i = 0;
 	if (c == '<' || c == '>' || c == '|')
 		return (1);
 	return (0);

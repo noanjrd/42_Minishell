@@ -6,18 +6,16 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:14:21 by njard             #+#    #+#             */
-/*   Updated: 2025/05/29 13:42:05 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/31 14:34:36 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	reach_furthest_fd(t_cmd *cmd, t_token *token)
+void	reach_furthest_fd(t_cmd *cmd)
 {
-	t_token *cpy_token;
 	t_cmd *cpy_cmd;
 
-	cpy_token = token;
 	cpy_cmd = cmd;
 	while ((cpy_cmd->next && cpy_cmd->next->next 
 		&& cpy_cmd->next->deleted == 1) || 
@@ -54,7 +52,7 @@ void	open_fdout(t_token *token, t_cmd *cmd)
 		{
 			if (cpy_cmd->type == WORD )
 			{
-				reach_furthest_fd(cpy_cmd, cpy_token);
+				reach_furthest_fd(cpy_cmd);
 				cpy_cmd = cpy_cmd->next;
 				cpy_token = cpy_token->next;
 				continue;
