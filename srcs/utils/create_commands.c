@@ -6,14 +6,14 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/31 14:31:19 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/01 15:53:15 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 
-void	rest_ofthesteps(t_token *token, t_cmd *cmd)
+void	rest_ofthesteps_one(t_token *token, t_cmd *cmd)
 {
 	t_token *cpy_token;
 	t_cmd	*cpy_cmd;
@@ -40,7 +40,7 @@ void	rest_ofthesteps(t_token *token, t_cmd *cmd)
 }
 
 
-void	rest_ofthesteps_minus_one(t_data *data)
+void	rest_ofthesteps_zero(t_data *data)
 {
 	t_token	*cpy_token;
 	t_cmd	*cpy_cmd;
@@ -60,7 +60,7 @@ void	rest_ofthesteps_minus_one(t_data *data)
 			cpy_cmd = cpy_cmd->next;
 		cpy_token = cpy_token->next;
 	}
-	rest_ofthesteps(data->tokens, data->commands);
+	rest_ofthesteps_one(data->tokens, data->commands);
 }
 
 void	assign_value(t_cmd *new_cmd, t_token *cpy_token, int i)
@@ -115,5 +115,5 @@ void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd)
 		cpy_token = cpy_token->next;
 	}
 	data->commands = head;
-	rest_ofthesteps_minus_one(data);
+	rest_ofthesteps_zero(data);
 }

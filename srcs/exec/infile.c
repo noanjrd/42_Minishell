@@ -6,13 +6,13 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:18:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/31 14:33:44 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/01 15:51:32 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	stop_all_out_before_after(t_cmd *cmd, t_cmd *target)
+void	stop_all_out_before_and_after(t_cmd *cmd, t_cmd *target)
 {
 	int fd;
 	t_cmd *cpy_cmd;
@@ -59,7 +59,7 @@ void	fd_error(t_data *data, int fd)
 				perror("Error");
 			}
 			if (fd < 0)
-				stop_all_out_before_after(data->commands,cpy_cmd);
+				stop_all_out_before_and_after(data->commands,cpy_cmd);
 			if (fd >= 0)
 				close(fd);
 		}

@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/29 14:35:44 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/01 15:52:51 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,12 +160,12 @@ void	free_readline_data(t_data *data);
 
 // Execution
 
-void	exec(t_data *data);
+void	exec_prep(t_data *data);
 void	here_doc(t_token *token, t_data *data);
 void	open_fdout(t_token *token, t_cmd *cmd);
 void	relink_commands(t_token *token, t_cmd *cmd);
 void	check_path_exist(t_data *data, t_cmd *cmd);
-void	real_exec(t_data *data);
+void	exec(t_data *data);
 void	fdin_after(t_data *data, t_cmd *cmd);
 void	fdin_before(t_data *data, t_cmd *cmd);
 char	**ft_join_tab(char **tab, char *value, char *value_app);
@@ -183,7 +183,7 @@ t_env	*env_init(t_env *env, char **envp);
 void	initalising_path(t_data *data);
 void	init_data(t_data *data, t_env *env, char **envp);
 void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd);
-void	rest_ofthesteps(t_token *token, t_cmd *cmd);
+void	rest_ofthesteps_one(t_token *token, t_cmd *cmd);
 void	rest_ofthesteps_two(t_token *token, t_cmd *cmd);
 void	rest_ofthesteps_four(t_cmd *cmd, int check);
 

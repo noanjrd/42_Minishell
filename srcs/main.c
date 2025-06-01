@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/29 15:42:54 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/01 15:42:04 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	free_readline_data(t_data *data)
 	data->nb_of_commands = 0;
 	data->tokens = NULL;
 	data->line = NULL;
+	free_cmd(data->commands);
 	data->commands = NULL;
 	return ;
 }
@@ -113,16 +114,14 @@ void	ft_readline(t_data *data)
 			merge_tokens(&data->tokens);
 		reassign_index(data->tokens);
 		// print_tokens(data->tokens);
-
 		make_commands(data, NULL, NULL, NULL);
 		// printf_cmd(data->commands);
-		exec(data);
+		exec_prep(data);
 		if (data->tokens)
 		{
 			free_token_list(data->tokens);
 			data->tokens = NULL;
 		}
-		free_cmd(data->commands);
 		free_readline_data(data);
 	}
 }

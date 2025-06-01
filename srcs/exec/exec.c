@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/05/29 14:35:31 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/01 15:45:01 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void printf_error_beginning(t_data *data, t_cmd *cmd, int error)
 	return ;
 }
 
-void	check_fdout_between(t_data *data, t_cmd *cmd)
+void	check_middle_fdout(t_data *data, t_cmd *cmd)
 {
 	int fd;
 
@@ -75,7 +75,7 @@ void	ft_check_folder_or_file(t_data *data, t_cmd *cmd)
 		else
 		{
 			cmd->path = ft_copy(cmd->value);
-			check_fdout_between(data, cmd);
+			check_middle_fdout(data, cmd);
 		}
 		close (fd);
 	}
@@ -85,7 +85,7 @@ void	ft_check_folder_or_file(t_data *data, t_cmd *cmd)
 	}
 }
 
-void	ft_check_extra(t_data *data, t_cmd *cmd)
+void	ft_check_folder_file(t_data *data, t_cmd *cmd)
 {
 	if (cmd->first == 1 && cmd->next == NULL
 		&& (cmd->value[0] == '.' || cmd->value[0] == '/' ))
@@ -102,10 +102,10 @@ void	ft_check_extra(t_data *data, t_cmd *cmd)
 			return ;
 		}
 	}
-	check_fdout_between(data, cmd);
+	check_middle_fdout(data, cmd);
 }
 
-void	real_exec(t_data *data)
+void	exec(t_data *data)
 {
 	t_cmd	*cpy_cmd;
 	int i;
@@ -116,7 +116,7 @@ void	real_exec(t_data *data)
 	{
 		if (cpy_cmd->type != IN_OUT_FILENAME || cpy_cmd->red_out == 1)
 		{
-			ft_check_extra(data, cpy_cmd);
+			ft_check_folder_file(data, cpy_cmd);
 			i++;
 		}
 		cpy_cmd  = cpy_cmd->next;

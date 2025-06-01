@@ -6,13 +6,13 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 13:14:21 by njard             #+#    #+#             */
-/*   Updated: 2025/05/31 14:34:36 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/01 15:50:57 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	reach_furthest_fd(t_cmd *cmd)
+void	reach_furthest_outfile(t_cmd *cmd)
 {
 	t_cmd *cpy_cmd;
 
@@ -52,7 +52,7 @@ void	open_fdout(t_token *token, t_cmd *cmd)
 		{
 			if (cpy_cmd->type == WORD )
 			{
-				reach_furthest_fd(cpy_cmd);
+				reach_furthest_outfile(cpy_cmd);
 				cpy_cmd = cpy_cmd->next;
 				cpy_token = cpy_token->next;
 				continue;

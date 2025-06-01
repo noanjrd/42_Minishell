@@ -6,39 +6,11 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:23:27 by njard             #+#    #+#             */
-/*   Updated: 2025/05/29 15:15:33 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/01 15:50:28 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-char	*get_stop(char *instru)
-{
-	char *stop;
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while (instru[i] != '<')
-		i++;
-	i += 3;
-	while (instru[i + j])
-	{
-		j++;
-	}
-	stop = malloc((j + 1) * sizeof(char));
-	if (!stop)
-		return (NULL);
-	j = 0;
-	while (instru[j + i])
-	{
-		stop[j] = instru[j + i];
-		j++;
-	}
-	stop[j] = 0;
-	return (stop);
-}
 
 static void	ft_sigitn(int sig)
 {
@@ -72,16 +44,15 @@ static void	ft_sigitn(int sig)
 // 	return  (0);
 // }
 
-void	here_doc_start(char *stop, t_data *data, int tmp)
+void	here_doc_start(char *stop, t_data *data, int tmp, int *fd)
 {
 	char *line;
-	int fd;
 
 	tmp = dup(0);
 	if (data->fd_here_doc > 0)
 		close(data->fd_here_doc);
 	unlink("temp");
-	fd = open("temp", O_RDWR | O_CREAT, 0700);
+	*fd = open("temp", O_RDWR | O_CREAT, 0700);
 	while (1)
 	{
 		line = readline("> ");
@@ -95,18 +66,24 @@ void	here_doc_start(char *stop, t_data *data, int tmp)
 			free(line);
 			break;
 		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
+		write(*fd, line, ft_strlen(line));
+		write(*fd, "\n", 1);
 		free(line);
 	}
-	close(fd);
-	fd = open("temp", O_RDONLY, 0700);
-	data->fd_here_doc = fd;
+	// close(fd);
+	// fd = open("temp", O_RDONLY, 0700);
+	// data->fd_here_doc = fd;
 }
 
 void	here_doc(t_token *token, t_data *data)
 {
+	
+	int fd;
+
 	signal(SIGINT ,ft_sigitn);
-	here_doc_start(token->next->value, data, 0);
+	here_doc_start(token->next->value, data, 0, &fd);
+	close(fd);
+	fd = open("temp", O_RDONLY, 0700);
+	data->fd_here_doc = fd;
 	return ;
 }
