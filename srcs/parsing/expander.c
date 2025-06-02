@@ -53,16 +53,21 @@ int	get_token_length(char *str, t_env *env, int exit_code)
 	{
 		if (*str == '$')
 		{
+			// printf("laaaa\n");
 			str++;
 			if (*str == '?')
 				handle_exit_code(&str, exit_code, &len);
 			else if (*str == '\0' || *str == ' ' || !ft_isalnum(*str))
 				len++;
 			else
+			{
 				handle_env_var(&str, env, &len);
+				// printf("len  = %d\n", len);
+			}
 		}
 		else
 		{
+			// printf("HERE\n");
 			len++;
 			str++;
 		}
@@ -111,6 +116,7 @@ int	ft_var_value(t_str *s, char *final_buffer, int j, t_env *env)
 	k = 0;
 	while (value[k])
 		final_buffer[j++] = value[k++];
+	// printf("lol ; %s\n", value);
 	free(value);
 	return (j);
 }
@@ -126,10 +132,8 @@ int	ft_handle_dollar(t_str *src, char *final_buffer, int j, t_data *data)
 			|| (src->str[src->i + 1] == ' ')
 			|| (!ft_isalnum(src->str[src->i + 1]))))
 		final_buffer[j++] = src->str[src->i++];
-	else if (src->str[src->i] == '$' && ft_isdigit(src->str[src->i + 1]))
-		src->i += 2;
-	else if ((src->str[src->i] == '$' && src->str[src->i + 1] != '$')
-		|| src->str[src->i] == 34)
+	else if (src->str[src->i] == '$' && ((src->str[src->i + 1] != '$')
+		|| src->str[src->i] == 34))
 		j = ft_var_value(src, final_buffer, j, data->env);
 	else
 		final_buffer[j++] = src->str[src->i++];
@@ -145,6 +149,7 @@ char	*new_token_value(char *str, t_data	*data)
 	final_buffer = ft_malloc_final_buffer(str, data->env, data->exit_code);
 	if (!final_buffer)
 		return (NULL);
+	// printf("str : %s\n", str);
 	src = (t_str){str, 0};
 	j = 0;
 	while (str[src.i])

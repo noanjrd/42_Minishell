@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/06/01 15:42:04 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/28 16:56:24 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void	ft_readline(t_data *data)
 			continue;
 		}
 		data->tokens = expander(data->tokens, data);
+		// print_tokens(data->tokens);
 		if (data->tokens)
 			merge_tokens(&data->tokens);
 		reassign_index(data->tokens);
