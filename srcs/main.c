@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 16:56:24 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/02 10:13:07 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	ft_readline(t_data *data)
 		}
 		data->tokens = lexer(data->line);
 		free(data->line);
-		if (ft_check_syntax_errors(data->tokens))
+		if (ft_check_syntax_errors(data, data->tokens))
 		{
 			data->exit_code = 2;
 			if (data->tokens)
