@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 15:28:00 by njard             #+#    #+#             */
-/*   Updated: 2025/05/12 11:50:13 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/29 13:57:28 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ size_t	ft_strlcpy( char *dst, const char *src, size_t size)
 	if (size == 0)
 	{
 		while (src[i] != '\0')
-		{
 			i++;
-		}
 		return (i);
 	}
 	if (size > 0)
@@ -35,9 +33,7 @@ size_t	ft_strlcpy( char *dst, const char *src, size_t size)
 		dst[i] = '\0';
 	}
 	while (src[i] != '\0')
-	{
 		i++;
-	}
 	return (i);
 }
 

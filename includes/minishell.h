@@ -13,7 +13,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-// extern int exit_code;
+extern int exit_code_signal;
 
 #include <unistd.h>
 #include <stdio.h>
@@ -24,6 +24,8 @@
 #include <sys/wait.h>
 #include <limits.h>
 #include <signal.h>
+#include <sys/stat.h>
+#include <sys/sysmacros.h> 
 
 typedef struct	t_env
 {
@@ -158,17 +160,22 @@ void	free_readline_data(t_data *data);
 
 // Execution
 
-void	exec(t_data *data);
+void	exec_prep(t_data *data);
 void	here_doc(t_token *token, t_data *data);
 void	open_fdout(t_token *token, t_cmd *cmd);
 void	relink_commands(t_token *token, t_cmd *cmd);
 void	check_path_exist(t_data *data, t_cmd *cmd);
-void	real_exec(t_data *data);
+void	exec(t_data *data);
 void	fdin_after(t_data *data, t_cmd *cmd);
 void	fdin_before(t_data *data, t_cmd *cmd);
 char	**ft_join_tab(char **tab, char *value, char *value_app);
 char	*ft_join_free(char *s1, char *s2);
 void	fd_error(t_data *data, int fd);
+void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp);
+void	printf_error_beginning(t_data *data, t_cmd *cmd, int error);
+void ft_error_fork(t_data *data);
+void dup_cases(t_cmd *cmd);
+void wait_p(t_data *data);
 
 // Init
 
@@ -176,7 +183,9 @@ t_env	*env_init(t_env *env, char **envp);
 void	initalising_path(t_data *data);
 void	init_data(t_data *data, t_env *env, char **envp);
 void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd);
-void	rest_ofthesteps(t_token *token, t_cmd *cmd);
+void	rest_ofthesteps_one(t_token *token, t_cmd *cmd);
+void	rest_ofthesteps_two(t_token *token, t_cmd *cmd);
+void	rest_ofthesteps_four(t_cmd *cmd, int check);
 
 // PARSING
 
@@ -189,7 +198,7 @@ t_token	*create_token_word(char *line, int *index);
 int		is_space(char c);
 t_token	*create_token(t_token_type type, char *value);
 void	add_token(t_token **head, t_token *new);
-int		ft_check_syntax_errors(t_data *data, t_token *token);
+int		ft_check_syntax_errors(t_token *token);
 void	print_tokens(t_token *head);
 
 // EXPANDER

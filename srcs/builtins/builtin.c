@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:42:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 12:07:12 by njard            ###   ########.fr       */
+/*   Updated: 2025/05/31 14:31:59 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,6 @@ void	go_to_right_builtin(t_data *data, int i)
 
 int	builtin_second_check(char *commands)
 {
-	char *arg;
-
-	arg = NULL;
 	if (ft_strcmp(commands, "export") == 0)
 	{
 		return (2);
@@ -102,14 +99,8 @@ int	builtin_second_check(char *commands)
 
 int	builtin_check(char *commands)
 {
-	char *arg;
-
-	arg = NULL;
-
-	// printf("buiiii '%s'\n", commands);
 	if (ft_strcmp(commands, "echo") == 0)
 	{
-		// printf("echoi\n");
 		return (1);
 	}
 	if (ft_strcmp(commands, "unset") == 0)

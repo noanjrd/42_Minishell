@@ -9,8 +9,10 @@ RM = rm -rf
 SRCS = srcs/main.c\
 	srcs/utils/init.c\
 	srcs/utils/utils.c\
+	srcs/utils/utils2.c\
 	srcs/utils/create_commands.c\
 	srcs/utils/create_commands2.c\
+	srcs/utils/create_commands3.c\
 	srcs/utils/free.c\
 	srcs/utils/ft_from_libft.c\
 	srcs/utils/ft_from_libft2.c\
@@ -27,6 +29,8 @@ SRCS = srcs/main.c\
 	srcs/builtins/export.c\
 	srcs/builtins/exit.c\
 	srcs/exec/exec.c\
+	srcs/exec/exec2.c\
+	srcs/exec/exec3.c\
 	srcs/exec/relink_commands.c\
 	srcs/exec/relink_commands2.c\
 	srcs/exec/relink_commands3.c\

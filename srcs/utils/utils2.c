@@ -1,27 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/04 10:58:07 by njard             #+#    #+#             */
-/*   Updated: 2025/05/29 13:34:01 by njard            ###   ########.fr       */
+/*   Created: 2025/03/27 13:21:11 by njard             #+#    #+#             */
+/*   Updated: 2025/05/29 13:35:51 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	display_env(t_env *env)
+int ft_check_type(t_token *token)
 {
-	t_env *head;
-
-	head = env;
-	while(head)
+	if (token->type == PIPE || token->type == REDIRECT_APPEND 
+		|| token->type == REDIRECT_IN 
+		|| token->type == REDIRECT_OUT || token->type == HERE_DOC)
 	{
-		if (head->value)
-			printf("%s=%s\n", head->name, head->value);
-		head = head->next;
+		return (1);
 	}
-	return ;
+	return (0);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		i++;
+	}
+	write(fd, s, i);
 }
