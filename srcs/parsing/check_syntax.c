@@ -21,16 +21,17 @@ static int	ft_check_redir_errors1(t_data *data, t_token *token)
 	{
 		if (curr->type == HERE_DOC || curr->type == REDIRECT_APPEND)
 		{
-			if (curr->next == NULL || curr->next->type == HERE_DOC || curr->next->type == REDIRECT_APPEND)
+			if (curr->next == NULL || curr->next->type == HERE_DOC
+				|| curr->next->type == REDIRECT_APPEND)
 			{
 				if (curr->next == NULL)
-					printf("minishell: syntax error near unexpected token `newline'\n");
+					printf(NEW_LINE);
 				else if (curr->next->type == HERE_DOC)
-					printf("minishell: syntax error near unexpected token `<<'\n");
+					printf(S_HERE_DOC);
 				else if (curr->next->type == REDIRECT_APPEND)
-					printf("minishell: syntax error near unexpected token `>>'\n");
+					printf(APPEND);
 				else
-					printf("minishell: syntax error near unexpected token `%s'\n", curr->next->value);
+					printf(TOKEN, curr->next->value);
 				data->exit_code = 2;
 				return (1);
 			}
@@ -54,9 +55,9 @@ static int	ft_check_redir_errors2(t_data *data, t_token *token)
 					&& curr->next->type != SINGLE_QUOTES))
 			{
 				if (curr->next == NULL)
-					printf("minishell: syntax error near unexpected token `newline'\n");
+					printf(NEW_LINE);
 				else
-					printf("minishell: syntax error near unexpected token `%s'\n", curr->value);
+					printf(TOKEN, curr->value);
 				data->exit_code = 2;
 				return (1);
 			}
@@ -76,13 +77,13 @@ static int	ft_check_pipe_errors(t_data *data, t_token *token)
 		if ((curr->next && curr->type == PIPE) && curr->next->type == PIPE)
 		{
 			data->exit_code = 2;
-			return (printf("minishell: syntax error near unexpected token `||'\n"), 1);
+			return (printf(DOUBLE_PIPE), 1);
 		}
 		if ((curr == token && curr->type == PIPE)
 			|| (curr->type == PIPE && curr->next == NULL))
 		{
 			data->exit_code = 2;
-			return(printf("minishell: syntax error near unexpected token `|'\n"), 1);
+			return (printf(SINGLE_PIPE), 1);
 		}
 		curr = curr->next;
 	}
@@ -93,9 +94,9 @@ int	ft_check_syntax_errors(t_data *data, t_token *token)
 {
 	if (ft_check_redir_errors1(data, token) == 1)
 		return (1);
-	if (ft_check_redir_errors2(data, token) == 1)
+	else if (ft_check_redir_errors2(data, token) == 1)
 		return (1);
-	if (ft_check_pipe_errors(data, token) == 1)
+	else if (ft_check_pipe_errors(data, token) == 1)
 		return (1);
 	return (0);
 }

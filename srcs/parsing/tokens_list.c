@@ -41,7 +41,6 @@ t_token	*create_token(t_token_type type, char *value)
 		return (NULL);
 	token->type = type;
 	token->value = ft_strdup(value);
-	// printf("token value = %s while create\n", token->value);
 	if (!token->value)
 	{
 		free(token);
@@ -49,7 +48,6 @@ t_token	*create_token(t_token_type type, char *value)
 	}
 	token->has_space = 0;
 	token->next = NULL;
-	// token->index = index_t++;
 	return (token);
 }
 
@@ -74,29 +72,25 @@ void	free_token_list(t_token *head)
 {
 	t_token	*temp;
 
-	// printf("HELLO SIR\n");
 	while (head)
 	{
-		// printf("HELLO CHEF\n");
 		temp = head;
 		head = head->next;
 		if (temp->value)
-		{
-			// printf("token value = %s while free\n", temp->value);
 			free(temp->value);
-		}
 		free(temp);
 	}
 }
 
-void	print_tokens(t_token *head)
-{
-	t_token	*current;
+// void	print_tokens(t_token *head)
+// {
+// 	t_token	*current;
 
-	current = head;
-	while (current)
-	{
-		printf("type = %d, value = %s, index=%d\n", current->type, current->value, current->index);
-		current = current->next;
-	}
-}
+// 	current = head;
+// 	while (current)
+// 	{
+// 		printf("type = %d, value = %s, index=%d\n"
+//, current->type, current->value, current->index);
+// 		current = current->next;
+// 	}
+// }

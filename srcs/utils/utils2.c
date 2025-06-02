@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:21:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/29 13:35:51 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/02 15:57:20 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int ft_check_type(t_token *token)
+int	ft_check_type(t_token *token)
 {
-	if (token->type == PIPE || token->type == REDIRECT_APPEND 
-		|| token->type == REDIRECT_IN 
+	if (token->type == PIPE || token->type == REDIRECT_APPEND
+		|| token->type == REDIRECT_IN
 		|| token->type == REDIRECT_OUT || token->type == HERE_DOC)
 	{
 		return (1);
