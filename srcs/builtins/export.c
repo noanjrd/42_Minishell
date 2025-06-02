@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/29 13:34:17 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/02 13:23:50 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ t_token *export_launch(t_data *data, t_env *env, t_token *token,char *export)
 	name = get_name_export(export);
 	if (!name || check_valid_name(name, 0) == 1)
 	{
-		write(2," not a valid identifier\n",24);
+		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd(token->value, 2);
+		write(2,"': not a valid identifier\n",26);
 		data->exit_code = 1;
 		free(name);
 		return (token->next);
@@ -106,12 +108,13 @@ void ft_export(t_data *data, t_env *env, t_token *token)
 	t_token *token_copy;
 
 	token_copy = token;
-	while (token_copy)
-	{
-		if (token_copy->type == PIPE)
-			return ;
-		token_copy = token_copy->next;
-	}
+	// printf("coucou %s\n", token_copy->value);
+	// while (token_copy)
+	// {
+	if (token_copy->next->type == PIPE)
+		return (display_export(env));
+	// 	token_copy = token_copy->next;
+	// }
 	token_copy = token;
 	if (!token_copy->next || ft_condition(token_copy) == 1)
 		return (display_export(env));
@@ -126,6 +129,7 @@ void ft_export(t_data *data, t_env *env, t_token *token)
 			|| token_copy->type == SINGLE_QUOTES 
 			|| token_copy->type == DOUBLE_QUOTES))
 	{
+		// printf("here\n");
 		token_copy = export_launch(data, env, token_copy,token_copy->value);
 	}
 }

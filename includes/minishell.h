@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/06/02 10:10:31 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/02 11:44:52 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	ft_exit(t_data *data, t_token *token);
 void	ft_echo(t_data *data, t_token *token);
 void	ft_pwd(void);
 t_token	*update_echo_struct(t_token *token);
-int		builtin_check(char *commands);
+int	builtin_check(t_cmd *cmd);
 void	go_to_right_builtin(t_data *data, int i);
 char	*cd_root(void);
 void	cd_error(t_data *data);
@@ -176,6 +176,8 @@ void	printf_error_beginning(t_data *data, t_cmd *cmd, int error);
 void ft_error_fork(t_data *data);
 void dup_cases(t_cmd *cmd);
 void wait_p(t_data *data);
+void	rest_tab(t_token *token, t_cmd *cpy_cmd);
+void	put_tab(t_cmd *cmd, t_cmd *cpy_cmd);
 
 // Init
 

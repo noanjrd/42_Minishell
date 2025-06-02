@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/06/01 15:47:08 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/02 13:23:33 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	ft_sigitn(int sig)
 		write(1,"\n",1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		// rl_redisplay();
 		exit_code_signal = 130;
 	}
 	return ;
@@ -63,8 +62,10 @@ void ft_parents(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 
 void	ft_execve(t_data *data, t_cmd *cmd)
 {
-	if (builtin_check(cmd->tab[0]) == 1 && cmd->fdout != -1)
-	go_to_right_builtin(data, cmd->index);
+	if (builtin_check(cmd) == 1 && cmd->fdout != -1)
+	{
+		go_to_right_builtin(data, cmd->index);
+	}
 	else
 	{
 		if (cmd->path == NULL && data->error_alrdy_displayed == 0)
@@ -75,8 +76,6 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 		}
 		else if (cmd->fdin != -1 && cmd->fdout != -1)
 		{
-			// printf("exec exec %s\n", cmd->value);
-			// printf("here %d\n", data->fd_here_doc);
 			execve(cmd->path, cmd->tab, data->envp);
 			data->error_alrdy_displayed = 1;
 		}
@@ -85,8 +84,9 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 
 void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 {
-	if (builtin_check(cmd->tab[0]) == 2)
+	if (builtin_check(cmd) == 2)
 	{
+		// printf("lol\n");
 		cmd->check_fdin = -1;
 		return (go_to_right_builtin(data, cmd->index));
 	}
@@ -95,7 +95,8 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 	pipe(cmd->fdpipe);
 	cmd->pid = fork();
 	signal(SIGINT ,ft_sigitn);
-	if (cmd->pid == 0 && builtin_check(cmd->tab[0]) != 2)
+	signal(SIGQUIT ,SIG_IGN);
+	if (cmd->pid == 0 && builtin_check(cmd) != 2)
 	{
 		dup_cases(cmd);
 		ft_execve(data, cmd);

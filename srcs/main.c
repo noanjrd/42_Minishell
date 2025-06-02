@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/06/02 10:13:07 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/02 11:28:03 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	ft_readline(t_data *data)
 	while(1)
 	{
 		signal(SIGINT ,ft_sigitn);
-		signal(SIGQUIT ,ft_sigitn);
+		signal(SIGQUIT ,SIG_IGN);
 		tmp = NULL;
 		if (data->env)
 			tmp = ft_join(COLOR_PINK,ft_search_value(data->env, "PWD"));

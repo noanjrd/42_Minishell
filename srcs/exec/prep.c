@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prep.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 14:56:03 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/02 13:26:25 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ void	details_before_exec(t_data *data)
 {
 	if (data->env)
 		check_path_exist(data, data->commands);
+	// if (ft_strstr(data->commands->value, "export") == 1)
+	// {
+	// 	data->commands->path = malloc(4);
+	// 	data->commands->path[0] = 'c';
+	// 	data->commands->path[1] = 0;
+	// }
 	// printf_cmd(data->commands);
 	number_of_commands(data);
 	exec(data);

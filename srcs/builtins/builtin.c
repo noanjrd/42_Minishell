@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:42:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/31 14:31:59 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/02 13:28:27 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_token	*builtin_second(t_data *data, t_token *token, char *commands)
 	}
 	if (ft_strcmp(commands, "cd") == 0)
 	{
-		// printf("its cdddd\n");
 		ft_cd(data, data->env, token->next);
 		return (free(arg), token->next);
 	}
@@ -80,40 +79,42 @@ void	go_to_right_builtin(t_data *data, int i)
 	return ;
 }
 
-int	builtin_second_check(char *commands)
+int	builtin_second_check(t_cmd *cmd)
 {
-	if (ft_strcmp(commands, "export") == 0)
+	if (ft_strcmp(cmd->value, "export") == 0 || (cmd->next && ft_strstr(cmd->value, "export") == 1))
+	{
+		return (1);
+	}
+	if (ft_strstr(cmd->value, "export") == 1)
+		return (2);
+	if (ft_strcmp(cmd->tab[0], "cd") == 0)
 	{
 		return (2);
 	}
-	if (ft_strcmp(commands, "cd") == 0)
-	{
-		return (2);
-	}
-	if (ft_strcmp(commands, "pwd") == 0)
+	if (ft_strcmp(cmd->tab[0], "pwd") == 0)
 	{
 		return (1);
 	}
 	return (0);
 }
 
-int	builtin_check(char *commands)
+int	builtin_check(t_cmd *cmd)
 {
-	if (ft_strcmp(commands, "echo") == 0)
+	if (ft_strcmp(cmd->tab[0], "echo") == 0)
 	{
 		return (1);
 	}
-	if (ft_strcmp(commands, "unset") == 0)
-	{
-		return (1);
-	}
-	if (ft_strcmp(commands, "env") == 0)
-	{
-		return (1);
-	}
-	if (ft_strcmp(commands, "exit") == 0)
+	if (ft_strcmp(cmd->tab[0], "unset") == 0)
 	{
 		return (2);
 	}
-	return(builtin_second_check(commands));
+	if (ft_strcmp(cmd->tab[0], "env") == 0)
+	{
+		return (1);
+	}
+	if (ft_strcmp(cmd->tab[0], "exit") == 0)
+	{
+		return (2);
+	}
+	return(builtin_second_check(cmd));
 }
