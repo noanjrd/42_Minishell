@@ -30,6 +30,8 @@ SRCS = srcs/main.c\
 	srcs/exec/relink_commands.c\
 	srcs/exec/relink_commands2.c\
 	srcs/exec/relink_commands3.c\
+	srcs/exec/relink_commands4.c\
+	srcs/exec/relink_commands5.c\
 	srcs/parsing/check_syntax.c\
 	srcs/parsing/expander.c\
 	srcs/parsing/expander2.c\

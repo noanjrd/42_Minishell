@@ -89,3 +89,13 @@ void	export_merge(t_env *env, char *name, char *value)
 	}
 	return ;
 }
+
+int	ft_check_first_character(t_token *token_copy)
+{
+	if (token_copy->value[0] != '_' && !(token_copy->value[0] >= 'a' && token_copy->value[0] <= 'z') 
+	&& !(token_copy->value[0] >= 'A' && token_copy->value[0] <= 'Z') )
+	{
+		return (1);
+	}
+	return (0);
+}

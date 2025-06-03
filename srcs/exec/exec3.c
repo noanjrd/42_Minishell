@@ -36,7 +36,8 @@ void	dup_cases(t_cmd *cmd)
 		dup2(cmd->prev_fdpipe[0], STDIN_FILENO);
 	if (cmd->path != NULL && cmd->fdout != -99 && cmd->check_fdout == 1)
 		dup2(cmd->fdout, STDOUT_FILENO);
-	else if (cmd->path != NULL && cmd->next && cmd->next->end == 0)
+	else if ((cmd->path != NULL || ft_strcmp(cmd->value,"export") == 0) 
+		&& cmd->next && cmd->next->end == 0)
 		dup2(cmd->fdpipe[1], STDOUT_FILENO);
 	if (cmd->fdpipe[0] != -1)
 		close(cmd->fdpipe[0]);

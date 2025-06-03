@@ -77,40 +77,42 @@ void	go_to_right_builtin(t_data *data, int i)
 	return ;
 }
 
-int	builtin_second_check(char *commands)
+int	builtin_second_check(t_cmd *cmd)
 {
-	if (ft_strcmp(commands, "export") == 0)
+	if (ft_strcmp(cmd->value, "export") == 0 || (cmd->next && ft_strstr(cmd->value, "export") == 1))
+	{
+		return (1);
+	}
+	if (ft_strstr(cmd->value, "export") == 1)
+		return (2);
+	if (ft_strcmp(cmd->tab[0], "cd") == 0)
 	{
 		return (2);
 	}
-	if (ft_strcmp(commands, "cd") == 0)
-	{
-		return (2);
-	}
-	if (ft_strcmp(commands, "pwd") == 0)
+	if (ft_strcmp(cmd->tab[0], "pwd") == 0)
 	{
 		return (1);
 	}
 	return (0);
 }
 
-int	builtin_check(char *commands)
+int	builtin_check(t_cmd *cmd)
 {
-	if (ft_strcmp(commands, "echo") == 0)
+	if (ft_strcmp(cmd->tab[0], "echo") == 0)
 	{
 		return (1);
 	}
-	if (ft_strcmp(commands, "unset") == 0)
+	if (ft_strcmp(cmd->tab[0], "unset") == 0)
 	{
 		return (2);
 	}
-	if (ft_strcmp(commands, "env") == 0)
+	if (ft_strcmp(cmd->tab[0], "env") == 0)
 	{
 		return (1);
 	}
-	if (ft_strcmp(commands, "exit") == 0)
+	if (ft_strcmp(cmd->tab[0], "exit") == 0)
 	{
 		return (2);
 	}
-	return (builtin_second_check(commands));
+	return(builtin_second_check(cmd));
 }

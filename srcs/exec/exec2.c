@@ -63,8 +63,10 @@ void	ft_parents(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 
 void	ft_execve(t_data *data, t_cmd *cmd)
 {
-	if (builtin_check(cmd->tab[0]) == 1 && cmd->fdout != -1)
+	if (builtin_check(cmd) == 1 && cmd->fdout != -1)
+	{
 		go_to_right_builtin(data, cmd->index);
+	}
 	else
 	{
 		if (cmd->path == NULL && data->error_alrdy_displayed == 0)
@@ -83,8 +85,9 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 
 void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 {
-	if (builtin_check(cmd->tab[0]) == 2)
+	if (builtin_check(cmd) == 2)
 	{
+		// printf("lol\n");
 		cmd->check_fdin = -1;
 		return (go_to_right_builtin(data, cmd->index));
 	}
@@ -92,8 +95,9 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 	cmd->fdpipe[1] = -1;
 	pipe(cmd->fdpipe);
 	cmd->pid = fork();
-	signal(SIGINT, ft_sigitn);
-	if (cmd->pid == 0 && builtin_check(cmd->tab[0]) != 2)
+	signal(SIGINT ,ft_sigitn);
+	signal(SIGQUIT ,SIG_IGN);
+	if (cmd->pid == 0 && builtin_check(cmd) != 2)
 	{
 		dup_cases(cmd);
 		ft_execve(data, cmd);

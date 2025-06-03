@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
 /*   Updated: 2025/06/03 13:03:42 by naankour         ###   ########.fr       */
@@ -119,7 +119,7 @@ void	free_and_exit(t_data *data, int exit_code);
 void	ft_echo(t_data *data, t_token *token);
 void	ft_pwd(void);
 t_token	*update_echo_struct(t_token *token);
-int		builtin_check(char *commands);
+int	builtin_check(t_cmd *cmd);
 void	go_to_right_builtin(t_data *data, int i);
 char	*cd_root(void);
 void	cd_error(t_data *data);
@@ -135,6 +135,7 @@ void	create_export(t_env *env, char *name, char *value);
 int		check_alrdy_exist(t_env *env, char *name, char *value, char *export);
 void	display_export(t_env *env);
 int		check_valid_name(char *name, int check);
+int	ft_check_first_character(t_token *token_copy);
 
 // UTILS
 char	*ft_search_value(t_env *env, char *string);
@@ -182,6 +183,14 @@ void	printf_error_beginning(t_data *data, t_cmd *cmd, int error);
 void	ft_error_fork(t_data *data);
 void	dup_cases(t_cmd *cmd);
 void	wait_p(t_data *data);
+void	rest_tab(t_token *token, t_cmd *cpy_cmd);
+void	put_tab(t_cmd *cmd, t_cmd *cpy_cmd);
+void	put_tab_recompose(t_cmd *cmd, t_cmd *cpy_cmd);
+t_cmd *find_cmd_index(t_token *token, t_cmd *cmd);
+void ft_free_single_token(t_token *tok);
+void	ft_skip_words(t_token **t, t_token **temp_arg);
+void ft_check_echo_plus(t_token *token, t_cmd *cmd);
+void ft_process_word_type_token(t_token **current_node, t_cmd *cmd);
 
 // INIT
 t_env	*env_init(t_env *env, char **envp);
