@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd2.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:34:00 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 12:24:53 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 19:31:45 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@ void	cd_error(t_data *data)
 	return ;
 }
 
+static void	ft_write_error(char *path)
+{
+	write(2, "cd: ", 4);
+	ft_putstr_fd(path, 2);
+	write(2, ": No such file or directory\n", 28);
+	return ;
+}
+
 void	go_into_specific_dr(t_data *data, t_env *env, char *current, char *path)
 {
 	char	*new_path;
@@ -43,6 +51,8 @@ void	go_into_specific_dr(t_data *data, t_env *env, char *current, char *path)
 	if (access(new_path, F_OK) == 0)
 	{
 		chdir(new_path);
+		free(new_path);
+		new_path = getcwd(NULL, 0);
 		change_value(env, "PWD", new_path);
 		change_value(env, "OLDPWD", temp);
 		free(path);
@@ -50,9 +60,7 @@ void	go_into_specific_dr(t_data *data, t_env *env, char *current, char *path)
 	else
 	{
 		path++;
-		write(2, "cd: ", 4);
-		ft_putstr_fd(path, 2);
-		write(2, ": No such file or directory\n", 28);
+		ft_write_error(path);
 		path--;
 		data->exit_code = 1;
 		free(path);

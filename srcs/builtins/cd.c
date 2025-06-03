@@ -82,6 +82,16 @@ void	ft_cd(t_data *data, t_env *env, t_token *token)
 		free(temp);
 		return ;
 	}
+	if (access(path, F_OK) != 0)
+	{
+		free(temp);
+		free(path);
+		ft_putstr_fd("chdir: error retrieving current directory: ", 2);
+		ft_putstr_fd("getcwd: cannot access parent directories: No ", 2);
+		ft_putstr_fd("such file or directory\n",2);
+		data->exit_code = 1;
+		return ;
+	}
 	change_value(env, "OLDPWD", temp);
 	chdir(path);
 	change_value(env, "PWD", path);
