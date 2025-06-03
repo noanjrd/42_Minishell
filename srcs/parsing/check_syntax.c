@@ -12,29 +12,25 @@
 
 #include "../../includes/minishell.h"
 
-static int	ft_check_redir_errors1(t_data *data, t_token *token)
+static int	ft_check_pipe_errors(t_data *data, t_token *token)
 {
 	t_token	*curr;
 
 	curr = token;
 	while (curr != NULL)
 	{
-		if (curr->type == HERE_DOC || curr->type == REDIRECT_APPEND)
+		if ((curr->next && curr->type == PIPE) && curr->next->type == PIPE)
 		{
-			if (curr->next == NULL || curr->next->type == HERE_DOC
-				|| curr->next->type == REDIRECT_APPEND)
-			{
-				if (curr->next == NULL)
-					printf(NEW_LINE);
-				else if (curr->next->type == HERE_DOC)
-					printf(S_HERE_DOC);
-				else if (curr->next->type == REDIRECT_APPEND)
-					printf(APPEND);
-				else
-					printf(TOKEN, curr->next->value);
-				data->exit_code = 2;
-				return (1);
-			}
+			data->exit_code = 2;
+			ft_putstr_fd(DOUBLE_PIPE, 2);
+			return (1);
+		}
+		if ((curr == token && curr->type == PIPE)
+			|| (curr->type == PIPE && curr->next == NULL))
+		{
+			data->exit_code = 2;
+			ft_putstr_fd(SINGLE_PIPE, 2);
+			return (1);
 		}
 		curr = curr->next;
 	}
@@ -54,10 +50,12 @@ static int	ft_check_redir_errors2(t_data *data, t_token *token)
 					&& curr->next->type != DOUBLE_QUOTES
 					&& curr->next->type != SINGLE_QUOTES))
 			{
+				ft_putstr_fd(TOKEN, 2);
 				if (curr->next == NULL)
-					printf(NEW_LINE);
+					ft_putstr_fd("newline", 2);
 				else
-					printf(TOKEN, curr->value);
+					ft_putstr_fd(curr->next->value, 2);
+				ft_putstr_fd("'\n", 2);
 				data->exit_code = 2;
 				return (1);
 			}
@@ -67,34 +65,45 @@ static int	ft_check_redir_errors2(t_data *data, t_token *token)
 	return (0);
 }
 
-static int	ft_check_pipe_errors(t_data *data, t_token *token)
+static int	ft_check_redir_errors1(t_data *data, t_token *token)
 {
 	t_token	*curr;
 
 	curr = token;
 	while (curr != NULL)
 	{
-		if ((curr->next && curr->type == PIPE) && curr->next->type == PIPE)
+		if (curr->type == HERE_DOC || curr->type == REDIRECT_APPEND)
 		{
-			data->exit_code = 2;
-			return (printf(DOUBLE_PIPE), 1);
-		}
-		if ((curr == token && curr->type == PIPE)
-			|| (curr->type == PIPE && curr->next == NULL))
-		{
-			data->exit_code = 2;
-			return (printf(SINGLE_PIPE), 1);
+			if (curr->next == NULL || curr->next->type == HERE_DOC
+				|| curr->next->type == REDIRECT_APPEND)
+			{
+				ft_putstr_fd(TOKEN, 2);
+				if (curr->next == NULL)
+					ft_putstr_fd("newline", 2);
+				else
+					ft_putstr_fd(curr->next->value, 2);
+				ft_putstr_fd("'\n", 2);
+				data->exit_code = 2;
+				return (1);
+			}
 		}
 		curr = curr->next;
 	}
 	return (0);
 }
 
+static int	ft_check_redir_errors(t_data *data, t_token *token)
+{
+	if (ft_check_redir_errors1(data, token))
+		return (1);
+	if (ft_check_redir_errors2(data, token))
+		return (1);
+	return (0);
+}
+
 int	ft_check_syntax_errors(t_data *data, t_token *token)
 {
-	if (ft_check_redir_errors1(data, token) == 1)
-		return (1);
-	else if (ft_check_redir_errors2(data, token) == 1)
+	if (ft_check_redir_errors(data, token) == 1)
 		return (1);
 	else if (ft_check_pipe_errors(data, token) == 1)
 		return (1);

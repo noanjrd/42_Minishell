@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 12:18:56 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 12:44:21 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 18:10:28 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,13 @@ void	stop_all_out_before_and_after(t_cmd *cmd, t_cmd *target)
 	}
 	return ;
 }
-
+void	display_error_here_doc(t_cmd *cpy_cmd)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cpy_cmd->value, 2);
+	ft_putstr_fd(": ", 2);
+	perror("");
+}
 void	fd_error(t_data *data, int fd)
 {
 	t_cmd	*cpy_cmd;
@@ -56,7 +62,7 @@ void	fd_error(t_data *data, int fd)
 			{
 				data->exit_code = 1;
 				data->error_alrdy_displayed = 1;
-				perror("Error");
+				display_error_here_doc(cpy_cmd);
 			}
 			if (fd < 0)
 				stop_all_out_before_and_after(data->commands, cpy_cmd);

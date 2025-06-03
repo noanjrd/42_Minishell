@@ -47,9 +47,11 @@ static void	expand_token(t_token *token, t_data *data)
 	}
 }
 
-static int	needs_expansion(t_token *token)
+static int	needs_expansion(t_token *token, t_token *prev)
 {
 	if (!token || !token->value)
+		return (0);
+	if (prev && prev->type == HERE_DOC)
 		return (0);
 	if (((token->type == WORD) || (token->type == DOUBLE_QUOTES))
 		&& ft_strchr(token->value, '$'))
@@ -67,7 +69,7 @@ t_token	*expander(t_token *token, t_data *data)
 	prev = NULL;
 	while (current)
 	{
-		if (needs_expansion(current) == 1)
+		if (needs_expansion(current, prev) == 1)
 		{
 			expand_token(current, data);
 			if (current->value == NULL)

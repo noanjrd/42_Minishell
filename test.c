@@ -9,5 +9,5 @@
  // unset ""
  // unset INEXISTANT
 
- //export | grep "HOME"
-
+// NE pas expandre si heredoc
+// CTRL+D

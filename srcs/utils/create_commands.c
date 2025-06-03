@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 11:48:37 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:12:12 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	rest_ofthesteps_zero(t_data *data)
 			if (cpy_token->type == REDIRECT_APPEND)
 				cpy_cmd->red_append = 1;
 		}
-		if (ft_strcmp(cpy_token->value, cpy_cmd->value) == 0)
+		if (cpy_token->index == cpy_cmd->index)
 			cpy_cmd = cpy_cmd->next;
 		cpy_token = cpy_token->next;
 	}

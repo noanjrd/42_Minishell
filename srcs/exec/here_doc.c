@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:23:27 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 18:42:06 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 18:20:23 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	here_doc(t_token *token, t_data *data)
 	int	fd;
 
 	signal(SIGINT, ft_sigitn);
+	signal(SIGQUIT, SIG_IGN);
 	here_doc_start(token->next->value, data, 0, &fd);
 	close(fd);
 	fd = open("temp", O_RDONLY, 0700);
