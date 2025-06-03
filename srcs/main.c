@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 10:39:24 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 13:14:46 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,60 +14,9 @@
 #define COLOR_PINK "\001\033[38;5;205m\002"
 #define COLOR_RED
 
-// static void printf_cmd(t_cmd *cmd)
-// {
-// 	t_cmd *current = cmd;
-// 	while (current)
-// 	{
-// 		printf("value = %s, index=%d infile = %s, outfile = %s, type=%d,here_doc=%d, red_in_avant=%d, red=%d, appnd=%d, end=%d, first=%d, \n",
-// 			current->value,
-// 			current->index,
-// 			current->infile ? current->infile : "NULL",
-// 			current->outfile ? current->outfile : "NULL",
-// 			current->type,
-// 		current->here_doc,
-// 		current->redirect_in_before,
-// 	current->red_out,
-// 	current->red_append,
-// current->end,
-// 		current->first);
-// 		current = current->next;
-// 	}
-// 	printf("---------------------------\n");
-// 	return ;
-// }
+int	g_exit_code_signal = 0;
 
-void	free_readline_data(t_data *data)
-{
-	if (data->fd_here_doc > 0)
-	{
-		close(data->fd_here_doc);
-		unlink("temp");
-	}
-	data->fd_here_doc = 0;
-	data->error_alrdy_displayed = 0;
-	data->nb_of_commands = 0;
-	data->tokens = NULL;
-	data->line = NULL;
-	free_cmd(data->commands);
-	data->commands = NULL;
-	return ;
-}
-
-static void	ft_sigitn(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		g_exit_code_signal = 130;
-	}
-	return ;
-}
-
-t_token	*ft_parse(t_data *data)
+static t_token	*ft_parse(t_data *data)
 {
 	data->tokens = lexer(data->line);
 	free(data->line);
@@ -90,6 +39,36 @@ t_token	*ft_parse(t_data *data)
 	return (data->tokens);
 }
 
+static void	ft_readline2(t_data *data)
+{
+	if (data->line && *data->line)
+		add_history(data->line);
+	data->tokens = ft_parse(data);
+	if (!data->tokens)
+		return ;
+	make_commands(data, NULL, NULL, NULL);
+	exec_prep(data);
+	if (data->tokens)
+	{
+		free_token_list(data->tokens);
+		data->tokens = NULL;
+	}
+	free_readline_data(data);
+}
+
+static void	ft_sigitn(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		g_exit_code_signal = 130;
+	}
+	return ;
+}
+
 void	ft_readline(t_data *data)
 {
 	char	*pwd;
@@ -105,31 +84,17 @@ void	ft_readline(t_data *data)
 		pwd = ft_join(tmp, "\001\033[38;5;198m\002$\001\033[38;5;205m\002 ");
 		free(tmp);
 		data->line = readline(pwd);
+		free(pwd);
 		if (!data->line)
-			return (free(pwd));
+			return ;
 		if (g_exit_code_signal != 0)
 		{
 			data->exit_code = g_exit_code_signal;
 			g_exit_code_signal = 0;
 		}
-		free(pwd);
-		if (data->line && *data->line)
-			add_history(data->line);
-		data->tokens = ft_parse(data);
-		if (!data->tokens)
-			continue ;
-		make_commands(data, NULL, NULL, NULL);
-		exec_prep(data);
-		if (data->tokens)
-		{
-			free_token_list(data->tokens);
-			data->tokens = NULL;
-		}
-		free_readline_data(data);
+		ft_readline2(data);
 	}
 }
-
-int	g_exit_code_signal = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -196,3 +161,26 @@ int	main(int argc, char **argv, char **envp)
 	free_data(data);
 	return (exit_c);
 }
+
+// static void printf_cmd(t_cmd *cmd)
+// {
+// 	t_cmd *current = cmd;
+// 	while (current)
+// 	{
+// 		printf("value = %s, index=%d infile = %s, outfile = %s, type=%d,here_doc=%d, red_in_avant=%d, red=%d, appnd=%d, end=%d, first=%d, \n",
+// 			current->value,
+// 			current->index,
+// 			current->infile ? current->infile : "NULL",
+// 			current->outfile ? current->outfile : "NULL",
+// 			current->type,
+// 		current->here_doc,
+// 		current->redirect_in_before,
+// 	current->red_out,
+// 	current->red_append,
+// current->end,
+// 		current->first);
+// 		current = current->next;
+// 	}
+// 	printf("---------------------------\n");
+// 	return ;
+// }

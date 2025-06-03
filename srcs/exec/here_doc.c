@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:23:27 by njard             #+#    #+#             */
-/*   Updated: 2025/06/02 16:30:12 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:17:53 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	ft_sigitn(int sig)
 {
 	if (sig == SIGINT)
 	{
-		write(1,"\n",1);
+		write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		close(0);
@@ -46,7 +46,7 @@ static void	ft_sigitn(int sig)
 
 void	here_doc_start(char *stop, t_data *data, int tmp, int *fd)
 {
-	char *line;
+	char	*line;
 
 	tmp = dup(0);
 	if (data->fd_here_doc > 0)
@@ -59,28 +59,24 @@ void	here_doc_start(char *stop, t_data *data, int tmp, int *fd)
 		if (!line && g_exit_code_signal == -99)
 		{
 			dup2(tmp, 0);
-			break;
+			break ;
 		}
-		if (ft_strcmp(line,stop) == 0)
+		if (ft_strcmp(line, stop) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
 		write(*fd, line, ft_strlen(line));
 		write(*fd, "\n", 1);
 		free(line);
 	}
-	// close(fd);
-	// fd = open("temp", O_RDONLY, 0700);
-	// data->fd_here_doc = fd;
 }
 
 void	here_doc(t_token *token, t_data *data)
 {
+	int	fd;
 
-	int fd;
-
-	signal(SIGINT ,ft_sigitn);
+	signal(SIGINT, ft_sigitn);
 	here_doc_start(token->next->value, data, 0, &fd);
 	close(fd);
 	fd = open("temp", O_RDONLY, 0700);

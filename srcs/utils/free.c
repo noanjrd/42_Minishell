@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:39:25 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 11:25:47 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 13:12:12 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	free_cmd(t_cmd *cmd)
 	}
 }
 
-// This function frees the memory allocated for data.
 void	free_data(t_data *data)
 {
 	int	i;
@@ -82,7 +81,6 @@ void	free_data(t_data *data)
 	return ;
 }
 
-// This function frees the memory allocated for the environment.
 void	free_env(t_env *env)
 {
 	t_env	*temp;
@@ -97,5 +95,22 @@ void	free_env(t_env *env)
 		env = temp;
 	}
 	env = NULL;
+	return ;
+}
+
+void	free_readline_data(t_data *data)
+{
+	if (data->fd_here_doc > 0)
+	{
+		close(data->fd_here_doc);
+		unlink("temp");
+	}
+	data->fd_here_doc = 0;
+	data->error_alrdy_displayed = 0;
+	data->nb_of_commands = 0;
+	data->tokens = NULL;
+	data->line = NULL;
+	free_cmd(data->commands);
+	data->commands = NULL;
 	return ;
 }

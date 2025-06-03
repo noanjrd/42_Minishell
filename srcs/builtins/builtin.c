@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:42:48 by njard             #+#    #+#             */
-/*   Updated: 2025/06/02 13:28:27 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 14:55:01 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_token	*builtin_second(t_data *data, t_token *token, char *commands)
 {
-	char *arg;
+	char	*arg;
 
 	arg = NULL;
 	if (ft_strcmp(commands, "export") == 0)
@@ -37,11 +37,9 @@ t_token	*builtin_second(t_data *data, t_token *token, char *commands)
 
 t_token	*builtin(t_data *data, t_token *token, char *commands)
 {
-	char *arg;
+	char	*arg;
 
 	arg = NULL;
-
-	// printf("builtin??? %s\n", token->value);
 	if (ft_strcmp(commands, "echo") == 0)
 	{
 		ft_echo(data, token);
@@ -61,20 +59,20 @@ t_token	*builtin(t_data *data, t_token *token, char *commands)
 	{
 		ft_exit(data, token);
 	}
-	return(builtin_second(data, token, commands));
+	return (builtin_second(data, token, commands));
 }
 
 void	go_to_right_builtin(t_data *data, int i)
 {
-	t_token *cpy_token;
+	t_token	*cpy_token;
+
 	cpy_token = data->tokens;
 	while (cpy_token)
 	{
 		if (cpy_token->index == i)
-			break;
+			break ;
 		cpy_token = cpy_token->next;
 	}
-	// printf("%s\n", cpy_token->value);
 	builtin(data, cpy_token, cpy_token->value);
 	return ;
 }

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   exec3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 15:17:08 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 12:31:48 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void ft_error_fork(t_data *data)
+void	ft_error_fork(t_data *data)
 {
-	int exitc;
+	int	exitc;
 
 	exitc = data->exit_code;
 	if (data->tokens)
@@ -28,7 +28,7 @@ void ft_error_fork(t_data *data)
 	return ;
 }
 
-void dup_cases(t_cmd *cmd)
+void	dup_cases(t_cmd *cmd)
 {
 	if (cmd->fdin != -99 && cmd->check_fdin == 1)
 		dup2(cmd->fdin, STDIN_FILENO);
@@ -53,11 +53,11 @@ void dup_cases(t_cmd *cmd)
 	return ;
 }
 
-void wait_p(t_data *data)
+void	wait_p(t_data *data)
 {
-	t_cmd *cpy_cmd;
-	int j;
-	int status;
+	t_cmd	*cpy_cmd;
+	int		j;
+	int		status;
 
 	cpy_cmd = data->commands;
 	j = 0;
@@ -66,8 +66,8 @@ void wait_p(t_data *data)
 		if (cpy_cmd->type != IN_OUT_FILENAME)
 		{
 			waitpid(cpy_cmd->pid, &status, 0);
-			if (((cpy_cmd->check_fdout != -1) 
-			&& (cpy_cmd->check_fdin != -1)) && WIFEXITED(status))
+			if (((cpy_cmd->check_fdout != -1)
+					&& (cpy_cmd->check_fdin != -1)) && WIFEXITED(status))
 			{
 				data->exit_code = WEXITSTATUS(status);
 			}

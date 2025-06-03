@@ -31,7 +31,7 @@ static char	*extract_var_name(t_str *src)
 	if (!name)
 		return (NULL);
 	i = 0;
-	while ( i < name_len)
+	while (i < name_len)
 	{
 		name[i] = src->str[start + i];
 		i++;

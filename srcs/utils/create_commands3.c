@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/06/02 17:33:41 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 11:33:16 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	rest_ofthesteps_five(t_cmd *cmd)
 void	rest_ofthesteps_four(t_cmd *cmd, int check)
 {
 	t_cmd	*cpy_cmd;
-	t_cmd *temp;
+	t_cmd	*temp;
 
 	cpy_cmd = cmd;
 	while (cpy_cmd)
@@ -43,7 +43,7 @@ void	rest_ofthesteps_four(t_cmd *cmd, int check)
 				if (temp->redirect_in_before == 0)
 				{
 					check = 1;
-					break;
+					break ;
 				}
 				temp = temp->next;
 			}

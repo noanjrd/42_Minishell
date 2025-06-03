@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:57:03 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 15:00:04 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 12:03:52 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void sort_env(t_env *env)
+static void	sort_env(t_env *env)
 {
 	t_env	*current;
 	t_env	*min;
@@ -27,7 +27,7 @@ static void sort_env(t_env *env)
 				min = current;
 		}
 		if (!current->next)
-			break;
+			break ;
 		current = current->next;
 	}
 	if (min)
@@ -43,11 +43,11 @@ static void sort_env(t_env *env)
 
 void	display_export(t_env *env)
 {
-	t_env *cpy;
+	t_env	*cpy;
 
 	cpy = env;
 	sort_env(env);
-	while(cpy)
+	while (cpy)
 	{
 		cpy->displayed = 0;
 		cpy = cpy->next;
@@ -57,7 +57,7 @@ void	display_export(t_env *env)
 
 int	check_plus(char *export)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (export[i] && export[i] != '=')
@@ -71,12 +71,12 @@ int	check_plus(char *export)
 
 void	export_merge(t_env *env, char *name, char *value)
 {
-	t_env *copy;
-	char *new_value;
+	t_env	*copy;
+	char	*new_value;
 
 	copy = env;
-	new_value  =NULL;
-	while(copy)
+	new_value = NULL;
+	while (copy)
 	{
 		if (ft_strcmp(copy->name, name) == 0)
 		{

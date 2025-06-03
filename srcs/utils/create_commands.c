@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   create_commands.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/06/01 15:53:15 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 11:48:37 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
 void	rest_ofthesteps_one(t_token *token, t_cmd *cmd)
 {
-	t_token *cpy_token;
+	t_token	*cpy_token;
 	t_cmd	*cpy_cmd;
 
 	cpy_cmd = cmd;
@@ -26,7 +25,7 @@ void	rest_ofthesteps_one(t_token *token, t_cmd *cmd)
 		{
 			cpy_cmd->here_doc = 1;
 		}
-		if (cpy_cmd->next 
+		if (cpy_cmd->next
 			&& ft_strcmp(cpy_token->value, cpy_cmd->value) == 0)
 		{
 			cpy_cmd = cpy_cmd->next;
@@ -39,7 +38,6 @@ void	rest_ofthesteps_one(t_token *token, t_cmd *cmd)
 	return ;
 }
 
-
 void	rest_ofthesteps_zero(t_data *data)
 {
 	t_token	*cpy_token;
@@ -49,7 +47,8 @@ void	rest_ofthesteps_zero(t_data *data)
 	cpy_cmd = data->commands;
 	while (cpy_token)
 	{
-		if (cpy_token && (cpy_token->type == REDIRECT_OUT || cpy_token->type == REDIRECT_APPEND))
+		if (cpy_token && (cpy_token->type == REDIRECT_OUT
+				|| cpy_token->type == REDIRECT_APPEND))
 		{
 			cpy_cmd->type = IN_OUT_FILENAME;
 			cpy_cmd->red_out = 1;
@@ -78,7 +77,7 @@ void	assign_value(t_cmd *new_cmd, t_token *cpy_token, int i)
 	new_cmd->fdpipe = malloc(3 * sizeof(int));
 	new_cmd->fdpipe[0] = -1;
 	new_cmd->fdpipe[1] = -1;
-	new_cmd->prev_fdpipe =NULL;
+	new_cmd->prev_fdpipe = NULL;
 	new_cmd->end = 0;
 	new_cmd->value = ft_copy(cpy_token->value);
 	new_cmd->infile = NULL;
@@ -91,18 +90,28 @@ void	assign_value(t_cmd *new_cmd, t_token *cpy_token, int i)
 	new_cmd->red_out = 0;
 }
 
+static int	is_valid_condition(t_token *token)
+{
+	if ((token && token->next
+			&& (token->next->type == REDIRECT_APPEND
+				|| token->next->type == REDIRECT_OUT)))
+		return (1);
+	return (0);
+}
+
 void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd)
 {
-	t_token *cpy_token;
+	t_token	*cpy_token;
 
 	cpy_token = data->tokens;
 	while (cpy_token)
 	{
-		if (cpy_token->type == WORD || cpy_token->type == SINGLE_QUOTES || cpy_token->type == DOUBLE_QUOTES)
+		if (cpy_token->type == WORD || cpy_token->type == SINGLE_QUOTES
+			|| cpy_token->type == DOUBLE_QUOTES)
 		{
 			new_cmd = malloc(sizeof(t_cmd));
 			if (!new_cmd)
-				return;
+				return ;
 			assign_value(new_cmd, cpy_token, cpy_token->index);
 			if (!head)
 				head = new_cmd;
@@ -110,8 +119,8 @@ void	make_commands(t_data *data, t_cmd *head, t_cmd *current, t_cmd *new_cmd)
 				current->next = new_cmd;
 			current = new_cmd;
 		}
-		if (current && cpy_token->next && (cpy_token->next->type == REDIRECT_APPEND || cpy_token->next->type == REDIRECT_OUT))
-				current->outfile = ft_copy(cpy_token->next->next->value);
+		if (is_valid_condition(cpy_token) == 1)
+			current->outfile = ft_copy(cpy_token->next->next->value);
 		cpy_token = cpy_token->next;
 	}
 	data->commands = head;

@@ -3,44 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   create_commands2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/05/29 13:30:19 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 11:32:51 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int ft_condition_red(t_token *cpy_token)
+static int	ft_condition_red(t_token *cpy_token)
 {
-	if (cpy_token->type == REDIRECT_IN 
-		|| cpy_token->type == HERE_DOC 
-		|| cpy_token->type == REDIRECT_OUT 
+	if (cpy_token->type == REDIRECT_IN
+		|| cpy_token->type == HERE_DOC
+		|| cpy_token->type == REDIRECT_OUT
 		|| cpy_token->type == REDIRECT_APPEND)
 		return (1);
 	return (0);
 }
 
-static int ft_condition_red_in(t_token *cpy_token)
+static int	ft_condition_red_in(t_token *cpy_token)
 {
-	if (cpy_token->type == REDIRECT_IN 
-		|| cpy_token->type == HERE_DOC )
+	if (cpy_token->type == REDIRECT_IN
+		|| cpy_token->type == HERE_DOC)
 		return (1);
 	return (0);
 }
 
-void ft_rest_condition(t_cmd *cpy_cmd, t_token *cpy_token)
+void	ft_rest_condition(t_cmd *cpy_cmd, t_token *cpy_token)
 {
-	if (cpy_cmd->next && cpy_token->next 
-		&& cpy_cmd->type == IN_OUT_FILENAME 
-		&& cpy_cmd->next->type == IN_OUT_FILENAME 
-		&& cpy_cmd->redirect_in_before == 1 
+	if (cpy_cmd->next && cpy_token->next
+		&& cpy_cmd->type == IN_OUT_FILENAME
+		&& cpy_cmd->next->type == IN_OUT_FILENAME
+		&& cpy_cmd->redirect_in_before == 1
 		&& ft_condition_red_in(cpy_token->next) == 1)
 		cpy_cmd->next->redirect_in_before = 1;
-	if (cpy_cmd->next && cpy_token->next 
-		&& cpy_cmd->type == IN_OUT_FILENAME 
-		&& cpy_cmd->redirect_in_before == 0 
+	if (cpy_cmd->next && cpy_token->next
+		&& cpy_cmd->type == IN_OUT_FILENAME
+		&& cpy_cmd->redirect_in_before == 0
 		&& ft_condition_red_in(cpy_token) == 1)
 		cpy_cmd->next->infile = ft_copy(cpy_cmd->value);
 	return ;
@@ -48,16 +48,16 @@ void ft_rest_condition(t_cmd *cpy_cmd, t_token *cpy_token)
 
 void	rest_ofthesteps_three(t_token *token, t_cmd *cmd)
 {
-	t_token *cpy_token;
+	t_token	*cpy_token;
 	t_cmd	*cpy_cmd;
 
 	cpy_cmd = cmd;
 	cpy_token = token;
 	while (cpy_token)
 	{
-		if (cpy_cmd && cpy_token->next 
-			&& cpy_token->next->next 
-			&& cpy_cmd->type != IN_OUT_FILENAME 
+		if (cpy_cmd && cpy_token->next
+			&& cpy_token->next->next
+			&& cpy_cmd->type != IN_OUT_FILENAME
 			&& ft_condition_red(cpy_token->next) == 1)
 		{
 			cpy_cmd->next->redirect_in_before = 1;
@@ -75,7 +75,7 @@ void	rest_ofthesteps_three(t_token *token, t_cmd *cmd)
 
 void	rest_ofthesteps_two(t_token *token, t_cmd *cmd)
 {
-	t_token *cpy_token;
+	t_token	*cpy_token;
 	t_cmd	*cpy_cmd;
 
 	cpy_cmd = cmd;
@@ -85,11 +85,11 @@ void	rest_ofthesteps_two(t_token *token, t_cmd *cmd)
 	while (cpy_token)
 	{
 		if (cpy_cmd && (cpy_token->type == REDIRECT_IN
-			|| cpy_token->type == HERE_DOC))
+				|| cpy_token->type == HERE_DOC))
 		{
 			cpy_cmd->type = IN_OUT_FILENAME;
 		}
-		if (cpy_cmd->next 
+		if (cpy_cmd->next
 			&& ft_strcmp(cpy_token->value, cpy_cmd->value) == 0)
 		{
 			cpy_cmd = cpy_cmd->next;
