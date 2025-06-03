@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/06/02 18:20:47 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 09:21:34 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_token	*ft_parse(t_data *data)
 		}
 		return (NULL);
 	}
-	data->tokens = ft_preprocess_dollar_quotes(data->tokens);
+	data->tokens = ft_dollar_quotes(data->tokens);
 	data->tokens = expander(data->tokens, data);
 	if (data->tokens)
 		merge_tokens(&data->tokens);

@@ -12,19 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-static int	should_merge_tokens(t_token *current)
-{
-	if (!current || !current->next)
-		return (0);
-	if ((current->type == WORD || current->type == DOUBLE_QUOTES
-			|| current->type == SINGLE_QUOTES)
-		&& (current->next->type == WORD || current->next->type
-			== DOUBLE_QUOTES || current->next->type == SINGLE_QUOTES)
-		&& current->has_space == 0)
-		return (1);
-	return (0);
-}
-
 static void	free_merged_tokens(t_token *current)
 {
 	free(current->value);
@@ -59,6 +46,19 @@ static t_token	*merge_two_tokens(t_token **token, t_token *current)
 		prev->next = new_token;
 	}
 	return (new_token);
+}
+
+static int	should_merge_tokens(t_token *current)
+{
+	if (!current || !current->next)
+		return (0);
+	if ((current->type == WORD || current->type == DOUBLE_QUOTES
+			|| current->type == SINGLE_QUOTES)
+		&& (current->next->type == WORD || current->next->type
+			== DOUBLE_QUOTES || current->next->type == SINGLE_QUOTES)
+		&& current->has_space == 0)
+		return (1);
+	return (0);
 }
 
 void	merge_tokens(t_token **token)

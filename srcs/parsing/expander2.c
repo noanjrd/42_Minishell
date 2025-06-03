@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	handle_env_var(char **str, t_env *env, int *len)
+static int	handle_env_var(char **str, t_env *env, int *len)
 {
 	char	*name;
 	char	*value;
@@ -33,7 +33,7 @@ int	handle_env_var(char **str, t_env *env, int *len)
 	return (0);
 }
 
-int	handle_exit_code(char **str, int exit_code, int *len)
+static int	handle_exit_code(char **str, int exit_code, int *len)
 {
 	char	*exit_code_str;
 
@@ -44,7 +44,7 @@ int	handle_exit_code(char **str, int exit_code, int *len)
 	return (0);
 }
 
-int	get_token_length(char *str, t_env *env, int exit_code)
+static int	get_token_length(char *str, t_env *env, int exit_code)
 {
 	int		len;
 
@@ -70,7 +70,7 @@ int	get_token_length(char *str, t_env *env, int exit_code)
 	return (len);
 }
 
-char	*ft_malloc_final_buffer(char *str, t_env *env, int exit_code)
+static char	*ft_malloc_final_buffer(char *str, t_env *env, int exit_code)
 {
 	char	*final_buffer;
 
@@ -89,7 +89,8 @@ char	*new_token_value(char *str, t_data	*data)
 	final_buffer = ft_malloc_final_buffer(str, data->env, data->exit_code);
 	if (!final_buffer)
 		return (NULL);
-	src = (t_str){str, 0};
+	src.str = str;
+	src.i = 0;
 	j = 0;
 	while (str[src.i])
 		j = ft_handle_dollar(&src, final_buffer, j, data);

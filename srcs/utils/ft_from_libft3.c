@@ -12,6 +12,26 @@
 
 #include "../../includes/minishell.h"
 
+char	*ft_strdup(char *src)
+{
+	char	*dest;
+	int		i;
+
+	i = 0;
+	dest = (char *)malloc(sizeof (char) * (ft_strlen(src) +1));
+	if (!dest)
+	{
+		return (NULL);
+	}
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
 static long	ft_nlen(long n)
 {
 	long	len;

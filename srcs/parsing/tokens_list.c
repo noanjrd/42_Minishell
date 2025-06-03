@@ -12,26 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-char	*ft_strdup(char *src)
-{
-	char	*dest;
-	int		i;
-
-	i = 0;
-	dest = (char *)malloc(sizeof (char) * (ft_strlen(src) +1));
-	if (!dest)
-	{
-		return (NULL);
-	}
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
 t_token	*create_token(t_token_type type, char *value)
 {
 	t_token	*token;

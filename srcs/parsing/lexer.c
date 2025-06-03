@@ -18,7 +18,7 @@ void	skip_whitespaces(char *line, int *i)
 		(*i)++;
 }
 
-t_token	*handle_symbol2(char *line, int *i)
+static t_token	*handle_symbol2(char *line, int *i)
 {
 	t_token	*token;
 
@@ -36,7 +36,7 @@ t_token	*handle_symbol2(char *line, int *i)
 	return (token);
 }
 
-t_token	*handle_symbol(char *line, int *i)
+static t_token	*handle_symbol(char *line, int *i)
 {
 	t_token	*token;
 
@@ -72,10 +72,10 @@ t_token	*lexer(char *line)
 	token = NULL;
 	while (line[i])
 	{
+		token = NULL;
 		skip_whitespaces(line, &i);
 		if (line[i] == '\0')
 			break ;
-		token = NULL;
 		if (is_symbol(line[i]))
 			token = handle_symbol(line, &i);
 		else

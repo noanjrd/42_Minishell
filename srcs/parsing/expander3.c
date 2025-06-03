@@ -12,19 +12,45 @@
 
 #include "../../includes/minishell.h"
 
-int	ft_var_value(t_str *s, char *final_buffer, int j, t_env *env)
+static char	*extract_var_name(t_str *src)
 {
-	char	name[128];
+	int		start;
 	int		name_len;
+	char	*name;
+	int		i;
+
+	src->i++;
+	start = src->i;
+	name_len = 0;
+	while (ft_isalnum(src->str[src->i]) || src->str[src->i] == '_')
+		src->i++;
+	name_len = src->i - start;
+	if (name_len == 0)
+		return (NULL);
+	name = malloc(name_len +1);
+	if (!name)
+		return (NULL);
+	i = 0;
+	while ( i < name_len)
+	{
+		name[i] = src->str[start + i];
+		i++;
+	}
+	name[name_len] = '\0';
+	return (name);
+}
+
+static int	ft_var_value(t_str *src, char *final_buffer, int j, t_env *env)
+{
+	char	*name;
 	char	*value;
 	int		k;
 
-	s->i++;
-	name_len = 0;
-	while (ft_isalnum(s->str[s->i]) || s->str[s->i] == '_')
-		name[name_len++] = s->str[s->i++];
-	name[name_len] = '\0';
+	name = extract_var_name(src);
+	if (!name)
+		return (j);
 	value = ft_copy(ft_search_value(env, name));
+	free(name);
 	if (!value)
 		value = ft_copy("");
 	k = 0;
@@ -34,7 +60,7 @@ int	ft_var_value(t_str *s, char *final_buffer, int j, t_env *env)
 	return (j);
 }
 
-int	ft_exit_code(char *final_buffer, int exit_code, int j)
+static int	ft_exit_code(char *final_buffer, int exit_code, int j)
 {
 	char	*str_exit_code;
 	int		k;

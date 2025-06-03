@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-t_token	*remove_token(t_token *token, t_token *prev, t_token *to_remove)
+static t_token	*remove_token(t_token *token, t_token *prev, t_token *to_remove)
 {
 	if (!prev)
 		token = to_remove->next;
@@ -23,7 +23,7 @@ t_token	*remove_token(t_token *token, t_token *prev, t_token *to_remove)
 	return (token);
 }
 
-void	expand_token(t_token *token, t_data *data)
+static void	expand_token(t_token *token, t_data *data)
 {
 	char	*new_value;
 
@@ -47,7 +47,7 @@ void	expand_token(t_token *token, t_data *data)
 	}
 }
 
-int	needs_expansion(t_token *token)
+static int	needs_expansion(t_token *token)
 {
 	if (!token || !token->value)
 		return (0);

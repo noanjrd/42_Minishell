@@ -29,6 +29,7 @@ static void	free_before_exit(t_data *data)
 		free_env(data->env);
 		data->env = NULL;
 	}
+	// ft_free_tab
 	if (data->paths_system)
 	{
 		while (data->paths_system[i])

@@ -17,7 +17,8 @@ static int	should_remove_dollar(t_token *curr)
 	if (!curr || !curr->next)
 		return (0);
 	if (curr->type == WORD && strcmp(curr->value, "$") == 0
-		&& curr->next->type == DOUBLE_QUOTES)
+		&& (curr->next->type == DOUBLE_QUOTES
+		|| curr->next->type == SINGLE_QUOTES))
 		return (1);
 	return (0);
 }
@@ -38,7 +39,7 @@ static t_token	*remove_dollar(t_token **head, t_token *prev, t_token *curr)
 	return (next_token);
 }
 
-t_token	*ft_preprocess_dollar_quotes(t_token *tokens)
+t_token	*ft_dollar_quotes(t_token *tokens)
 {
 	t_token	*curr;
 	t_token	*prev;
