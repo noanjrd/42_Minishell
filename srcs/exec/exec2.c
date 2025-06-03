@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 12:30:22 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 18:25:38 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@ static void	ft_sigitn(int sig)
 	if (sig == SIGINT)
 	{
 		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		g_exit_code_signal = 130;
+	}
+	else
+	{
+		ft_putstr_fd("Quit (core dumped)\n", 2);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		g_exit_code_signal = 130;
@@ -87,7 +94,6 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 {
 	if (builtin_check(cmd) == 2)
 	{
-		// printf("lol\n");
 		cmd->check_fdin = -1;
 		return (go_to_right_builtin(data, cmd->index));
 	}
@@ -95,8 +101,8 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 	cmd->fdpipe[1] = -1;
 	pipe(cmd->fdpipe);
 	cmd->pid = fork();
-	signal(SIGINT ,ft_sigitn);
-	signal(SIGQUIT ,SIG_IGN);
+	signal(SIGINT, ft_sigitn);
+	signal(SIGQUIT, ft_sigitn);
 	if (cmd->pid == 0 && builtin_check(cmd) != 2)
 	{
 		dup_cases(cmd);

@@ -26,6 +26,7 @@ SRCS = srcs/main.c\
 	srcs/exec/infile.c\
 	srcs/exec/outfile.c\
 	srcs/exec/paths.c\
+	srcs/exec/paths2.c\
 	srcs/exec/prep.c\
 	srcs/exec/relink_commands.c\
 	srcs/exec/relink_commands2.c\

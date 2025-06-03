@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 11:42:39 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 11:57:22 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:30:33 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_remove(t_env *env, char *name)
 	return ;
 }
 
-void	ft_unset(t_env *env, t_token *token)
+void	ft_unset(t_data *data, t_token *token)
 {
 	t_token	*cpy_token;
 
@@ -45,7 +45,7 @@ void	ft_unset(t_env *env, t_token *token)
 	cpy_token = cpy_token->next;
 	while (cpy_token && cpy_token->type == WORD)
 	{
-		ft_remove(env, cpy_token->value);
+		ft_remove(data->env, cpy_token->value);
 		cpy_token = cpy_token->next;
 	}
 	return ;

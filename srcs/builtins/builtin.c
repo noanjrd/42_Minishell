@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:42:48 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 14:55:01 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 18:24:08 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_token	*builtin(t_data *data, t_token *token, char *commands)
 	}
 	if (ft_strcmp(commands, "unset") == 0)
 	{
-		ft_unset(data->env, token);
+		ft_unset(data, token);
 		return (free(arg), token->next);
 	}
 	if (ft_strcmp(commands, "env") == 0)
@@ -79,7 +79,8 @@ void	go_to_right_builtin(t_data *data, int i)
 
 int	builtin_second_check(t_cmd *cmd)
 {
-	if (ft_strcmp(cmd->value, "export") == 0 || (cmd->next && ft_strstr(cmd->value, "export") == 1))
+	if (ft_strcmp(cmd->value, "export") == 0
+		|| (cmd->next && ft_strstr(cmd->value, "export") == 1))
 	{
 		return (1);
 	}
@@ -114,5 +115,5 @@ int	builtin_check(t_cmd *cmd)
 	{
 		return (2);
 	}
-	return(builtin_second_check(cmd));
+	return (builtin_second_check(cmd));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 12:31:48 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:53:16 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	dup_cases(t_cmd *cmd)
 		dup2(cmd->prev_fdpipe[0], STDIN_FILENO);
 	if (cmd->path != NULL && cmd->fdout != -99 && cmd->check_fdout == 1)
 		dup2(cmd->fdout, STDOUT_FILENO);
-	else if ((cmd->path != NULL || ft_strcmp(cmd->value,"export") == 0) 
+	else if ((cmd->path != NULL || ft_strcmp(cmd->value, "export") == 0)
 		&& cmd->next && cmd->next->end == 0)
 		dup2(cmd->fdpipe[1], STDOUT_FILENO);
 	if (cmd->fdpipe[0] != -1)

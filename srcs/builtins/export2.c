@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:57:03 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 12:03:52 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:34:50 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,13 @@ void	export_merge(t_env *env, char *name, char *value)
 	return ;
 }
 
-int	ft_check_first_character(t_token *token_copy)
+int	ft_check_first_character(char *value)
 {
-	if (token_copy->value[0] != '_' && !(token_copy->value[0] >= 'a' && token_copy->value[0] <= 'z') 
-	&& !(token_copy->value[0] >= 'A' && token_copy->value[0] <= 'Z') )
+	if (value[0] != '_'
+		&& !(value[0] >= 'a'
+			&& value[0] <= 'z')
+		&& !(value[0] >= 'A'
+			&& value[0] <= 'Z'))
 	{
 		return (1);
 	}

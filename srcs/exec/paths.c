@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:54:46 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 13:00:34 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 18:04:49 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	check_path_exist(t_data *data, t_cmd *cmd)
 			free(entire_path);
 			i++;
 		}
+		ft_check_if_value_path(cmd, data->tokens);
 		cpy_cmd = cpy_cmd->next;
 	}
-	return ;
 }

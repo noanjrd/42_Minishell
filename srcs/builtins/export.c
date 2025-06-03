@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:48 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 12:01:42 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:44:12 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ t_token	*export_launch(t_data *data, t_env *env, t_token *token, char *export)
 	char	*value;
 
 	name = get_name_export(export);
-	if (!name || check_valid_name(name, 0) == 1)
+	if (!name || check_valid_name(name) == 1)
 	{
 		ft_putstr_fd("minishell: export: `", 2);
 		ft_putstr_fd(token->value, 2);
-		write(2,"': not a valid identifier\n",26);
+		write(2, "': not a valid identifier\n", 26);
 		data->exit_code = 1;
 		free(name);
 		return (token->next);
@@ -112,14 +112,6 @@ void	ft_export(t_data *data, t_env *env, t_token *token)
 	if (!token_copy->next || ft_condition(token_copy) == 1)
 		return (display_export(env));
 	token_copy = token_copy->next;
-	if (ft_check_first_character(token_copy) == 1)
-	{
-		ft_putstr_fd("minishell: export: `", 2);
-		ft_putstr_fd(token_copy->value, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
-		data->exit_code = 1;
-		return ;
-	}
 	while (token_copy && (token_copy->type == WORD
 			|| token_copy->type == SINGLE_QUOTES
 			|| token_copy->type == DOUBLE_QUOTES))

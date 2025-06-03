@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 12:27:57 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:00:49 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	printf_error_beginning(t_data *data, t_cmd *cmd, int error)
 	}
 	if (error == 2)
 	{
-		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("minishellddddd: ", 2);
 		ft_putstr_fd(cmd->value, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 	}
