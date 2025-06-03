@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/06/02 13:23:33 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/02 16:29:37 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static void	ft_sigitn(int sig)
 		write(1,"\n",1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		exit_code_signal = 130;
+		// rl_redisplay();
+		g_exit_code_signal = 130;
 	}
 	return ;
 }
@@ -53,7 +54,7 @@ void ft_parents(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 		cmd->prev_fdpipe = NULL;
 	}
 	cmd_temp = cmd;
-	while (cmd->next && cmd->next->type == IN_OUT_FILENAME 
+	while (cmd->next && cmd->next->type == IN_OUT_FILENAME
 		&& cmd->next->end == 0 && cmd->next->redirect_in_before == 1)
 		cmd = cmd->next;
 	ft_parents_second_part(cmd, cmd_temp);

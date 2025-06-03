@@ -12,6 +12,26 @@
 
 #include "../../includes/minishell.h"
 
+char	*ft_strdup(char *src)
+{
+	char	*dest;
+	int		i;
+
+	i = 0;
+	dest = (char *)malloc(sizeof (char) * (ft_strlen(src) +1));
+	if (!dest)
+	{
+		return (NULL);
+	}
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
 static long	ft_nlen(long n)
 {
 	long	len;
@@ -69,4 +89,28 @@ char	*ft_itoa(int n)
 		num = num / 10;
 	}
 	return (str);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char			*substr;
+	size_t			i;
+
+	if (!s)
+		return (NULL);
+	if (start >= strlen(s))
+		return (strdup(""));
+	if (len > strlen(s + start))
+		len = strlen(s + start);
+	substr = malloc(sizeof(char) * (len + 1));
+	if (!substr)
+		return (NULL);
+	i = 0;
+	while (i < len && s[start + i])
+	{
+		substr[i] = s[start + i];
+		i++;
+	}
+	substr[i] = '\0';
+	return (substr);
 }

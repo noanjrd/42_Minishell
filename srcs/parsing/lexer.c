@@ -12,13 +12,13 @@
 
 #include "../../includes/minishell.h"
 
-void	skip_spaces(char *line, int *i)
+void	skip_whitespaces(char *line, int *i)
 {
 	while (line[*i] && ((line[*i] >= 9 && line[*i] <= 13) || line[*i] == 32))
 		(*i)++;
 }
 
-t_token	*handle_symbol2(char *line, int *i)
+static t_token	*handle_symbol2(char *line, int *i)
 {
 	t_token	*token;
 
@@ -36,7 +36,7 @@ t_token	*handle_symbol2(char *line, int *i)
 	return (token);
 }
 
-t_token	*handle_symbol(char *line, int *i)
+static t_token	*handle_symbol(char *line, int *i)
 {
 	t_token	*token;
 
@@ -72,10 +72,10 @@ t_token	*lexer(char *line)
 	token = NULL;
 	while (line[i])
 	{
-		skip_spaces(line, &i);
+		token = NULL;
+		skip_whitespaces(line, &i);
 		if (line[i] == '\0')
 			break ;
-		token = NULL;
 		if (is_symbol(line[i]))
 			token = handle_symbol(line, &i);
 		else
@@ -87,6 +87,5 @@ t_token	*lexer(char *line)
 		}
 		add_token(&head, token);
 	}
-	// print_tokens(head);
 	return (head);
 }

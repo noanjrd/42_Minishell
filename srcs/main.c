@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/06/02 11:28:03 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 09:21:34 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,28 +58,51 @@ static void	ft_sigitn(int sig)
 {
 	if (sig == SIGINT)
 	{
-		write(1,"\n",1);
+		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		exit_code_signal = 130;
+		g_exit_code_signal = 130;
 	}
 	return ;
 }
 
+t_token	*ft_parse(t_data *data)
+{
+	data->tokens = lexer(data->line);
+	free(data->line);
+	data->line = NULL;
+	if (ft_check_syntax_errors(data, data->tokens))
+	{
+		data->exit_code = 2;
+		if (data->tokens)
+		{
+			free_token_list(data->tokens);
+			data->tokens = NULL;
+		}
+		return (NULL);
+	}
+	data->tokens = ft_dollar_quotes(data->tokens);
+	data->tokens = expander(data->tokens, data);
+	if (data->tokens)
+		merge_tokens(&data->tokens);
+	reassign_index(data->tokens);
+	return (data->tokens);
+}
+
 void	ft_readline(t_data *data)
 {
-	char *pwd;
-	char *tmp;
+	char	*pwd;
+	char	*tmp;
 
-	while(1)
+	while (1)
 	{
-		signal(SIGINT ,ft_sigitn);
-		signal(SIGQUIT ,SIG_IGN);
+		signal(SIGINT, ft_sigitn);
+		signal(SIGQUIT, ft_sigitn);
 		tmp = NULL;
 		if (data->env)
-			tmp = ft_join(COLOR_PINK,ft_search_value(data->env, "PWD"));
-		pwd = ft_join(tmp,"\001\033[38;5;198m\002$\001\033[38;5;205m\002 ");
+			tmp = ft_join(COLOR_PINK, ft_search_value(data->env, "PWD"));
+		pwd = ft_join(tmp, "\001\033[38;5;198m\002$\001\033[38;5;205m\002 ");
 		free(tmp);
 		data->line = readline(pwd);
 		if (!data->line)
@@ -87,36 +110,18 @@ void	ft_readline(t_data *data)
 			free(pwd);
 			return ;
 		}
-		if (exit_code_signal != 0)
+		if (g_exit_code_signal != 0)
 		{
-			data->exit_code = exit_code_signal;
-			exit_code_signal = 0;
+			data->exit_code = g_exit_code_signal;
+			g_exit_code_signal = 0;
 		}
 		free(pwd);
-		if (data->line && *data->line) // Check if data->line is not NULL and not an empty string
-		{
+		if (data->line && *data->line)
 			add_history(data->line);
-		}
-		data->tokens = lexer(data->line);
-		free(data->line);
-		if (ft_check_syntax_errors(data, data->tokens))
-		{
-			data->exit_code = 2;
-			if (data->tokens)
-			{
-				free_token_list(data->tokens);
-				data->tokens = NULL;
-			}
-			continue;
-		}
-		data->tokens = expander(data->tokens, data);
-		// print_tokens(data->tokens);
-		if (data->tokens)
-			merge_tokens(&data->tokens);
-		reassign_index(data->tokens);
-		// print_tokens(data->tokens);
+		data->tokens = ft_parse(data);
+		if (!data->tokens)
+			continue ;
 		make_commands(data, NULL, NULL, NULL);
-		// printf_cmd(data->commands);
 		exec_prep(data);
 		if (data->tokens)
 		{
@@ -127,13 +132,13 @@ void	ft_readline(t_data *data)
 	}
 }
 
-int exit_code_signal = 0;
+int	g_exit_code_signal = 0;
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_env	*env;
-	t_data *data;
-	int exit_c;
+	t_data	*data;
+	int		exit_c;
 
 	(void)argv;
 	(void)argc;
@@ -142,7 +147,6 @@ int main(int argc, char **argv, char **envp)
 	env = malloc(sizeof(t_env));
 	init_data(data, env, envp);
 	ft_readline(data);
-
 	// if (argc >= 2)
 	// {
 	// 	data->tokens = lexer(argv[1]);
@@ -174,11 +178,7 @@ int main(int argc, char **argv, char **envp)
 	// 		}
 	// 	}
 	// }
-	// if (argc >= 3)
-	// {
-	// 	data->tokens = lexer(argv[2]);
-	// 	// print_tokens(data->tokens);
-	// 	data->tokens = expander(data->tokens, data);
+	// if (argc >= 3)srcs/builtins/exit.c\
 	// 	// print_tokens(data->tokens);
 	// 	if (data->tokens)
 	// 		merge_tokens(&data->tokens);
@@ -197,5 +197,5 @@ int main(int argc, char **argv, char **envp)
 	// }
 	exit_c = data->exit_code;
 	free_data(data);
-	return(exit_c);
+	return (exit_c);
 }

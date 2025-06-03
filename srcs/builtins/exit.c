@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:45:35 by njard             #+#    #+#             */
-/*   Updated: 2025/05/28 11:46:07 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/02 18:30:34 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	check_num(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str[i] && (str[i] == '+' || str[i] == '-'))
@@ -30,65 +30,32 @@ static int	check_num(char *str)
 	return (1);
 }
 
-int	ft_atoll(char *str, long long *result)
+static void	ft_putstr_error(t_token *token)
 {
-	size_t		i;
-	int			sign;
-	long long	num;
-
-	i = 0;
-	sign = 1;
-	num = 0;
-	*result = 0;
-	while((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		if ( sign == 1 && (num > ((LLONG_MAX - (str[i] - '0')) / 10)
-			|| (sign == -1 && -num < (LLONG_MIN + (str[i] - '0')) / 10)))
-			return (0);
-		num = num * 10 + (str[i] - '0');
-		i++;
-	}
-	if (str[i] != '\0')
-		return (0);
-	*result = num * sign;
-	return (1);
+	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd(token->value, 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
 }
 
-void free_before_exit(t_data *data)
+static int	has_too_many_args(t_token *token)
 {
-	int	i;
+	if (!token)
+		return (0);
+	if (token->next && (token->next->type == WORD
+			|| token->next->type == DOUBLE_QUOTES
+			|| token->next->type == SINGLE_QUOTES))
+		return (1);
+	return (0);
+}
 
-	i = 0;
-	clear_history();
-	if (data->tokens)
-	{
-		free_token_list(data->tokens);
-		data->tokens = NULL;
-	}
-	free_cmd(data->commands);
-	if (data->env)
-	{
-		free_env(data->env);
-		data->env = NULL;
-	}
-	if (data->paths_system)
-	{
-		while (data->paths_system[i])
-		{
-			free(data->paths_system[i]);
-			i++;
-		}
-		free(data->paths_system);
-	}
-	free(data);
+static int	is_valid_token_type(t_token *token)
+{
+	if (!token)
+		return (0);
+	if ((token->type == WORD || token->type == DOUBLE_QUOTES
+			|| token->type == SINGLE_QUOTES))
+		return (1);
+	return (0);
 }
 
 void	ft_exit(t_data *data, t_token *token)
@@ -100,27 +67,22 @@ void	ft_exit(t_data *data, t_token *token)
 	exit_code = 0;
 	cpy_token = token->next;
 	printf("exit\n");
-	if (cpy_token && (cpy_token->type == WORD || cpy_token->type == DOUBLE_QUOTES || cpy_token->type == SINGLE_QUOTES))
+	if (is_valid_token_type(cpy_token) == 1)
 	{
-		if (!ft_atoll(cpy_token->value, &ll_value) || !check_num(cpy_token->value))
+		if (!ft_atoll(cpy_token->value, &ll_value)
+			|| !check_num(cpy_token->value))
 		{
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(cpy_token->value, 2);
-			ft_putstr_fd(": numeric argument required\n",2);
+			ft_putstr_error(cpy_token);
 			exit_code = 2;
 		}
-		else if (cpy_token->next && (cpy_token->next->type == WORD || cpy_token->next->type == DOUBLE_QUOTES || cpy_token->next->type == SINGLE_QUOTES))
+		else if (has_too_many_args(cpy_token) == 1)
 		{
 			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-			exit_code = 1;
-			data->exit_code = exit_code;
+			data->exit_code = 1;
 			return ;
 		}
 		else
-			exit_code = (int)(ll_value % 256);
+			exit_code = (unsigned char)(ll_value);
 	}
-	free_before_exit(data);
-	exit(exit_code);
+	free_and_exit(data, exit_code);
 }
-
-

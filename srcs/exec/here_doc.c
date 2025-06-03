@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:23:27 by njard             #+#    #+#             */
-/*   Updated: 2025/06/01 15:50:28 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/02 16:30:12 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_sigitn(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		close(0);
-		exit_code_signal = -99;
+		g_exit_code_signal = -99;
 	}
 	return ;
 }
@@ -56,7 +56,7 @@ void	here_doc_start(char *stop, t_data *data, int tmp, int *fd)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line && exit_code_signal == -99)
+		if (!line && g_exit_code_signal == -99)
 		{
 			dup2(tmp, 0);
 			break;
@@ -77,7 +77,7 @@ void	here_doc_start(char *stop, t_data *data, int tmp, int *fd)
 
 void	here_doc(t_token *token, t_data *data)
 {
-	
+
 	int fd;
 
 	signal(SIGINT ,ft_sigitn);

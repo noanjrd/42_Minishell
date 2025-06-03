@@ -12,117 +12,73 @@
 
 #include "../../includes/minishell.h"
 
-int	is_space(char c)
+static void	ft_has_space(t_token *token, char *line, int i)
 {
-	if (c == ' ')
-		return (1);
-	return (0);
+	if (line[i] && is_space(line[i]))
+		token->has_space = 1;
+	else
+		token->has_space = 0;
 }
 
-int	is_symbol(char c)
+static char	*extract_word(char *line, int *i, int *token_type)
 {
-	if (c == '<' || c == '>' || c == '|')
-		return (1);
-	return (0);
+	int		start;
+	char	*word;
+
+	start = *i;
+	*token_type = WORD;
+	while (line[*i] && !is_space(line[*i]) && !is_symbol(line[*i])
+		&& line[*i] != 34 && line[*i] != 39)
+		(*i)++;
+	word = ft_substr(line, start, *i - start);
+	return (word);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+static char	*extract_quoted_word(char *line, int *i, int *token_type)
 {
-	char			*substr;
-	size_t			i;
-
-	if (!s)
-		return (NULL);
-	if (start >= strlen(s))
-		return (strdup(""));
-	if (len > strlen(s + start))
-		len = strlen(s + start);
-	substr = malloc(sizeof(char) * (len + 1));
-	if (!substr)
-		return (NULL);
-	i = 0;
-	while (i < len && s[start + i])
-	{
-		substr[i] = s[start + i];
-		i++;
-	}
-	substr[i] = '\0';
-	return (substr);
-}
-
-t_token *create_token_word(char *line, int *index)
-{
-	int		i;
 	int		start;
 	char	quote;
+	char	*word;
+
+	quote = line[*i];
+	if (quote == 34)
+		*token_type = DOUBLE_QUOTES;
+	else
+		*token_type = SINGLE_QUOTES;
+	start = *i + 1;
+	(*i)++;
+	while (line[*i] && line[*i] != quote)
+		(*i)++;
+	if (line[*i] != quote)
+	{
+		printf("Syntax error: unclosed quote\n");
+		return (NULL);
+	}
+	word = ft_substr(line, start, *i - start);
+	(*i)++;
+	return (word);
+}
+
+t_token	*create_token_word(char *line, int *index)
+{
+	int		i;
 	int		token_type;
 	t_token	*token;
 	char	*word;
 
 	i = *index;
-	while (line[i] && is_space(line[i]))
-		i++;
+	skip_whitespaces(line, &i);
 	if (line[i] == '\0')
 		return (NULL);
-	if (line[i] == '\'' || line[i] == '"')
-	{
-		quote = line[i];
-		if (quote == '"')
-			token_type = DOUBLE_QUOTES;
-		else
-			token_type = SINGLE_QUOTES;
-		start = i + 1;
-		i++;
-		while (line[i] && line[i] != quote)
-			i++;
-		if (line[i] != quote)
-		{
-			printf("Syntax error: unclosed quote\n");
-			return (NULL);
-		}
-		word = ft_substr(line, start, i - start);
-		if (!word)
-			return (NULL);
-		i++;
-	}
+	if (line[i] == 34 || line[i] == 39)
+		word = extract_quoted_word(line, &i, &token_type);
 	else
-	{
-		start = i;
-		token_type = WORD;
-		while (line[i] && !is_space(line[i]) && !is_symbol(line[i]) &&
-				line[i] != '\'' && line[i] != '"')
-			i++;
-		word = ft_substr(line, start, i - start);
-		if (!word)
-			return (NULL);
-	}
+		word = extract_word(line, &i, &token_type);
+	if (!word)
+		return (NULL);
 	*index = i;
 	token = create_token(token_type, word);
-	if (line[i] && is_space(line[i]))
-		token->has_space = 1;
-	else
-		token->has_space = 0;
+	ft_has_space(token, line, i);
 	free(word);
 	return (token);
 }
-
-
-//"e"'c'ho hello
-
-// apres avoir fait l expansion
-// jai plusieurs tokens           e c ho hello
-
-// je fais une fonction qui va parcourir la liste de tokens, qui va les merge en fonction de is_space ?
-// while tokens if token->has_space cest un seul token donc lajouter dans un token dont le type est word sinon !has_space on merge
-
-// token -> token -> token -> token -> token -> NULL
-
-
-
-// gerer aussi le cas suivant :
-// naankour@c2r11p1:~/minimerge2$ echo "$dawdaw" hello
-//  hello
-// naankour@c2r11p1:~/minimerge2$ echo $dawdaw hello
-// hello
-// naankour@c2r11p1:~/minimerge2$ echo $dawdaw hello
-// et renvoyer cette nouvelle liste de tokens

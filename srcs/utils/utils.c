@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:21:11 by njard             #+#    #+#             */
-/*   Updated: 2025/05/29 12:16:29 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/02 15:57:05 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// This function returns the value of the variable "name" (a string) from the environment.
+// This function returns the value of
+//the variable "name" (a string) from the environment.
 char	*ft_search_value(t_env *env, char *string)
 {
-	t_env *copy;
+	t_env	*copy;
 
 	copy = env;
-	while(copy)
+	while (copy)
 	{
 		if (ft_strcmp(string, copy->name) == 0)
 			return (copy->value);
@@ -27,13 +28,14 @@ char	*ft_search_value(t_env *env, char *string)
 	return (NULL);
 }
 
-// This function changes the value of a variable named "name" in the environment.
+// This function changes the value of a
+//variable named "name" in the environment.
 void	change_value(t_env *env, char *name, char *value)
 {
-	t_env *copy;
+	t_env	*copy;
 
 	copy = env;
-	while(copy)
+	while (copy)
 	{
 		if (ft_strcmp(name, copy->name) == 0)
 		{
@@ -46,18 +48,19 @@ void	change_value(t_env *env, char *name, char *value)
 	return ;
 }
 
-// This function copies a string given in argument into a new char* et returns it
+// This function copies a string given in
+// argument into a new char* et returns it
 char	*ft_copy(char *string)
 {
-	int i;
-	char *copied_string;
+	int		i;
+	char	*copied_string;
 
 	if (!string)
 	{
 		return (NULL);
 	}
 	i = 0;
-	while(string && string[i])
+	while (string && string[i])
 	{
 		i++;
 	}
@@ -65,7 +68,7 @@ char	*ft_copy(char *string)
 	if (!copied_string)
 		return (NULL);
 	i = 0;
-	while(string && string[i])
+	while (string && string[i])
 	{
 		copied_string[i] = string[i];
 		i++;
@@ -76,12 +79,12 @@ char	*ft_copy(char *string)
 
 void	ft_free_tab(char **tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (tab)
 	{
-		while(tab[i])
+		while (tab[i])
 		{
 			free(tab[i]);
 			i++;

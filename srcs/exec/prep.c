@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/06/02 13:26:25 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/02 16:30:36 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	number_of_commands(t_data *data)
 	cpy_cmd = data->commands;
 	while (cpy_cmd)
 	{
-		if (cpy_cmd->type != IN_OUT_FILENAME 
+		if (cpy_cmd->type != IN_OUT_FILENAME
 			|| cpy_cmd->red_out == 1)
 			data->nb_of_commands++;
 		cpy_cmd = cpy_cmd->next;
@@ -86,14 +86,14 @@ void	exec_fdin(t_data *data)
 	cpy_token = data->tokens;
 	while (cpy_token)
 	{
-		if (cpy_cmd->next && cpy_cmd->infile 
+		if (cpy_cmd->next && cpy_cmd->infile
 			&& cpy_cmd->next->type == IN_OUT_FILENAME)
 			fdin_before(data, cpy_cmd);
-		if (cpy_cmd->type == IN_OUT_FILENAME 
+		if (cpy_cmd->type == IN_OUT_FILENAME
 			&& cpy_cmd->redirect_in_before == 0)
 			fdin_after(data, cpy_cmd);
-		if (cpy_cmd->next && 
-			(cpy_token->type == PIPE 
+		if (cpy_cmd->next &&
+			(cpy_token->type == PIPE
 				|| cpy_token->type == REDIRECT_OUT
 			|| cpy_token->type == REDIRECT_APPEND
 			|| cpy_token->type == REDIRECT_IN
@@ -123,17 +123,17 @@ void	exec_prep(t_data *data)
 	relink_commands(cpy_token, cpy_cmd);
 	cpy_token = data->tokens;
 	cpy_cmd = data->commands;
-	while (cpy_token && exit_code_signal != -99)
+	while (cpy_token && g_exit_code_signal != -99)
 	{
-		if (cpy_token->type == HERE_DOC && exit_code_signal != -99)
+		if (cpy_token->type == HERE_DOC && g_exit_code_signal != -99)
 			here_doc(cpy_token, data);
 		cpy_token = cpy_token->next;
 	}
-	if (exit_code_signal != -99)
+	if (g_exit_code_signal != -99)
 		exec_fdout(data);
 	else
 	{
-		exit_code_signal = 0;
+		g_exit_code_signal = 0;
 		data->exit_code = 130;
 	}
 }
