@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:01:46 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 12:05:25 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:44:06 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,12 @@ void	create_export(t_env *env, char *name, char *value)
 	return ;
 }
 
-int	check_valid_name(char *name, int check)
+int	check_valid_name(char *name)
 {
 	int	i;
 
 	i = 0;
-	while (name[i])
-	{
-		if (!(name[i] >= '0' && name[i] <= '9'))
-		{
-			check = 1;
-			break ;
-		}
-		i++;
-	}
-	if (check == 0)
+	if (ft_check_first_character(name) == 1)
 		return (1);
 	i = 0;
 	while (name[i])

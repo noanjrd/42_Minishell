@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 13:14:46 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:57:34 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	ft_readline(t_data *data)
 	while (1)
 	{
 		signal(SIGINT, ft_sigitn);
-		signal(SIGQUIT, ft_sigitn);
+		signal(SIGQUIT, SIG_IGN);
 		tmp = NULL;
 		if (data->env)
 			tmp = ft_join(COLOR_PINK, ft_search_value(data->env, "PWD"));
@@ -109,78 +109,7 @@ int	main(int argc, char **argv, char **envp)
 	env = malloc(sizeof(t_env));
 	init_data(data, env, envp);
 	ft_readline(data);
-	// if (argc >= 2)
-	// {
-	// 	data->tokens = lexer(argv[1]);
-	// 	// print_tokens(data->tokens);
-	// 	if (ft_check_syntax_errors(data->tokens) == 0)
-	// 	{
-	// 		data->tokens = expander(data->tokens, data);
-	// 		if (data->tokens)
-	// 			merge_tokens(&data->tokens);
-	// 		// print_tokens(data->tokens);
-	// 		reassign_index(data->tokens);
-	// 		make_commands(data, NULL, NULL, NULL);
-	// 		// printf_cmd(data->commands);
-	// 		exec(data);
-	// 		if (data->tokens)
-	// 		{
-	// 			free_token_list(data->tokens);
-	// 			data->tokens = NULL;
-	// 		}
-	// 		free_cmd(data->commands);
-	// 		free_readline_data(data);
-	// 	}
-	// 	else
-	// 	{
-	// 		if (data->tokens)
-	// 		{
-	// 			free_token_list(data->tokens);
-	// 			data->tokens = NULL;
-	// 		}
-	// 	}
-	// }
-	// if (argc >= 3)srcs/builtins/exit.c\
-	// 	// print_tokens(data->tokens);
-	// 	if (data->tokens)
-	// 		merge_tokens(&data->tokens);
-	// 	// print_tokens(data->tokens);
-	// 	reassign_index(data->tokens);
-	// 	make_commands(data, NULL, NULL, NULL);
-	// 	// printf_cmd(data->commands);
-	// 	exec(data);
-	// 	if (data->tokens)
-	// 	{
-	// 		free_token_list(data->tokens);
-	// 		data->tokens = NULL;
-	// 	}
-	// 	free_cmd(data->commands);
-	// 	free_readline_data(data);
-	// }
 	exit_c = data->exit_code;
 	free_data(data);
 	return (exit_c);
 }
-
-// static void printf_cmd(t_cmd *cmd)
-// {
-// 	t_cmd *current = cmd;
-// 	while (current)
-// 	{
-// 		printf("value = %s, index=%d infile = %s, outfile = %s, type=%d,here_doc=%d, red_in_avant=%d, red=%d, appnd=%d, end=%d, first=%d, \n",
-// 			current->value,
-// 			current->index,
-// 			current->infile ? current->infile : "NULL",
-// 			current->outfile ? current->outfile : "NULL",
-// 			current->type,
-// 		current->here_doc,
-// 		current->redirect_in_before,
-// 	current->red_out,
-// 	current->red_append,
-// current->end,
-// 		current->first);
-// 		current = current->next;
-// 	}
-// 	printf("---------------------------\n");
-// 	return ;
-// }
