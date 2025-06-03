@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 13:03:42 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:24:44 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,17 @@
 # include <sys/stat.h>
 # include <sys/sysmacros.h>
 
-# define NEW_LINE "minishell: syntax error near unexpected token `newline'\n"
-# define TOKEN "minishell: syntax error near unexpected token `%s'\n"
-# define DOUBLE_PIPE "minishell: syntax error near unexpected token `||'\n"
-# define SINGLE_PIPE "minishell: syntax error near unexpected token `|'\n"
+# define NEW_LINE " minishell: syntax error near unexpected token `||'\n"
+
+# define TOKEN "minishell: syntax error near unexpected token `"
+
+# define DOUBLE_PIPE " minishell: syntax error near unexpected token `||'\n"
+
+# define SINGLE_PIPE " minishell: syntax error near unexpected token `|'\n"
+
 # define S_HERE_DOC "minishell: syntax error near unexpected token `<<'\n"
 # define APPEND "minishell: syntax error near unexpected token `>>'\n"
-
+# define TOKEN2 "minishell: syntax error near unexpected token `%s'\n"
 extern int	g_exit_code_signal;
 
 typedef struct t_env
