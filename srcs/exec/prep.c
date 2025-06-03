@@ -3,49 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   prep.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 18:25:29 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 19:03:39 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// void printf_cmd(t_cmd *cmd)
-// {
-// 	t_cmd *current = cmd;
-// 	int i = 0;
-
-// 	while (current)
-// 	{
-// 		i = 0;
-// 		printf("val=%s, in=%s, out=%s, fdin=%d, fdout=%d, i=%d, here=%d, appd=%d, path=%s, end=%d, ",
-// 			current->value,
-// 			current->infile ? current->infile : "NULL",
-// 			current->outfile ? current->outfile : "NULL",
-// 			current->fdin,
-// 			current->fdout,
-// 			current->index,
-// 			current->here_doc,
-// 			current->red_append,
-// 		current->path,
-// 	current->end);
-// 		printf("tab = ");
-// 		if (current->tab)
-// 		{
-// 			while (current->tab && current->tab[i])
-// 			{
-// 				printf("| %s", current->tab[i]);
-// 				i++;
-// 			}
-// 		}
-// 		printf("\n");
-// 		current = current->next;
-// 	}
-// 	printf("--------------------------------------------\n");
-// 	return ;
-// }
 
 void	number_of_commands(t_data *data)
 {
@@ -66,7 +31,6 @@ void	details_before_exec(t_data *data)
 {
 	if (data->env)
 		check_path_exist(data, data->commands);
-	// printf_cmd(data->commands);
 	number_of_commands(data);
 	exec(data);
 }
@@ -140,7 +104,7 @@ void	exec_prep(t_data *data)
 // 	while (current)
 // 	{
 // 		i = 0;
-// 		printf("val=%s, in=%s, out=%s, fdin=%d, 
+// 		printf("val=%s, in=%s, out=%s, fdin=%d,
 // fdout=%d, i=%d, here=%d, appd=%d, path=%s, end=%d, ",
 // 			current->value,
 // 			current->infile ? current->infile : "NULL",

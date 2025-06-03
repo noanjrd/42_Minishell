@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 17:24:44 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 19:05:04 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ void				printf_error_beginning(t_data *data, t_cmd *cmd, int error);
 void				ft_error_fork(t_data *data);
 void				dup_cases(t_cmd *cmd);
 void				wait_p(t_data *data);
-void	ft_check_if_value_path(t_cmd *cmd, t_token *token);
+void				ft_check_if_value_path(t_cmd *cmd, t_token *token);
 void				rest_tab(t_token *token, t_cmd *cpy_cmd);
 void				put_tab(t_cmd *cmd, t_cmd *cpy_cmd);
 void				put_tab_recompose(t_cmd *cmd, t_cmd *cpy_cmd);
