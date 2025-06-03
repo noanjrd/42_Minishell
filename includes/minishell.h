@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 10:05:50 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:03:42 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,8 +197,6 @@ void	rest_ofthesteps_four(t_cmd *cmd, int check);
 t_token	*lexer(char *line);
 void	skip_whitespaces(char *line, int *i);
 int		is_symbol(char c);
-// t_token	*handle_symbol(char *line, int *i);
-// t_token	*handle_symbol2(char *line, int *i);
 t_token	*create_token_word(char *line, int *index);
 int		is_space(char c);
 t_token	*create_token(t_token_type type, char *value);
@@ -206,21 +204,11 @@ void	add_token(t_token **head, t_token *new);
 int		ft_check_syntax_errors(t_data *data, t_token *token);
 void	skip_spaces2(char *line, int *i);
 t_token	*ft_dollar_quotes(t_token *tokens);
-// void	print_tokens(t_token *head);
 
 // EXPANDER
 t_token	*expander(t_token *token, t_data *data);
-// int		needs_expansion(t_token *token);
-// void	expand_token(t_token *token, t_data *data);
-// t_token	*remove_token(t_token *token, t_token *prev, t_token *to_remove);
 char	*new_token_value(char *str, t_data	*data);
-// char	*ft_malloc_final_buffer(char *str, t_env *env, int exit_code);
-// int		get_token_length(char *str, t_env *env, int exit_code);
-// int		handle_exit_code(char **str, int exit_code, int *len);
-// int		handle_env_var(char **str, t_env *env, int *len);
 int		ft_handle_dollar(t_str *src, char *final_buffer, int j, t_data *data);
-// int		ft_exit_code(char *final_buffer, int exit_code, int j);
-// int		ft_var_value(t_str *s, char *final_buffer, int j, t_env *env);
 void	merge_tokens(t_token	**token);
 void	reassign_index(t_token *tokens);
 

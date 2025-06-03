@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cd2.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:34:00 by njard             #+#    #+#             */
-/*   Updated: 2025/05/29 13:39:05 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 12:24:53 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *cd_root(void)
+char	*cd_root(void)
 {
-	char *path;
+	char	*path;
 
 	printf("la\n");
 	path = malloc(2 * sizeof(char));
@@ -27,15 +27,15 @@ char *cd_root(void)
 
 void	cd_error(t_data *data)
 {
-	write(2," too many arguments\n",20);
+	write(2, " too many arguments\n", 20);
 	data->exit_code = 1;
 	return ;
 }
 
-void go_into_specific_dr(t_data *data, t_env *env, char *current, char *path)
+void	go_into_specific_dr(t_data *data, t_env *env, char *current, char *path)
 {
-	char *new_path;
-	char *temp;
+	char	*new_path;
+	char	*temp;
 
 	temp = getcwd(NULL, 0);
 	new_path = ft_join(current, path);
@@ -50,9 +50,9 @@ void go_into_specific_dr(t_data *data, t_env *env, char *current, char *path)
 	else
 	{
 		path++;
-		write(2,"cd: ",4);
+		write(2, "cd: ", 4);
 		ft_putstr_fd(path, 2);
-		write(2,": No such file or directory\n",28);
+		write(2, ": No such file or directory\n", 28);
 		path--;
 		data->exit_code = 1;
 		free(path);
@@ -61,9 +61,9 @@ void go_into_specific_dr(t_data *data, t_env *env, char *current, char *path)
 	}
 }
 
-void absolute_path(t_env *env, char *path)
+void	absolute_path(t_env *env, char *path)
 {
-	char *temp;
+	char	*temp;
 
 	temp = getcwd(NULL, 0);
 	if (access(path, F_OK) == 0)
@@ -75,9 +75,9 @@ void absolute_path(t_env *env, char *path)
 	else
 	{
 		path++;
-		write(2,"cd: ",4);
+		write(2, "cd: ", 4);
 		ft_putstr_fd(path, 2);
-		write(2,": No such file or directory\n",28);
+		write(2, ": No such file or directory\n", 28);
 		path--;
 		free(path);
 		free(temp);

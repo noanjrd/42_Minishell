@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/06/01 15:45:01 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 12:27:57 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void printf_error_beginning(t_data *data, t_cmd *cmd, int error)
+void	printf_error_beginning(t_data *data, t_cmd *cmd, int error)
 {
 	if (error == 1)
 	{
@@ -40,13 +40,13 @@ void printf_error_beginning(t_data *data, t_cmd *cmd, int error)
 
 void	check_middle_fdout(t_data *data, t_cmd *cmd)
 {
-	int fd;
+	int	fd;
 
 	if (cmd->red_out == 1 && cmd->outfile)
 	{
 		if (cmd->red_append == 0)
 		{
-			fd = open(cmd->value, open(cmd->value,O_TRUNC, 0700));
+			fd = open(cmd->value, open(cmd->value, O_TRUNC, 0700));
 			close(fd);
 		}
 	}
@@ -59,8 +59,8 @@ void	check_middle_fdout(t_data *data, t_cmd *cmd)
 
 void	ft_check_folder_or_file(t_data *data, t_cmd *cmd)
 {
-	struct stat sb;
-	int fd;
+	struct stat	sb;
+	int			fd;
 
 	stat(cmd->value, &sb);
 	if (S_ISREG(sb.st_mode))
@@ -92,7 +92,7 @@ void	ft_check_folder_file(t_data *data, t_cmd *cmd)
 	{
 		if (access(cmd->value, F_OK) == 0)
 		{
-			return(ft_check_folder_or_file(data, cmd));
+			return (ft_check_folder_or_file(data, cmd));
 		}
 		else
 		{
@@ -108,7 +108,7 @@ void	ft_check_folder_file(t_data *data, t_cmd *cmd)
 void	exec(t_data *data)
 {
 	t_cmd	*cpy_cmd;
-	int i;
+	int		i;
 
 	cpy_cmd = data->commands;
 	i = 0;
@@ -119,7 +119,7 @@ void	exec(t_data *data)
 			ft_check_folder_file(data, cpy_cmd);
 			i++;
 		}
-		cpy_cmd  = cpy_cmd->next;
+		cpy_cmd = cpy_cmd->next;
 	}
 	wait_p(data);
 	return ;

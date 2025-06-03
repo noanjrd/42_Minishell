@@ -6,13 +6,12 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:35:47 by njard             #+#    #+#             */
-/*   Updated: 2025/06/02 16:28:44 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 11:38:36 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// This function initializes the data structure
 void	init_data(t_data *data, t_env *env, char **envp)
 {
 	data->paths_system = NULL;
@@ -31,17 +30,15 @@ void	init_data(t_data *data, t_env *env, char **envp)
 
 static char	*get_name(char *envp)
 {
-	int i;
-	char *name;
+	int		i;
+	char	*name;
 
 	i = 0;
-	while(envp[i] != '=')
-	{
+	while (envp[i] != '=')
 		i++;
-	}
-	name  = malloc((i + 1) * sizeof(char));
+	name = malloc((i + 1) * sizeof(char));
 	i = 0;
-	while(envp[i] != '=')
+	while (envp[i] != '=')
 	{
 		name[i] = envp[i];
 		i++;
@@ -52,31 +49,30 @@ static char	*get_name(char *envp)
 
 static char	*get_value(char *envp)
 {
-	int i;
-	int j;
-	char *value;
+	int		i;
+	int		j;
+	char	*value;
 
 	i = 0;
 	j = 0;
-	while(envp[i] != '=')
+	while (envp[i] != '=')
 		i++;
-	while(envp[j])
+	while (envp[j])
 		j++;
-	value  = malloc((j - i + 1) * sizeof(char));
+	value = malloc((j - i + 1) * sizeof(char));
 	i++;
 	j = 0;
-	while(envp[i])
+	while (envp[i])
 		value[j++] = envp[i++];
 	value[j] = '\0';
 	return (value);
 }
 
-// This function initializes the env structure
 t_env	*env_init(t_env *env, char **envp)
 {
 	t_env	*head;
-	t_env	 *current;
-	int i;
+	t_env	*current;
+	int		i;
 
 	if (envp[0] == 0)
 		return (NULL);
@@ -96,6 +92,6 @@ t_env	*env_init(t_env *env, char **envp)
 		env = current;
 		i++;
 	}
-	env->next =NULL;
+	env->next = NULL;
 	return (head);
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:01:46 by njard             #+#    #+#             */
-/*   Updated: 2025/05/25 10:52:46 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 12:05:25 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int check_alrdy_exist(t_env *env, char *name, char *value, char *export)
+int	check_alrdy_exist(t_env *env, char *name, char *value, char *export)
 {
 	t_env	*copy;
 
@@ -22,7 +22,7 @@ int check_alrdy_exist(t_env *env, char *name, char *value, char *export)
 		export_merge(env, name, value);
 		return (1);
 	}
-	while(copy)
+	while (copy)
 	{
 		if (ft_strcmp(copy->name, name) == 0)
 		{
@@ -39,8 +39,8 @@ int check_alrdy_exist(t_env *env, char *name, char *value, char *export)
 
 void	create_export(t_env *env, char *name, char *value)
 {
-	t_env *temp;
-	t_env *new;
+	t_env	*temp;
+	t_env	*new;
 
 	new = malloc(sizeof(t_env));
 	if (!new)
@@ -60,7 +60,7 @@ void	create_export(t_env *env, char *name, char *value)
 
 int	check_valid_name(char *name, int check)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (name[i])
@@ -68,7 +68,7 @@ int	check_valid_name(char *name, int check)
 		if (!(name[i] >= '0' && name[i] <= '9'))
 		{
 			check = 1;
-			break;
+			break ;
 		}
 		i++;
 	}

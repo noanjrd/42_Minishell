@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 11:42:39 by njard             #+#    #+#             */
-/*   Updated: 2025/04/22 10:41:52 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 11:57:22 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void ft_remove(t_env *env, char *name)
+void	ft_remove(t_env *env, char *name)
 {
-	t_env *cpy;
-	t_env *temp;
+	t_env	*cpy;
+	t_env	*temp;
 
 	cpy = env;
 	while (cpy)
@@ -30,7 +30,7 @@ void ft_remove(t_env *env, char *name)
 			free(temp->name);
 			free(temp->value);
 			free(temp);
-			return;
+			return ;
 		}
 		cpy = cpy->next;
 	}

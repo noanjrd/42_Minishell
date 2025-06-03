@@ -12,17 +12,17 @@
 
 #include "../../includes/minishell.h"
 
-static char *go_back_cd(char *path)
+static char	*go_back_cd(char *path)
 {
-	char *new_path;
-	int i;
-	int j;
+	char	*new_path;
+	int		i;
+	int		j;
 
 	j = 0;
 	i = 0;
-	while(path[i])
+	while (path[i])
 		i++;
-	while(path[i] != '/')
+	while (path[i] != '/')
 		i--;
 	new_path = malloc((i + 2) * sizeof(char));
 	if (!new_path)
@@ -41,55 +41,49 @@ static char *go_back_cd(char *path)
 	return (new_path);
 }
 
-char *resolve_oldpwd(t_env *env)
+char	*resolve_oldpwd(t_env *env)
 {
-	char *oldpwd = ft_copy(ft_search_value(env, "OLDPWD"));
+	char	*oldpwd;
+
+	oldpwd = ft_copy(ft_search_value(env, "OLDPWD"));
 	if (access(oldpwd, F_OK) != 0)
-		return ft_copy(ft_search_value(env, "PWD"));
-	return oldpwd;
+		return (ft_copy(ft_search_value(env, "PWD")));
+	return (oldpwd);
 }
 
-
-char *resolve_cd_path(t_data *data, t_env *env, t_token *token, char *temp)
+char	*resolve_cd_path(t_data *data, t_env *env, t_token *token, char *temp)
 {
 	if (token && token->next && token->next->type == WORD)
-		return cd_error(data), NULL;
-
+		return (cd_error(data), NULL);
 	if (!token || token->type != WORD || ft_strcmp(token->value, "~") == 0)
-		return ft_copy(ft_search_value(env, "HOME"));
-
+		return (ft_copy(ft_search_value(env, "HOME")));
 	if (ft_strcmp(token->value, "-") == 0)
-		return resolve_oldpwd(env);
-
+		return (resolve_oldpwd(env));
 	if (token->value[0] == '/' && token->value[1] == '\0')
-		return cd_root();
-
+		return (cd_root());
 	if (token->value[0] == '/')
 		return (absolute_path(env, token->value), NULL);
-
 	if (ft_strcmp(token->value, "..") == 0)
-		return go_back_cd(temp);
-
-	return go_into_specific_dr(data, env, ft_copy(ft_search_value(env, "PWD")), ft_join("/", token->value)), NULL;
+		return (go_back_cd(temp));
+	return (go_into_specific_dr(data, env,
+			ft_copy(ft_search_value(env, "PWD")),
+			ft_join("/", token->value)), NULL);
 }
 
-void ft_cd(t_data *data, t_env *env, t_token *token)
+void	ft_cd(t_data *data, t_env *env, t_token *token)
 {
-	char *temp;
-	char *path;
+	char	*temp;
+	char	*path;
 
 	temp = ft_copy(ft_search_value(env, "PWD"));
 	path = resolve_cd_path(data, env, token, temp);
 	if (!path)
 	{
 		free(temp);
-		return;
+		return ;
 	}
 	change_value(env, "OLDPWD", temp);
 	chdir(path);
 	change_value(env, "PWD", path);
 	data->exit_code = 0;
 }
-
-
-
