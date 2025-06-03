@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 14:39:25 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 08:34:26 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 11:25:47 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	free_token(t_token *token)
 void	free_cmd(t_cmd *cmd)
 {
 	t_cmd	*temp;
-	int		i;
 
 	temp = cmd;
 	while (temp)
@@ -50,15 +49,7 @@ void	free_cmd(t_cmd *cmd)
 		if (cmd->fdout > 0)
 			close(cmd->fdout);
 		if (cmd->tab)
-		{
-			i = 0;
-			while (cmd->tab[i])
-			{
-				free(cmd->tab[i]);
-				i++;
-			}
-			free(cmd->tab);
-		}
+			ft_free_tab(cmd->tab);
 		free(cmd);
 		cmd = temp;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 09:21:34 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/03 10:39:24 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,7 @@ void	ft_readline(t_data *data)
 		free(tmp);
 		data->line = readline(pwd);
 		if (!data->line)
-		{
-			free(pwd);
-			return ;
-		}
+			return (free(pwd));
 		if (g_exit_code_signal != 0)
 		{
 			data->exit_code = g_exit_code_signal;

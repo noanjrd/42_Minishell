@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/06/02 13:02:03 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 15:17:08 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,12 @@ void dup_cases(t_cmd *cmd)
 	if (cmd->fdin != -99 && cmd->check_fdin == 1)
 		dup2(cmd->fdin, STDIN_FILENO);
 	else if (cmd->prev_fdpipe && cmd->prev_fdpipe[0] != -1)
-	{
 		dup2(cmd->prev_fdpipe[0], STDIN_FILENO);
-	}
 	if (cmd->path != NULL && cmd->fdout != -99 && cmd->check_fdout == 1)
 		dup2(cmd->fdout, STDOUT_FILENO);
-	else if (cmd->path != NULL  && cmd->next && cmd->next->end == 0)
-	{
+	else if ((cmd->path != NULL || ft_strcmp(cmd->value,"export") == 0) 
+		&& cmd->next && cmd->next->end == 0)
 		dup2(cmd->fdpipe[1], STDOUT_FILENO);
-	}
 	if (cmd->fdpipe[0] != -1)
 		close(cmd->fdpipe[0]);
 	if (cmd->fdpipe[1] != -1)

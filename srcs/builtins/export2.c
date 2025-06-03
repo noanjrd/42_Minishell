@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 09:57:03 by njard             #+#    #+#             */
-/*   Updated: 2025/06/02 13:01:32 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 15:00:04 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,14 @@ void	export_merge(t_env *env, char *name, char *value)
 		copy = copy->next;
 	}
 	return ;
+}
+
+int	ft_check_first_character(t_token *token_copy)
+{
+	if (token_copy->value[0] != '_' && !(token_copy->value[0] >= 'a' && token_copy->value[0] <= 'z') 
+	&& !(token_copy->value[0] >= 'A' && token_copy->value[0] <= 'Z') )
+	{
+		return (1);
+	}
+	return (0);
 }
