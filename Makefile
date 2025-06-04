@@ -25,6 +25,7 @@ SRCS = srcs/main.c\
 	srcs/exec/exec3.c\
 	srcs/exec/here_doc.c\
 	srcs/exec/infile.c\
+	srcs/exec/infile2.c\
 	srcs/exec/outfile.c\
 	srcs/exec/paths.c\
 	srcs/exec/paths2.c\
@@ -54,7 +55,8 @@ SRCS = srcs/main.c\
 	srcs/utils/ft_from_libft3.c\
 	srcs/utils/init.c\
 	srcs/utils/utils.c\
-	srcs/utils/utils2.c
+	srcs/utils/utils2.c\
+	srcs/sig.c\
 
 OBJS = ${SRCS:.c=.o}
 

@@ -3,33 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 18:25:38 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/04 12:12:33 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	ft_sigitn(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		g_exit_code_signal = 130;
-	}
-	else
-	{
-		ft_putstr_fd("Quit (core dumped)\n", 2);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		g_exit_code_signal = 130;
-	}
-	return ;
-}
+// static void	ft_sigint_exec(int sig)
+// {
+// 	if (sig == SIGINT)
+// 	{
+// 		write(1, "\n", 1);
+// 		rl_on_new_line();
+// 		rl_replace_line("", 0);
+// 		g_exit_code_signal = 130;
+// 	}
+// 	else
+// 	{
+// 		ft_putstr_fd("Quit (core dumped)\n", 2);
+// 		rl_on_new_line();
+// 		rl_replace_line("", 0);
+// 		g_exit_code_signal = 130;
+// 	}
+// 	return ;
+// }
 
 void	ft_parents_second_part(t_cmd *cmd, t_cmd *cmd_temp)
 {
@@ -101,8 +101,8 @@ void	excve_apply(t_data *data, t_cmd *cmd, t_cmd *cmd_temp)
 	cmd->fdpipe[1] = -1;
 	pipe(cmd->fdpipe);
 	cmd->pid = fork();
-	signal(SIGINT, ft_sigitn);
-	signal(SIGQUIT, ft_sigitn);
+	signal(SIGINT, ft_sigint_exec);
+	signal(SIGQUIT, ft_sigint_exec);
 	if (cmd->pid == 0 && builtin_check(cmd) != 2)
 	{
 		dup_cases(cmd);

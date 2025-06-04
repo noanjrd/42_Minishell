@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/06/04 12:35:47 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/04 12:16:37 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,23 @@ static void	ft_readline2(t_data *data)
 	free_readline_data(data);
 }
 
-static void	ft_sigitn(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		g_exit_code_signal = 130;
-	}
-	return ;
-}
+// static void	ft_sigint_main(int sig)
+// {
+// 	if (sig == SIGINT)
+// 	{
+// 		write(1, "\n", 1);
+// 		rl_on_new_line();
+// 		rl_replace_line("", 0);
+// 		rl_redisplay();
+// 		g_exit_code_signal = 130;
+// 	}
+// 	return ;
+// }
+// static void	ft_sig_main(void)
+// {
+// 		signal(SIGINT, ft_sigint_main);
+// 		signal(SIGQUIT, SIG_IGN);
+// }
 
 void	ft_readline(t_data *data)
 {
@@ -76,8 +81,7 @@ void	ft_readline(t_data *data)
 
 	while (1)
 	{
-		signal(SIGINT, ft_sigitn);
-		signal(SIGQUIT, SIG_IGN);
+		ft_sig_main();
 		tmp = NULL;
 		if (data->env)
 			tmp = ft_join(COLOR_PINK, ft_search_value(data->env, "PWD"));
@@ -86,7 +90,10 @@ void	ft_readline(t_data *data)
 		data->line = readline(pwd);
 		free(pwd);
 		if (!data->line)
+		{
+			printf("exit\n");
 			return ;
+		}
 		if (g_exit_code_signal != 0)
 		{
 			data->exit_code = g_exit_code_signal;

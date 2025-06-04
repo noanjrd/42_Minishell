@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 17:07:55 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 18:22:22 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/03 19:03:05 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*extract_command_from_path(char *value)
 
 void	ft_change_token(t_cmd *cmd, t_token *token)
 {
-	t_token *cpy_t;
+	t_token	*cpy_t;
 
 	cpy_t = token;
 	while (cpy_t->index != cmd->index)
