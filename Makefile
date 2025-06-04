@@ -1,15 +1,17 @@
-# enlever le relink
+#ENLEVER LE RELINK
 
 NAME = minishell
 CC = cc -Wall -Wextra -Werror
 FLAGS = -g3 -fsanitize=address,leak
 LIBS = -lreadline
 RM = rm -rf
+COLOR_PINK = "\001\033[38;5;205m\002"
 
 SRCS = srcs/main.c\
 	srcs/builtins/builtin.c\
 	srcs/builtins/cd.c\
 	srcs/builtins/cd2.c\
+	srcs/builtins/cd3.c\
 	srcs/builtins/echo.c\
 	srcs/builtins/env.c\
 	srcs/builtins/exit.c\
@@ -59,21 +61,55 @@ SRCS = srcs/main.c\
 
 OBJS = ${SRCS:.c=.o}
 
-all: $(NAME)
+BANNER_LINE_0 := ' 🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸 '
+BANNER_LINE_0_5 := '🌸                                                                                    🌸'  
+BANNER_LINE_1 := '🌸 ,---.    ,---..-./`) ,---.   .--..-./`) .-------. .-./`) ,---.   .--..--.   .--.   🌸'
+BANNER_LINE_2 := '🌸 |    \  /    |\ .-.`)|    \  |  |\ .-.`)\  _(`)_ \\ .-.`)|    \  |  ||  | _/  /    🌸'
+BANNER_LINE_3 := '🌸 |  ,  \/  ,  |/ `-´ \|  ,  \ |  |/ `-´ \| (_ o._)|/ `-´ \|  ,  \ |  || (`´\'' ) /    🌸'
+BANNER_LINE_4 := '🌸 |  |\_   /|  | `-´`"`|  |\_ \|  | `-´`"`|  (_,_) / `-´`"`|  |\_ \|  ||(_ ()_)      🌸'
+BANNER_LINE_5 := '🌸 |  _( )_/ |  | .---. |  _( )_\  | .---. |   '\''-.-'\''  .---. |  _( )_\  || (_,_)   __  🌸'
+BANNER_LINE_6 := '🌸 | (_ o _) |  | |   | | (_ o _)  | |   | |   |      |   | | (_ o _)  ||  |\ \  |  | 🌸'
+BANNER_LINE_7 := '🌸 |  (_,_)  |  | |   | |  (_,_)\  | |   | |   |      |   | |  (_,_)\  ||  | \ `'\''   / 🌸'
+BANNER_LINE_8 := '🌸 |  |      |  | |   | |  |    |  | |   | /   )      |   | |  |    |  ||  |  \    /  🌸'
+BANNER_LINE_9 := '🌸 '\''--'\''      '\''--'\'' '\''---'\'' '\''--'\''    '\''--'\'' '\''---'\'' `---'\''      '\''---'\'' '\''--'\''    '\''--'\''`--'\''   `'\''-'\''   🌸'
+BANNER_LINE_10 := '🌸                                                                                    🌸'  
+BANNER_LINE_11 := ' 🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸 '
+
+all: banner $(NAME)
+
+banner:
+	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_0)
+	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_0_5)
+	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_1)
+	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_2)
+	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_3)
+	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_4)
+	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_5)
+	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_6)
+	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_7)
+	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_8)
+	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_9)
+	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_10)
+	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_11)
+	@echo ""
 
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(LIBS)
-	make clean
+	@echo "Compiling $(NAME)..."
+	@$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(LIBS)
+	@echo "🌸 $(NAME) compiled successfully.🌸"
+	@make clean 
 
 %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS)
+	@echo "Cleaning object files... 🧹"
+	@$(RM) $(OBJS)
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
+	@echo '✨ Cleaned successfully ✨'
 
 re: fclean all
 
-.PHONY: all fclean clean re
+.PHONY: all fclean clean re banner

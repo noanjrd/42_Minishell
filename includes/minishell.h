@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
 /*   Updated: 2025/06/04 16:16:47 by naankour         ###   ########.fr       */
@@ -127,6 +127,7 @@ void				cd_error(t_data *data);
 void				go_into_specific_dr(t_data *data, t_env *env, char *current,
 						char *path);
 void				absolute_path(t_env *env, char *path);
+void				ft_change_value_fd(t_env *env, char *name, char *value);
 
 // EXPORT
 void				ft_export(t_data *data, t_env *env, t_token *token);

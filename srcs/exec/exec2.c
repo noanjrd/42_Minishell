@@ -3,33 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:27:36 by njard             #+#    #+#             */
-/*   Updated: 2025/06/04 12:12:33 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:17:39 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// static void	ft_sigint_exec(int sig)
-// {
-// 	if (sig == SIGINT)
-// 	{
-// 		write(1, "\n", 1);
-// 		rl_on_new_line();
-// 		rl_replace_line("", 0);
-// 		g_exit_code_signal = 130;
-// 	}
-// 	else
-// 	{
-// 		ft_putstr_fd("Quit (core dumped)\n", 2);
-// 		rl_on_new_line();
-// 		rl_replace_line("", 0);
-// 		g_exit_code_signal = 130;
-// 	}
-// 	return ;
-// }
 
 void	ft_parents_second_part(t_cmd *cmd, t_cmd *cmd_temp)
 {

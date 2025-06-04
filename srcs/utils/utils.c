@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:21:11 by njard             #+#    #+#             */
-/*   Updated: 2025/06/02 15:57:05 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:47:44 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	change_value(t_env *env, char *name, char *value)
 {
 	t_env	*copy;
 
+	if (!env)
+		return ;
 	copy = env;
 	while (copy)
 	{

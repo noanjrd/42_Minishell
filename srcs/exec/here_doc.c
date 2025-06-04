@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:23:27 by njard             #+#    #+#             */
-/*   Updated: 2025/06/04 12:07:15 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:17:48 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// static void	ft_sigint_here_doc(int sig)
-// {
-// 	if (sig == SIGINT)
-// 	{
-// 		write(1, "\n", 1);
-// 		rl_replace_line("", 0);
-// 		rl_on_new_line();
-// 		close(0);
-// 		g_exit_code_signal = -99;
-// 	}
-// 	return ;
-// }
 
 static void	ft_write_in_fd(int fd, char *line)
 {

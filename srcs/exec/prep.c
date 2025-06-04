@@ -29,8 +29,7 @@ void	number_of_commands(t_data *data)
 
 void	details_before_exec(t_data *data)
 {
-	if (data->env)
-		check_path_exist(data, data->commands);
+	check_path_exist(data, data->commands);
 	number_of_commands(data);
 	exec(data);
 }
