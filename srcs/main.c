@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/06/04 12:16:37 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/04 15:10:33 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #define COLOR_PINK "\033[38;5;218m"
-#define COLOR_RED
-
-int	g_exit_code_signal = 0;
 
 static t_token	*ft_parse(t_data *data)
 {
@@ -56,24 +53,6 @@ static void	ft_readline2(t_data *data)
 	free_readline_data(data);
 }
 
-// static void	ft_sigint_main(int sig)
-// {
-// 	if (sig == SIGINT)
-// 	{
-// 		write(1, "\n", 1);
-// 		rl_on_new_line();
-// 		rl_replace_line("", 0);
-// 		rl_redisplay();
-// 		g_exit_code_signal = 130;
-// 	}
-// 	return ;
-// }
-// static void	ft_sig_main(void)
-// {
-// 		signal(SIGINT, ft_sigint_main);
-// 		signal(SIGQUIT, SIG_IGN);
-// }
-
 void	ft_readline(t_data *data)
 {
 	char	*pwd;
@@ -113,7 +92,10 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	exit_c = 0;
 	data = malloc(sizeof(t_data));
-	env = malloc(sizeof(t_env));
+	if (envp && envp[0] != NULL)
+		env = malloc(sizeof(t_env));
+	else
+		env = NULL;
 	init_data(data, env, envp);
 	ft_readline(data);
 	exit_c = data->exit_code;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:21:11 by njard             #+#    #+#             */
-/*   Updated: 2025/06/02 15:57:20 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:00:42 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,26 @@ void	ft_putstr_fd(char *s, int fd)
 		i++;
 	}
 	write(fd, s, i);
+}
+
+void	ft_change_value_fd(t_env *env, char *name, char *value)
+{
+	t_env	*copy;
+
+	if (!env)
+	{
+		free(value);
+	}
+	copy = env;
+	while (copy)
+	{
+		if (ft_strcmp(name, copy->name) == 0)
+		{
+			free(copy->value);
+			copy->value = value;
+			return ;
+		}
+		copy = copy->next;
+	}
+	return ;
 }

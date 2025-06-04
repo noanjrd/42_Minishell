@@ -3,28 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:35:47 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 11:38:36 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/04 15:11:49 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int			g_exit_code_signal = 0;
 
 void	init_data(t_data *data, t_env *env, char **envp)
 {
 	data->paths_system = NULL;
 	data->exit_code = 0;
 	data->commands = NULL;
-	data->envp = envp;
+	if (envp && envp[0] != NULL)
+		data->envp = envp;
 	data->env = env_init(env, envp);
 	data->line = NULL;
 	data->fd_here_doc = -99;
 	g_exit_code_signal = 0;
 	data->nb_of_commands = 0;
 	data->error_alrdy_displayed = 0;
-	if (data->env)
+	if (data->env && envp && envp[0] != NULL)
 		initalising_path(data);
 }
 
@@ -74,7 +77,7 @@ t_env	*env_init(t_env *env, char **envp)
 	t_env	*current;
 	int		i;
 
-	if (envp[0] == 0)
+	if (!envp || envp[0] == NULL)
 		return (NULL);
 	i = 0;
 	head = env;

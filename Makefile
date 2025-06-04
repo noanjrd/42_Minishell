@@ -11,6 +11,7 @@ SRCS = srcs/main.c\
 	srcs/builtins/builtin.c\
 	srcs/builtins/cd.c\
 	srcs/builtins/cd2.c\
+	srcs/builtins/cd3.c\
 	srcs/builtins/echo.c\
 	srcs/builtins/env.c\
 	srcs/builtins/exit.c\
