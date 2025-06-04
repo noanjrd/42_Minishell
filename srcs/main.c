@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#define COLOR_PINK "\001\033[38;5;205m\002"
+#define COLOR_PINK "\033[38;5;218m"
 #define COLOR_RED
 
 int	g_exit_code_signal = 0;
