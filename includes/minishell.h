@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 19:05:04 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:17:35 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,11 @@ void				ft_putstr_fd(char *s, int fd);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 int					ft_atoll(char *str, long long *result);
 char				*ft_strdup(char *src);
+
+//SIGNALS
+void				ft_sigint_here_doc(int sig);
+void				ft_sig_main(void);
+void				ft_sigint_exec(int sig);
 
 // FREE
 void				free_env(t_env *env);

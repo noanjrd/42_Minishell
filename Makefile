@@ -55,6 +55,7 @@ SRCS = srcs/main.c\
 	srcs/utils/init.c\
 	srcs/utils/utils.c\
 	srcs/utils/utils2.c\
+	srcs/sig.c\
 
 OBJS = ${SRCS:.c=.o}
 

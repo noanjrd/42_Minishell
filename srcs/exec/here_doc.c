@@ -6,24 +6,24 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 10:23:27 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 19:02:45 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:07:15 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	ft_sigint(int sig)
-{
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		close(0);
-		g_exit_code_signal = -99;
-	}
-	return ;
-}
+// static void	ft_sigint_here_doc(int sig)
+// {
+// 	if (sig == SIGINT)
+// 	{
+// 		write(1, "\n", 1);
+// 		rl_replace_line("", 0);
+// 		rl_on_new_line();
+// 		close(0);
+// 		g_exit_code_signal = -99;
+// 	}
+// 	return ;
+// }
 
 static void	ft_write_in_fd(int fd, char *line)
 {
@@ -73,7 +73,7 @@ void	here_doc(t_token *token, t_data *data)
 {
 	int	fd;
 
-	signal(SIGINT, ft_sigint);
+	signal(SIGINT, ft_sigint_here_doc);
 	signal(SIGQUIT, SIG_IGN);
 	here_doc_start(token->next->value, data, 0, &fd);
 	close(fd);
