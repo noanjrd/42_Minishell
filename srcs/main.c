@@ -6,12 +6,12 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 12:01:56 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 15:57:34 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/04 12:35:47 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#define COLOR_PINK "\001\033[38;5;205m\002"
+#define COLOR_PINK "\033[38;5;218m"
 #define COLOR_RED
 
 int	g_exit_code_signal = 0;
