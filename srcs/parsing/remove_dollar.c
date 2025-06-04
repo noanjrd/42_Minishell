@@ -12,17 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-static int	should_remove_dollar(t_token *curr)
-{
-	if (!curr || !curr->next)
-		return (0);
-	if (curr->type == WORD && strcmp(curr->value, "$") == 0
-		&& (curr->next->type == DOUBLE_QUOTES
-			|| curr->next->type == SINGLE_QUOTES))
-		return (1);
-	return (0);
-}
-
 static t_token	*remove_dollar(t_token **head, t_token *prev, t_token *curr)
 {
 	t_token	*to_delete;
@@ -37,6 +26,17 @@ static t_token	*remove_dollar(t_token **head, t_token *prev, t_token *curr)
 	free(to_delete->value);
 	free(to_delete);
 	return (next_token);
+}
+
+static int	should_remove_dollar(t_token *curr)
+{
+	if (!curr || !curr->next)
+		return (0);
+	if (curr->type == WORD && strcmp(curr->value, "$") == 0
+		&& (curr->next->type == DOUBLE_QUOTES
+			|| curr->next->type == SINGLE_QUOTES))
+		return (1);
+	return (0);
 }
 
 t_token	*ft_dollar_quotes(t_token *tokens)

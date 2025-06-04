@@ -1,5 +1,3 @@
-#ENLEVER LE RELINK
-
 NAME = minishell
 CC = cc -Wall -Wextra -Werror
 FLAGS = -g3 -fsanitize=address,leak
@@ -62,7 +60,7 @@ SRCS = srcs/main.c\
 OBJS = ${SRCS:.c=.o}
 
 BANNER_LINE_0 := ' 🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸 '
-BANNER_LINE_0_5 := '🌸                                                                                    🌸'  
+BANNER_LINE_0_5 := '🌸                                                                                    🌸'
 BANNER_LINE_1 := '🌸 ,---.    ,---..-./`) ,---.   .--..-./`) .-------. .-./`) ,---.   .--..--.   .--.   🌸'
 BANNER_LINE_2 := '🌸 |    \  /    |\ .-.`)|    \  |  |\ .-.`)\  _(`)_ \\ .-.`)|    \  |  ||  | _/  /    🌸'
 BANNER_LINE_3 := '🌸 |  ,  \/  ,  |/ `-´ \|  ,  \ |  |/ `-´ \| (_ o._)|/ `-´ \|  ,  \ |  || (`´\'' ) /    🌸'
@@ -72,12 +70,12 @@ BANNER_LINE_6 := '🌸 | (_ o _) |  | |   | | (_ o _)  | |   | |   |      |   | 
 BANNER_LINE_7 := '🌸 |  (_,_)  |  | |   | |  (_,_)\  | |   | |   |      |   | |  (_,_)\  ||  | \ `'\''   / 🌸'
 BANNER_LINE_8 := '🌸 |  |      |  | |   | |  |    |  | |   | /   )      |   | |  |    |  ||  |  \    /  🌸'
 BANNER_LINE_9 := '🌸 '\''--'\''      '\''--'\'' '\''---'\'' '\''--'\''    '\''--'\'' '\''---'\'' `---'\''      '\''---'\'' '\''--'\''    '\''--'\''`--'\''   `'\''-'\''   🌸'
-BANNER_LINE_10 := '🌸                                                                                    🌸'  
+BANNER_LINE_10 := '🌸                                                                                    🌸'
 BANNER_LINE_11 := ' 🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸🌸 '
 
-all: banner $(NAME)
+all: $(NAME)
 
-banner:
+$(NAME): $(OBJS)
 	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_0)
 	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_0_5)
 	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_1)
@@ -92,12 +90,9 @@ banner:
 	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_10)
 	@printf '\033[38;5;218m%s\033[0m\n' $(BANNER_LINE_11)
 	@echo ""
-
-$(NAME): $(OBJS)
 	@echo "Compiling $(NAME)..."
 	@$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(LIBS)
 	@echo "🌸 $(NAME) compiled successfully.🌸"
-	@make clean 
 
 %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@
@@ -112,4 +107,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all fclean clean re banner
+.PHONY: all fclean clean re

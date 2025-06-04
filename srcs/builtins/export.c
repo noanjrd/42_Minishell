@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:20:48 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 17:44:12 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/04 17:34:49 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,14 @@ t_token	*export_launch(t_data *data, t_env *env, t_token *token, char *export)
 	value = get_value_export(export);
 	if (check_alrdy_exist(env, name, value, export) == 1)
 	{
-		free(name);
-		return (token->next);
+		if (ft_strcmp(name, "PATH") == 0)
+		{
+			ft_free_tab(data->paths_system);
+			initalising_path(data);
+		}
+		return (free(name), token->next);
 	}
-	create_export(env, name, value);
+	create_export(data, env, name, value);
 	return (token->next);
 }
 

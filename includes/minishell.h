@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/06/04 16:16:47 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:41:39 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,8 @@ void				ft_change_value_fd(t_env *env, char *name, char *value);
 void				ft_export(t_data *data, t_env *env, t_token *token);
 void				export_merge(t_env *env, char *name, char *value);
 int					check_plus(char *export);
-void				create_export(t_env *env, char *name, char *value);
+void				create_export(t_data *data, t_env *env, char *name,
+						char *value);
 int					check_alrdy_exist(t_env *env, char *name, char *value,
 						char *export);
 void				display_export(t_env *env);

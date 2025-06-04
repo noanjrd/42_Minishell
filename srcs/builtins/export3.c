@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:01:46 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 17:44:06 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/04 17:34:21 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_alrdy_exist(t_env *env, char *name, char *value, char *export)
 	return (0);
 }
 
-void	create_export(t_env *env, char *name, char *value)
+void	create_export(t_data *data, t_env *env, char *name, char *value)
 {
 	t_env	*temp;
 	t_env	*new;
@@ -55,6 +55,11 @@ void	create_export(t_env *env, char *name, char *value)
 		temp = temp->next;
 	}
 	temp->next = new;
+	if (ft_strcmp(name, "PATH") == 0)
+	{
+		ft_free_tab(data->paths_system);
+		initalising_path(data);
+	}
 	return ;
 }
 
