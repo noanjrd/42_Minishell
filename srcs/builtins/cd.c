@@ -12,6 +12,17 @@
 
 #include "../../includes/minishell.h"
 
+static int	ft_condition_one(t_token *token)
+{
+	if (token->type == WORD
+		|| token->type == DOUBLE_QUOTES
+		|| token->type == SINGLE_QUOTES)
+	{
+		return (1);
+	}
+	return (0);
+} 
+
 static char	*go_back_cd(char *path)
 {
 	char	*new_path;
@@ -53,10 +64,15 @@ char	*resolve_oldpwd(t_env *env)
 
 char	*resolve_cd_path(t_data *data, t_env *env, t_token *token, char *temp)
 {
-	if (token && token->next && token->next->type == WORD)
+	if (token && token->next && ft_condition_one(token->next) == 1)
 		return (cd_error(data), NULL);
-	if (!token || token->type != WORD || ft_strcmp(token->value, "~") == 0)
-		return (ft_copy(ft_search_value(env, "HOME")));
+	if (!token || ft_condition_one(token) == 0 || ft_strcmp(token->value, "~") == 0)
+	{
+		if (ft_search_value(env, "HOME"))
+			return (ft_copy(ft_search_value(env, "HOME")));
+		else
+			return (ft_putstr_fd("minishell: cd: HOME no set\n",2), NULL);
+	}
 	if (ft_strcmp(token->value, "-") == 0)
 		return (resolve_oldpwd(env));
 	if (token->value[0] == '/' && token->value[1] == '\0')

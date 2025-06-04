@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 10:54:46 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 18:04:49 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/04 11:16:52 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	check_path_exist(t_data *data, t_cmd *cmd)
 	while (cpy_cmd)
 	{
 		i = 0;
-		while (cpy_cmd->type != IN_OUT_FILENAME
+		while (data->env && data->paths_system && cpy_cmd->type != IN_OUT_FILENAME
 			&& cpy_cmd->tab && data->paths_system[i])
 		{
 			entire_path = ft_join(data->paths_system[i], cpy_cmd->tab[0]);

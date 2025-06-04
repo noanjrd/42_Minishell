@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 10:37:57 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 18:25:29 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/04 11:16:59 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,7 @@ void	number_of_commands(t_data *data)
 
 void	details_before_exec(t_data *data)
 {
-	if (data->env)
-		check_path_exist(data, data->commands);
+	check_path_exist(data, data->commands);
 	// printf_cmd(data->commands);
 	number_of_commands(data);
 	exec(data);
