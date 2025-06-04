@@ -6,7 +6,7 @@
 /*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:54:11 by njard             #+#    #+#             */
-/*   Updated: 2025/06/04 12:17:35 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:16:47 by naankour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ void				ft_unset(t_data *data, t_token *token);
 void				display_env(t_env *env);
 void				ft_cd(t_data *data, t_env *env, t_token *token);
 void				free_and_exit(t_data *data, int exit_code);
+int					check_num(char *str);
+int					has_too_many_args(t_token *token);
 void				ft_echo(t_data *data, t_token *token);
 void				ft_pwd(void);
 t_token				*update_echo_struct(t_token *token);

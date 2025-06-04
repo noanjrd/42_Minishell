@@ -12,6 +12,35 @@
 
 #include "../../includes/minishell.h"
 
+int	check_num(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] && (str[i] == '+' || str[i] == '-'))
+		i++;
+	if (!ft_isdigit(str[i]))
+		return (0);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	has_too_many_args(t_token *token)
+{
+	if (!token)
+		return (0);
+	if (token->next && (token->next->type == WORD
+			|| token->next->type == DOUBLE_QUOTES
+			|| token->next->type == SINGLE_QUOTES))
+		return (1);
+	return (0);
+}
+
 static void	free_before_exit(t_data *data)
 {
 	int	i;
