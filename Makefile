@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc -Wall -Wextra -Werror
-FLAGS = -g3 -fsanitize=address,leak
+FLAGS = -g3 #-fsanitize=address,leak
 LIBS = -lreadline
 RM = rm -rf
 COLOR_PINK = "\001\033[38;5;205m\002"
@@ -93,6 +93,7 @@ $(NAME): $(OBJS)
 	@echo "Compiling $(NAME)..."
 	@$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(LIBS)
 	@echo "🌸 $(NAME) compiled successfully.🌸"
+	@$(RM) srcs/*.o srcs/utils/*.o srcs/exec/*.o srcs/parsing/*.o srcs/builtins/*.o
 
 %.o: %.c
 	@$(CC) $(FLAGS) -c $< -o $@

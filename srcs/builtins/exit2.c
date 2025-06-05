@@ -43,9 +43,6 @@ int	has_too_many_args(t_token *token)
 
 static void	free_before_exit(t_data *data)
 {
-	int	i;
-
-	i = 0;
 	clear_history();
 	if (data->tokens)
 	{

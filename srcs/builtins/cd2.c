@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 14:34:00 by njard             #+#    #+#             */
-/*   Updated: 2025/06/04 16:04:39 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/05 15:04:47 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,11 @@ void	go_into_specific_dr(t_data *data, t_env *env, char *current, char *path)
 	char		*temp;
 	struct stat	sb;
 
-	stat(path, &sb);
+	
 	temp = getcwd(NULL, 0);
 	new_path = ft_join(current, path);
 	free(current);
+	stat(new_path, &sb);
 	if (access(new_path, X_OK) == 0)
 	{
 		if (S_ISREG(sb.st_mode))

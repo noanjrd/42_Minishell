@@ -6,7 +6,7 @@
 /*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:35:47 by njard             #+#    #+#             */
-/*   Updated: 2025/06/04 15:11:49 by njard            ###   ########.fr       */
+/*   Updated: 2025/06/05 15:04:06 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	init_data(t_data *data, t_env *env, char **envp)
 	data->commands = NULL;
 	if (envp && envp[0] != NULL)
 		data->envp = envp;
+	else
+		data->envp = NULL;
 	data->env = env_init(env, envp);
 	data->line = NULL;
 	data->fd_here_doc = -99;

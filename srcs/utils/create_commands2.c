@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_commands2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naankour <naankour@student.42.fr>          +#+  +:+       +#+        */
+/*   By: njard <njard@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:37:48 by njard             #+#    #+#             */
-/*   Updated: 2025/06/03 11:32:51 by naankour         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:29:56 by njard            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 static int	ft_condition_red(t_token *cpy_token)
 {
 	if (cpy_token->type == REDIRECT_IN
-		|| cpy_token->type == HERE_DOC
-		|| cpy_token->type == REDIRECT_OUT
-		|| cpy_token->type == REDIRECT_APPEND)
+		|| cpy_token->type == HERE_DOC)
 		return (1);
 	return (0);
 }
@@ -60,6 +58,8 @@ void	rest_ofthesteps_three(t_token *token, t_cmd *cmd)
 			&& cpy_cmd->type != IN_OUT_FILENAME
 			&& ft_condition_red(cpy_token->next) == 1)
 		{
+			// printf("%s\n", cpy_cmd->value);
+			// printf("%s\n", cpy_token->value);
 			cpy_cmd->next->redirect_in_before = 1;
 			cpy_cmd->infile = ft_copy(cpy_token->next->next->value);
 			cpy_cmd = cpy_cmd->next;
