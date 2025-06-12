@@ -11,7 +11,7 @@
 
 <h1>🌸 Minishell</h1>
 
-  <p><strong>Minishell</strong> is a small Unix shell developed as part of the 42 School curriculum. It replicates basic Bash behavior, handling commands, pipes, redirections, and more — all coded from scratch in C.</p>
+<p><strong>Minishell</strong> is a group project in the 42 School curriculum. The goal is to program a small Unix shell that replicates basic Bash behavior, handling commands, pipes, redirections, and more — all coded from scratch in C.</p>
 
   <h2>✅ Features</h2>
 
@@ -72,14 +72,16 @@ cd minishell</code></pre>
 
 
   <h2>🧠 Learnings</h2>
-  <p>Through this project, we learned about:</p>
   <ul>
-    <li>Process forking and piping</li>
-    <li>File descriptor duplication</li>
-    <li>Signal and memory management</li>
-    <li>Writing parsers and tokenizers</li>
-    <li>Recreating <code>bash</code>-like behavior in C</li>
+    <li>Working efficiently as a team: clear communication, task distribution, and continuous collaboration</li>
+    <li>Understanding the internal mechanics of a Unix shell (parsing, execution, redirection, etc.)</li>
+    <li>Creating and managing processes using <code>fork</code>, <code>execve</code>, <code>pipe</code>, and <code>wait</code></li>
+    <li>Handling Unix signals (<code>SIGINT</code>, <code>SIGQUIT</code>, etc.) and managing terminal input using <code>readline</code></li>
+    <li>Debugging and ensuring proper memory management (Valgrind, leaks, malloc/free discipline)</li>
+    <li>Writing clean, structured, and norm-compliant C code within a complex project architecture</li>
   </ul>
+
+
 
   <h2>👨‍💻 Authors</h2>
   <p>This project was made by <strong>Jard Noan <strong> &amp; <strong>Naziha Aankour </strong>.</p>
