@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
-  <img src/>
+<p align="center">
+  <img src="imgs/minipink.png" width="400px"" />
+</p>
+
+
   <h1>Minishell - As Beautiful As a Shell</h1>
 
   <p>This project is part of the 42 School curriculum. Its purpose is to create a simple Unix shell implemented in C. The shell mimics basic behavior of <code>bash</code> and provides a minimal but functional command-line interface.</p>
@@ -81,11 +85,8 @@ cd minishell</code></pre>
     <li>Recreating <code>bash</code>-like behavior in C</li>
   </ul>
 
-  <h2>📄 License</h2>
-  <p>This project is part of the 42 School curriculum and is distributed for educational purposes.</p>
+  <h2>👨‍💻 Authors</h2>
+  <p>This project was made by Jard Noan and Naziha Aankour.</p>
 
-  <blockquote>
-    Inspired by early shells from the dawn of computing, Minishell brings back the challenges of direct interaction with UNIX at a low level.
-  </blockquote>
 </body>
 </html>
