@@ -84,7 +84,7 @@ cd minishell</code></pre>
 
 
   <h2>👨‍💻 Authors</h2>
-  <p>This project was made by <strong>JARD Noan <strong> &amp; <strong>AANKOUR Naziha  </strong>.</p>
+  <p>This project was made by <strong>JARD Noan <strong> &amp; <strong>AANKOUR Naziha</strong>.</p>
 
 </body>
 </html>
