@@ -6,10 +6,10 @@
 </head>
 <body>
 <p align="center">
-  <img src="imgs/minipink.png" width="400px"" />
+  <img src="imgs/minipink.png" width="600px"" />
 </p>
 
-<h1>🌸 Minishell</h1>
+<h1>🌸 Minishell (aka Minipink)</h1>
 
 <p><strong>Minishell</strong> is a group project in the 42 School curriculum. The goal is to program a small Unix shell that replicates basic Bash behavior, handling commands, pipes, redirections, and more — all coded from scratch in C.</p>
 
