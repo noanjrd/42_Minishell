@@ -59,8 +59,8 @@
   <h2>⚙️ Getting started</h2>
   <ol>
     <li>Clone the repository:
-      <pre><code>git clone https://github.com/your-username/minishell.git
-cd minishell</code></pre>
+      <pre><code>git clone https://github.com/noanjrd/42_Minishell.git
+cd 42_Minishell</code></pre>
     </li>
     <li>Compile the project:
       <pre><code>make</code></pre>
