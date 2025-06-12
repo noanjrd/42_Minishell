@@ -6,7 +6,7 @@
 </head>
 <body>
 <p align="center">
-  <img src="imgs/minipink.png" width="600px"" />
+  <img src="imgs/minipink.png" width="500px"" />
 </p>
 
 <h1>🌸 Minishell (aka Minipink)</h1>
