@@ -9,13 +9,9 @@
   <img src="imgs/minipink.png" width="400px"" />
 </p>
 
+<h1>🌸 Minishell</h1>
 
-  <h1>🌸 Minishell - As Beautiful As a Shell</h1>
-
-  <p>This project is part of the 42 School curriculum. Its purpose is to create a simpler Unix shell implemented in C. The shell mimics basic behavior of <code>bash</code> and provides a functional command-line interface.</p>
-
-  <h2>📝 Summary</h2>
-  <p>Minishell is a custom implementation of a shell interface, developed to understand the inner workings of processes, file descriptors, and signal handling. It also offers a chance to master memory management and parsing techniques in C.</p>
+  <p><strong>Minishell</strong> is a small Unix shell developed as part of the 42 School curriculum. It replicates basic Bash behavior, handling commands, pipes, redirections, and more — all coded from scratch in C.</p>
 
   <h2>✅ Features</h2>
 
@@ -60,7 +56,7 @@
   </ul>
 
 
-  <h2>⚙️ Usage</h2>
+  <h2>⚙️ Getting started</h2>
   <ol>
     <li>Clone the repository:
       <pre><code>git clone https://github.com/your-username/minishell.git
@@ -86,7 +82,7 @@ cd minishell</code></pre>
   </ul>
 
   <h2>👨‍💻 Authors</h2>
-  <p>This project was made by <strong>Jard Noan <strong> and <strong>Naziha Aankour </strong>.</p>
+  <p>This project was made by <strong>Jard Noan <strong> &amp; <strong>Naziha Aankour </strong>.</p>
 
 </body>
 </html>
