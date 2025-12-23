@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</head>
 <body>
 <p align="center">
   <img src="imgs/minipink.png" width="400px"" />
@@ -55,6 +49,18 @@
     </li>
   </ul>
 
+
+<h2>📦 Requirements</h2>
+<ul>
+  <li><strong>Compiler:</strong> <code>gcc</code></li>
+  <li><strong>Build tools:</strong> <code>make</code></li>
+  <li><strong>Libraries:</strong>
+    <ul>
+      <li><code>readline</code> (used for command history and line editing)</li>
+    </ul>
+  </li>
+  <li><strong>Standard C library</strong></li>
+</ul>
 
   <h2>⚙️ Getting started</h2>
   <ol>
