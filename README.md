@@ -67,7 +67,7 @@ make
 ./minishell
 ```
 
-## 📚 Project Structure
+## 📁 Project Structure
 
 ```bash
 srcs/
