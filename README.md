@@ -1,96 +1,91 @@
-<body>
 <p align="center">
-  <img src="imgs/minipink.png" width="400px"" />
+  <img src="imgs/minipink.png" width="400px" alt="Minishell logo" />
 </p>
 
-<h1>🌸 Minishell (aka Minipink)</h1>
+# Minishell (aka Minipink)
 
-<p><strong>Minishell</strong> is a group project in the 42 School curriculum. The goal is to program a small Unix shell that replicates basic Bash behavior, handling commands, pipes, redirections, and more — all coded from scratch in C.</p>
+## 📖 Overview
 
-  <h2>✅ Features</h2>
+**Minishell** is a simplified recreation of a Unix shell (Bash-like), developed in C as part of the **École 42** curriculum.
 
-  <h3>Mandatory Part</h3>
-  <ul>
-    <li>Custom prompt display</li>
-    <li>Command execution using:
-      <ul>
-        <li>Relative or absolute paths</li>
-        <li>PATH environment variable</li>
-      </ul>
-    </li>
-    <li>Environment variable expansion (<code>$VAR</code>, <code>$?</code>)</li>
-    <li>Built-in commands:
-      <ul>
-        <li><code>echo [-n]</code></li>
-        <li><code>cd</code></li>
-        <li><code>pwd</code></li>
-        <li><code>export</code></li>
-        <li><code>unset</code></li>
-        <li><code>env</code></li>
-        <li><code>exit</code></li>
-      </ul>
-    </li>
-    <li>Pipes (<code>|</code>) support</li>
-    <li>Redirections:
-      <ul>
-        <li><code>&lt;</code>, <code>&gt;</code>, <code>&gt;&gt;</code>, <code>&lt;&lt;</code> (heredoc)</li>
-      </ul>
-    </li>
-    <li>Proper signal handling:
-      <ul>
-        <li><code>Ctrl+C</code>, <code>Ctrl+D</code>, <code>Ctrl+\</code></li>
-      </ul>
-    </li>
-    <li>Quote handling:
-      <ul>
-        <li><code>'single quotes'</code></li>
-        <li><code>"double quotes"</code></li>
-      </ul>
-    </li>
-  </ul>
+This project represents a significant milestone in our educational journey:
+*   **First major project**: A deep dive into Unix systems and complex memory management.
+*   **First team project**: An enriching experience in collaborative development, task distribution, and Git version control.
+
+The objective is to recreate the internal mechanisms of a shell: from command-line parsing to process execution, including signal handling and I/O redirections.
 
 
-<h2>📦 Requirements</h2>
-<ul>
-  <li><strong>Compiler:</strong> <code>gcc</code></li>
-  <li><strong>Build tools:</strong> <code>make</code></li>
-  <li><strong>Libraries:</strong>
-    <ul>
-      <li><code>readline</code> (used for command history and line editing)</li>
-    </ul>
-  </li>
-  <li><strong>Standard C library</strong></li>
-</ul>
+## ✨ Features
 
-  <h2>⚙️ Getting started</h2>
-  <ol>
-    <li>Clone the repository:
-      <pre><code>git clone https://github.com/noanjrd/42_Minishell.git
-cd 42_Minishell</code></pre>
-    </li>
-    <li>Compile the project:
-      <pre><code>make</code></pre>
-    </li>
-    <li>Run the shell:
-      <pre><code>./minishell</code></pre>
-    </li>
-  </ol>
+### Shell & Execution
+*   Interactive **prompt** display.
+*   Command search and execution via the `PATH` environment variable, or through relative/absolute paths.
+*   **Pipe** handling (`|`) for command chaining.
+*   **I/O Redirections**: `<`, `>`, `>>`, and `<<` (heredoc).
+*   **Environment variable** expansion (`$VAR`) and exit status (`$?`).
+*   Comprehensive **quote** handling: single (`'`) and double (`"`).
 
+### Built-in Commands
+The following commands have been reimplemented to match Bash behavior:
+*   `echo` (with `-n` option)
+*   `cd` (path handling, `~` and `-` support)
+*   `pwd`
+*   `export`
+*   `unset`
+*   `env`
+*   `exit`
 
-  <h2>🧠 Learnings</h2>
-  <ul>
-    <li>Working efficiently as a team: clear communication, task distribution, and continuous collaboration</li>
-    <li>Understanding the internal mechanics of a Unix shell (parsing, execution, redirection, etc.)</li>
-    <li>Creating and managing processes using <code>fork</code>, <code>execve</code>, <code>pipe</code>, and <code>wait</code></li>
-    <li>Handling Unix signals (<code>SIGINT</code>, <code>SIGQUIT</code>, etc.) and managing terminal input using <code>readline</code></li>
-    <li>Debugging and ensuring proper memory management (Valgrind, leaks, malloc/free discipline)</li>
-    <li>Writing clean, structured, and norm-compliant C code within a complex project architecture</li>
-  </ul>
+### Signal Handling
+*   `Ctrl+C`: Displays a new prompt on a new line.
+*   `Ctrl+D`: Exits the shell (EOF).
+*   `Ctrl+\`: Does nothing (ignores SIGQUIT).
 
 
+## 🔧 Technical Skills
 
-  <h2>👨‍💻 Authors</h2>
-  <p>This project was made by <strong>JARD Noan <strong> &amp; <strong>AANKOUR Naziha</strong>.</p>
+*   **Process management**: Using `fork`, `wait`, `waitpid`, and `execve`.
+*   **Inter-process communication**: Manipulation of `pipe` and file descriptors (`dup`, `dup2`).
+*   **Parsing**: Implementation of a lexer and parser to transform command strings into executable instructions.
+*   **C Programming rigor**: Zero memory leaks (Valgrind-tested) and compliance with École 42's coding standards (Norminette).
 
-</body>
-</html>
+
+## ⚙️ Installation & Usage
+
+### Prerequisites
+*   A C compiler (`gcc` or `clang`).
+*   The `readline` library installed on your system.
+
+### Compilation
+```bash
+git clone https://github.com/noanjrd/42_Minishell.git
+cd 42_Minishell
+make
+```
+
+### Execution
+```bash
+./minishell
+```
+
+## 📚 Project Structure
+
+```bash
+srcs/
+├── builtins/       # Built-in command implementations
+├── exec/           # Execution engine and process management
+├── parsing/        # Lexer, parser, and syntax validation
+└── utils/          # Helper functions and utilities
+```
+
+## 🧪 Testing
+
+The project has been thoroughly tested with:
+
+* Standard Bash command comparison
+* Edge cases (empty strings, special characters, etc.)
+* Memory leak detection with Valgrind
+* Signal behavior validation
+
+## 👥 Contributors
+
+This project was developed in collaboration as a team effort with [AANKOUR Naziha](https://github.com/naankour).
