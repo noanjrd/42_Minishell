@@ -88,4 +88,4 @@ The project has been thoroughly tested with:
 
 ## 👥 Contributors
 
-This project was developed in collaboration as a team effort with [AANKOUR Naziha](https://github.com/naankour).
+This project was developed as a team effort in collaboration with [AANKOUR Naziha](https://github.com/naankour).
