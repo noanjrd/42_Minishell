@@ -1,8 +1,8 @@
+# Minishell (aka Minipink)
+
 <p align="center">
   <img src="imgs/minipink.png" width="400px" alt="Minishell logo" />
 </p>
-
-# Minishell (aka Minipink)
 
 ## 📖 Overview
 
@@ -89,3 +89,8 @@ The project has been thoroughly tested with:
 ## 👥 Contributors
 
 This project was developed as a team effort in collaboration with [AANKOUR Naziha](https://github.com/naankour).
+
+## 📄 License
+
+This project is part of the 42 School curriculum and follows the school's academic policies.
+
