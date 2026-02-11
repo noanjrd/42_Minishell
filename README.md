@@ -55,6 +55,7 @@ The following commands have been reimplemented to match Bash behavior:
 
 ### Prerequisites
 *   A C compiler (`gcc` or `clang`).
+*   The `make` utility.
 *   The `readline` library installed on your system.
 
 ### Compilation
