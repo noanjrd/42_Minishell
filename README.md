@@ -14,6 +14,8 @@ This project represents a significant milestone in our educational journey:
 
 The objective is to recreate the internal mechanisms of a shell: from command-line parsing to process execution, including signal handling and I/O redirections.
 
+> **Note**: As our first major project, the code may not be as optimized as our more recent work. This project was primarily a learning experience, and we've since improved our coding practices and optimization techniques.
+
 
 ## ✨ Features
 
@@ -85,6 +87,19 @@ The project has been thoroughly tested with:
 * Edge cases (empty strings, special characters, etc.)
 * Memory leak detection with Valgrind
 * Signal behavior validation
+
+## 📚 What We Learned
+
+This project was an invaluable learning experience that taught us:
+
+*   **Unix System Internals**: Deep understanding of how shells work under the hood, including process creation, file descriptors, and system calls.
+*   **Complex Problem Decomposition**: Breaking down a large-scale project into manageable components (lexer, parser, executor).
+*   **Memory Management Mastery**: Handling dynamic memory allocation, preventing leaks, and debugging with tools like Valgrind.
+*   **Team Collaboration**: Effective use of Git for version control, code reviews, and merge conflict resolution.
+*   **Signal Handling**: Understanding and implementing proper signal management in multi-process environments.
+*   **Debugging Skills**: Tracing complex bugs through multiple processes and file descriptor manipulations.
+*   **Reading Documentation**: Extensively working with Unix manpages and understanding system call specifications.
+
 
 ## 👥 Contributors
 
