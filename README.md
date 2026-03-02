@@ -4,7 +4,7 @@
   <img src="imgs/minipink.png" width="400px" alt="Minishell logo" />
 </p>
 
-## 📖 Overview
+## Overview
 
 **Minishell** is a simplified recreation of a Unix shell (Bash-like), developed in C as part of the **École 42** curriculum.
 
@@ -17,7 +17,7 @@ The objective is to recreate the internal mechanisms of a shell: from command-li
 > **Note**: As our first major project, the code may not be as optimized as our more recent work. This project was primarily a learning experience, and we've since improved our coding practices and optimization techniques.
 
 
-## ✨ Features
+## Features
 
 ### Shell & Execution
 *   Interactive **prompt** display.
@@ -43,7 +43,7 @@ The following commands have been reimplemented to match Bash behavior:
 *   `Ctrl+\`: Does nothing (ignores SIGQUIT).
 
 
-## 🔧 Technical Skills
+## Technical Skills
 
 *   **Process management**: Using `fork`, `wait`, `waitpid`, and `execve`.
 *   **Inter-process communication**: Manipulation of `pipe` and file descriptors (`dup`, `dup2`).
@@ -51,7 +51,7 @@ The following commands have been reimplemented to match Bash behavior:
 *   **C Programming rigor**: Zero memory leaks (Valgrind-tested) and compliance with École 42's coding standards (Norminette).
 
 
-## ⚙️ Installation & Usage
+## Installation & Usage
 
 ### Prerequisites
 *   A C compiler (`gcc` or `clang`).
@@ -70,7 +70,7 @@ make
 ./minishell
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```bash
 srcs/
@@ -80,7 +80,7 @@ srcs/
 └── utils/          # Helper functions and utilities
 ```
 
-## 🧪 Testing
+## Testing
 
 The project has been thoroughly tested with:
 
@@ -89,7 +89,7 @@ The project has been thoroughly tested with:
 * Memory leak detection with Valgrind
 * Signal behavior validation
 
-## 📚 What We Learned
+## What We Learned
 
 This project was an invaluable learning experience that taught us:
 
@@ -102,11 +102,11 @@ This project was an invaluable learning experience that taught us:
 *   **Reading Documentation**: Extensively working with Unix manpages and understanding system call specifications.
 
 
-## 👥 Contributors
+## Contributors
 
 This project was developed as a team effort in collaboration with [AANKOUR Naziha](https://github.com/naankour).
 
-## 📄 License
+## License
 
 This project is part of the 42 School curriculum and follows the school's academic policies.
 
